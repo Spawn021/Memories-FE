@@ -1,0 +1,29 @@
+<svg class="h-7 w-auto mb-6" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0, 2)">
+      <rect
+        x="2"
+        y="2"
+        width="32"
+        height="32"
+        rx="4"
+        fill="#FFFFFF"
+        stroke="#181A1A"
+        stroke-width="2"
+      />
+      <line x1="2" y1="26" x2="34" y2="26" stroke="#181A1A" stroke-width="1.5" />
+      <circle cx="18" cy="14" r="5" fill="#E26A4A" />
+      <path d="M6 26L13 16L18 21L24 13L30 26H6Z" fill="#181A1A" opacity="0.95" />
+      <path d="M12 26L18 18L23 23L27 18L30 26H12Z" fill="#5C6E60" opacity="0.8" />
+    </g>
+    <text
+      x="44"
+      y="26"
+      fill="#181A1A"
+      font-family="Outfit, sans-serif"
+      font-size="20"
+      font-weight="700"
+      letter-spacing="-0.03em"
+    >
+      memories
+    </text>
+  </svg>

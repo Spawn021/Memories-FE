@@ -1,42 +1,43 @@
 import { computed } from 'vue'
-import { useAuthStore, type User } from '../stores/auth'
-import { useApi } from './useApi'
+import { useAuthStore } from '~/stores/auth'
+import { useRepository } from '~/repositories'
 import { useRuntimeConfig } from '#app'
 
 export const useAuth = () => {
   const authStore = useAuthStore()
-  const api = useApi()
+  const { auth: authRepo } = useRepository()
   const config = useRuntimeConfig()
 
   const login = async (email: string, password: string) => {
     authStore.loading = true
     try {
-      const response = await api<{ success: boolean; data: User }>('/auth/login', {
-        method: 'POST',
-        body: { email, password },
-      })
-      if (response.success && response.data) {
-        authStore.setUser(response.data)
-      }
-      return response
+      const user = await authRepo.login(email, password)
+      authStore.setUser(user)
+      return user
     } finally {
       authStore.loading = false
     }
   }
 
   const register = async (
-    displayName: string,
     email: string,
-    username: string,
     password: string,
   ) => {
     authStore.loading = true
     try {
-      const response = await api<{ success: boolean; data: any }>('/auth/register', {
-        method: 'POST',
-        body: { displayName, email, username, password },
-      })
+      const response = await authRepo.register('', email, '', password)
       return response
+    } finally {
+      authStore.loading = false
+    }
+  }
+
+  const updateProfile = async (displayName: string, username: string) => {
+    authStore.loading = true
+    try {
+      const updatedUser = await authRepo.updateMe(displayName, username)
+      authStore.setUser(updatedUser)
+      return updatedUser
     } finally {
       authStore.loading = false
     }
@@ -45,11 +46,7 @@ export const useAuth = () => {
   const logout = async () => {
     authStore.loading = true
     try {
-      await api('/auth/logout', {
-        method: 'POST',
-      })
-    } catch (error) {
-      console.error('Logout error:', error)
+      await authRepo.logout()
     } finally {
       authStore.clearUser()
       authStore.loading = false
@@ -59,13 +56,9 @@ export const useAuth = () => {
   const initAuth = async () => {
     authStore.loading = true
     try {
-      const response = await api<{ success: boolean; data: User }>('/users/me')
-      if (response.success && response.data) {
-        authStore.setUser(response.data)
-      } else {
-        authStore.clearUser()
-      }
-    } catch (error) {
+      const user = await authRepo.getMe()
+      authStore.setUser(user)
+    } catch {
       authStore.clearUser()
     } finally {
       authStore.loading = false
@@ -73,7 +66,6 @@ export const useAuth = () => {
   }
 
   const loginWithGoogle = () => {
-    // Redirect browser directly to backend google initiation endpoint
     const apiBase = config.public.apiBase
     const googleLoginUrl = `${apiBase}/auth/google`
     window.location.href = googleLoginUrl
@@ -85,6 +77,7 @@ export const useAuth = () => {
     isAuthenticated: computed(() => authStore.isAuthenticated),
     login,
     register,
+    updateProfile,
     logout,
     initAuth,
     loginWithGoogle,

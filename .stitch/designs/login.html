@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina Archive | Welcome Back</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&amp;family=Geist:wght@300;400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "background": "#F7F8F6", // Canvas Linen
+                        "outline-variant": "#dec0b9",
+                        "primary-container": "#c15234",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-container": "#c34e4f",
+                        "tertiary": "#a33638",
+                        "surface-variant": "#e2e3e1",
+                        "surface-dim": "#d9dad8",
+                        "on-primary-fixed": "#3c0800",
+                        "secondary-fixed-dim": "#b8cbbb",
+                        "on-background": "#181A1A", // Obsidian Ink
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#410006",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "surface-container": "#edeeec",
+                        "on-tertiary-fixed-variant": "#862025",
+                        "surface": "#F7F8F6",
+                        "secondary": "#5C6E60", // Muted Leaf
+                        "on-primary-fixed-variant": "#84250b",
+                        "secondary-fixed": "#d4e8d6",
+                        "muted-leaf": "#5C6E60",
+                        "tertiary-fixed": "#ffdad8",
+                        "outline": "#8b716b",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#5C6E60", // Muted Leaf
+                        "inverse-on-surface": "#f0f1ef",
+                        "secondary-container": "#d4e8d6",
+                        "on-surface": "#181A1A", // Obsidian Ink
+                        "surface-tint": "#E26A4A", // Sunlit Clementine
+                        "primary": "#E26A4A", // Sunlit Clementine
+                        "on-secondary-fixed": "#0f1f14",
+                        "inverse-surface": "#2e3130",
+                        "whisper-border": "rgba(24, 26, 26, 0.05)",
+                        "surface-container-highest": "#e2e3e1",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#ffb4a1",
+                        "on-error-container": "#93000a",
+                        "sunlit-clementine": "#E26A4A",
+                        "on-tertiary-container": "#fffbff",
+                        "on-secondary-fixed-variant": "#3a4b3e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f3f4f2",
+                        "surface-container-high": "#e7e8e6",
+                        "pure-surface": "#FFFFFF",
+                        "terracotta-rose": "#D65C5C",
+                        "inverse-primary": "#ffb4a1",
+                        "primary-fixed": "#ffdbd1",
+                        "obsidian-ink": "#181A1A",
+                        "canvas-linen": "#F7F8F6",
+                        "surface-bright": "#F7F8F6",
+                        "on-secondary-container": "#57695b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "form-max-width": "440px",
+                        "margin-desktop": "10%",
+                        "margin-mobile": "clamp(2rem, 5vw, 4rem)",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Outfit", "sans-serif"],
+                        "body-md": ["Geist", "sans-serif"],
+                        "label-sm": ["Geist", "sans-serif"],
+                        "display-lg": ["Outfit", "sans-serif"],
+                        "body-lg": ["Geist", "sans-serif"],
+                        "poetic-accent": ["Instrument Serif", "serif"],
+                        "headline-lg": ["Outfit", "sans-serif"],
+                        "label-md": ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        @keyframes waterfall {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal-item {
+            opacity: 0;
+            animation: waterfall 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .spring-btn {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+        }
+        
+        .spring-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .spring-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Material Symbols weight */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .input-focus-ring:focus {
+            border-color: #E26A4A !important;
+            box-shadow: 0 0 0 3px rgba(226, 106, 74, 0.18) !important;
+        }
+        
+        /* Warm tint overlay for collage */
+        .collage-tint::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #E26A4A;
+            mix-blend-mode: soft-light;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-canvas-linen text-obsidian-ink font-body-md selection:bg-sunlit-clementine/30">
+<main class="min-h-screen flex flex-col md:flex-row">
+<!-- LEFT PANEL (Form) -->
+<section class="w-full md:w-1/2 flex flex-col justify-between p-margin-mobile md:p-margin-desktop bg-pure-surface z-10">
+<!-- Top Branding -->
+<div class="reveal-item" style="animation-delay: 50ms;">
+<svg class="h-8 w-auto mb-16" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo Mark -->
+  <g transform="translate(0, 2)">
+    <rect x="2" y="2" width="32" height="32" rx="4" fill="#FFFFFF" stroke="#181A1A" stroke-width="2"/>
+    <line x1="2" y1="26" x2="34" y2="26" stroke="#181A1A" stroke-width="1.5"/>
+    <circle cx="18" cy="14" r="5" fill="#E26A4A"/>
+    <path d="M6 26L13 16L18 21L24 13L30 26H6Z" fill="#181A1A" opacity="0.95"/>
+    <path d="M12 26L18 18L23 23L27 18L30 26H12Z" fill="#5C6E60" opacity="0.8"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="44" y="26" fill="#181A1A" font-family="Outfit, sans-serif" font-size="20" font-weight="700" letter-spacing="-0.03em">memories</text>
+</svg>
+</div>
+<!-- Form Content -->
+<div class="max-w-md w-full mx-auto md:mx-0">
+<header class="mb-12">
+<h1 class="font-headline-lg text-[40px] leading-tight mb-4 reveal-item" style="animation-delay: 100ms;">Welcome back</h1>
+<p class="text-muted-leaf font-body-md reveal-item" style="animation-delay: 150ms;">Enter your details to access your intimate spaces.</p>
+</header>
+<form class="space-y-8">
+<!-- Email Field -->
+<div class="reveal-item" style="animation-delay: 200ms;">
+<label class="block font-label-sm text-[13px] uppercase tracking-widest text-muted-leaf mb-3">Email Address</label>
+<input class="w-full bg-pure-surface border border-obsidian-ink/10 rounded-md py-3 px-4 focus:ring-0 input-focus-ring transition-all font-body-md placeholder:text-muted-leaf/40" placeholder="e.g. hoang.nam@domain.com" type="email"/>
+</div>
+<!-- Password Field -->
+<div class="reveal-item" style="animation-delay: 250ms;">
+<div class="flex justify-between items-end mb-3">
+<label class="font-label-sm text-[13px] uppercase tracking-widest text-muted-leaf">Password</label>
+<a class="text-[13px] text-muted-leaf hover:text-sunlit-clementine transition-colors underline underline-offset-4" href="#">Forgot password?</a>
+</div>
+<input class="w-full bg-pure-surface border border-obsidian-ink/10 rounded-md py-3 px-4 focus:ring-0 input-focus-ring transition-all font-body-md placeholder:text-muted-leaf/40" placeholder="••••••••" type="password"/>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center reveal-item" style="animation-delay: 300ms;">
+<input class="w-4 h-4 rounded border-obsidian-ink/10 text-sunlit-clementine focus:ring-sunlit-clementine cursor-pointer" id="remember" type="checkbox"/>
+<label class="ml-3 font-label-md text-[14px] text-muted-leaf cursor-pointer" for="remember">Remember this device</label>
+</div>
+<!-- CTA Actions -->
+<div class="space-y-4 pt-4">
+<button class="reveal-item spring-btn w-full bg-sunlit-clementine text-pure-surface py-4 rounded-md font-label-md text-[14px] uppercase tracking-[0.2em] font-semibold" style="animation-delay: 350ms;" type="submit">
+                        Sign In
+                    </button>
+<div class="flex items-center gap-4 py-2 reveal-item" style="animation-delay: 400ms;">
+<div class="flex-grow h-[1px] bg-obsidian-ink/5"></div>
+<span class="text-[13px] text-muted-leaf/50 font-label-sm italic lowercase">or</span>
+<div class="flex-grow h-[1px] bg-obsidian-ink/5"></div>
+</div>
+<button class="reveal-item spring-btn w-full bg-pure-surface border border-whisper-border text-obsidian-ink py-4 rounded-md font-label-md text-[14px] uppercase tracking-[0.2em] flex items-center justify-center gap-2" style="animation-delay: 450ms;" type="button">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                        Continue with Google
+                    </button>
+</div>
+</form>
+</div>
+<!-- Footer Link -->
+<div class="mt-16 reveal-item" style="animation-delay: 500ms;">
+<p class="text-muted-leaf font-label-md text-[14px]">
+                New here? <a class="text-obsidian-ink font-bold underline underline-offset-4 hover:text-sunlit-clementine transition-colors" href="#">Create your space</a>
+</p>
+</div>
+</section>
+<!-- RIGHT PANEL (Art Collage) -->
+<section class="hidden md:flex flex-1 bg-canvas-linen relative items-center justify-center overflow-hidden">
+<!-- Scrapbook Style Layout -->
+<div class="absolute inset-0 p-12 collage-tint">
+<!-- Main Collage Image - Preserved Image 6 -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] reveal-item shadow-2xl bg-pure-surface p-6 -rotate-2" style="animation-delay: 600ms;">
+<div class="aspect-[3/4] overflow-hidden grayscale-[20%] sepia-[10%]">
+<img alt="Atmospheric Gallery Collage" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6mkRYIW1U2YQhuT8JSqGdmIT-5HO3duW8V5qwt49oZl-N3vsRGSTstSvRgkyEgkE2ABDk4MAEaC_ZV41gpMVtwW1yK8R4_KLr0hHRkmoW5QouVdi8h_NMIUFCYHo4USeCvwzaWSL8gWtU97d2bznJ1aTfUusmg_agNBZi1iTBrJXNVkFsf2fUHtCGqu4IexAGskxG5deoqJuwdTgWtBPqxvR-Xad55dma1uLG2GGELXgdy8cSKqASYoXgn_6BksFneNBLI9MNQimN"/>
+</div>
+</div>
+<!-- Floating Label Element -->
+<div class="absolute bottom-[15%] right-[10%] bg-pure-surface p-4 shadow-sm reveal-item rotate-6 border border-whisper-border" style="animation-delay: 800ms;">
+<div class="italic font-headline-md text-sunlit-clementine text-xl">
+                    Lumina
+                </div>
+</div>
+</div>
+<!-- Central Quote Overlay -->
+<div class="relative z-20 max-w-lg px-margin-desktop text-center reveal-item" style="animation-delay: 1000ms;">
+<blockquote class="font-poetic-accent text-[28px] italic leading-relaxed text-obsidian-ink mb-6">
+                "We write to taste life twice, in the moment and in retrospect."
+            </blockquote>
+<cite class="font-label-sm text-[12px] uppercase tracking-[0.4em] text-muted-leaf not-italic block">
+                — Anaïs Nin
+            </cite>
+</div>
+<!-- Architectural Decoration -->
+<div class="absolute bottom-12 right-12 flex gap-12 font-label-sm text-[11px] tracking-widest text-muted-leaf/40 reveal-item" style="animation-delay: 1200ms;">
+<span>01 // ARCHIVE</span>
+<span>VOL. 2024</span>
+</div>
+</section>
+</main>
+<script>
+    // Atmospheric parallax on mouse move
+    document.addEventListener('mousemove', (e) => {
+        const artPanel = document.querySelector('section:last-child');
+        if (!artPanel || window.innerWidth < 768) return;
+        
+        const x = (window.innerWidth - e.pageX * 2) / 150;
+        const y = (window.innerHeight - e.pageY * 2) / 150;
+        
+        const elements = artPanel.querySelectorAll('.reveal-item');
+        elements.forEach((el, i) => {
+            const depth = (i + 1) * 1.5;
+            // Only apply transform if it doesn't break the initial animation state
+            if (el.style.opacity === '1') {
+                el.style.transform = `translateX(${x * depth}px) translateY(${y * depth}px)`;
+            }
+        });
+    });
+
+    // Label focus states
+    const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            const label = input.closest('div').querySelector('label');
+            if(label) label.classList.add('text-sunlit-clementine');
+        });
+        input.addEventListener('blur', () => {
+            const label = input.closest('div').querySelector('label');
+            if(label) label.classList.remove('text-sunlit-clementine');
+        });
+    });
+</script>
+</body></html>

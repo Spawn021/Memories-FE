@@ -1,0 +1,44 @@
+{
+  "projectId": "10763385929411448868",
+  "title": "Memories Platform",
+  "designSystem": {
+    "assetId": "aeb0ab82015048868800f0b7c864deab"
+  },
+  "screens": [
+    {
+      "id": "6914732680121120484",
+      "title": "Login - Memories Platform",
+      "deviceType": "DESKTOP",
+      "htmlPath": ".stitch/designs/login.html",
+      "screenshotPath": ".stitch/designs/login.png"
+    },
+    {
+      "id": "11333567992207988707",
+      "title": "Registration - Memories Platform",
+      "deviceType": "DESKTOP",
+      "htmlPath": ".stitch/designs/register.html",
+      "screenshotPath": ".stitch/designs/register.png"
+    },
+    {
+      "id": "17419761231252669917",
+      "title": "Forgot Password - Memories Platform",
+      "deviceType": "DESKTOP",
+      "htmlPath": ".stitch/designs/forgot-password.html",
+      "screenshotPath": ".stitch/designs/forgot-password.png"
+    },
+    {
+      "id": "9254513709725058335",
+      "title": "OTP Verification - Memories Platform",
+      "deviceType": "DESKTOP",
+      "htmlPath": ".stitch/designs/verify-otp.html",
+      "screenshotPath": ".stitch/designs/verify-otp.png"
+    },
+    {
+      "id": "17462132699410219553",
+      "title": "Reset Password - Memories Platform",
+      "deviceType": "DESKTOP",
+      "htmlPath": ".stitch/designs/reset-password.html",
+      "screenshotPath": ".stitch/designs/reset-password.png"
+    }
+  ]
+}
