@@ -1,16 +1,34 @@
 import tailwindcss from '@tailwindcss/vite'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   ssr: false,
-  modules: ['@pinia/nuxt'],
+  build: {
+    transpile: ['vuetify'],
+  },
+  modules: [
+    '@pinia/nuxt',
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', config => {
+        // @ts-expect-error config.plugins type
+        config.plugins.push(vuetify({ autoImport: true }))
+      })
+    },
+  ],
   css: ['~/assets/css/main.css'],
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+    optimizeDeps: {
+      include: ['@vue/devtools-core', '@vue/devtools-kit', 'zod'],
+    },
   },
   app: {
     head: {

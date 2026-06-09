@@ -27,6 +27,15 @@
             Enter your details to access your intimate spaces.
           </p>
         </header>
+        <!-- Verification Success Message Banner -->
+        <div
+          v-if="verifiedSuccess"
+          class="mb-6 p-4 bg-secondary-container text-on-secondary-container rounded-md text-[13px] border border-secondary/10 reveal-item flex items-center gap-2"
+        >
+          <span class="material-symbols-outlined !text-[18px]">check_circle</span>
+          <span class="font-medium">Email verified successfully! Please sign in to continue.</span>
+        </div>
+
         <!-- Global Error Message Banner -->
         <div
           v-if="error"
@@ -161,7 +170,7 @@
               <img
                 alt="Atmospheric Gallery Collage"
                 class="w-full h-full object-cover"
-                src="/images/collage_login.png"
+                src="../assets/images/collage_login.png"
               />
             </div>
           </div>
@@ -213,7 +222,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useAuth } from '~/composables/useAuth'
 import { useForm } from '~/composables/useForm'
-import { navigateTo } from '#app'
+import { navigateTo, useRoute } from '#app'
 import { z } from 'zod'
 import { LogoText } from '~/assets/icons'
 
@@ -225,11 +234,13 @@ const loginSchema = z.object({
 // Auth composable hooks
 const { login, loginWithGoogle, loading } = useAuth()
 const { validationErrors, error, validate, handleApiError } = useForm(loginSchema)
+const route = useRoute()
 
 // Local Reactive State
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
+const verifiedSuccess = computed(() => route.query.verified === 'true')
 
 // Parallax effect reactive variables
 const moveX = ref(0)

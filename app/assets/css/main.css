@@ -1,61 +1,110 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-error-container: #ffdad6;
-  --color-background: #f7f8f6;
-  --color-outline-variant: #dec0b9;
-  --color-primary-container: #c15234;
-  --color-on-error: #ffffff;
-  --color-on-primary: #ffffff;
-  --color-on-primary-container: #fffbff;
-  --color-tertiary-container: #c34e4f;
-  --color-tertiary: #a33638;
-  --color-surface-variant: #e2e3e1;
-  --color-surface-dim: #d9dad8;
-  --color-on-primary-fixed: #3c0800;
-  --color-secondary-fixed-dim: #b8cbbb;
-  --color-on-background: #181a1a;
-  --color-error: #ba1a1a;
-  --color-on-tertiary-fixed: #410006;
-  --color-tertiary-fixed-dim: #ffb3b0;
-  --color-surface-container: #edeeec;
-  --color-on-tertiary-fixed-variant: #862025;
-  --color-surface: #f7f8f6;
-  --color-secondary: #5c6e60;
-  --color-on-primary-fixed-variant: #84250b;
-  --color-secondary-fixed: #d4e8d6;
-  --color-muted-leaf: #5c6e60;
-  --color-tertiary-fixed: #ffdad8;
-  --color-outline: #8b716b;
-  --color-on-tertiary: #ffffff;
-  --color-on-surface-variant: #5c6e60;
-  --color-inverse-on-surface: #f0f1ef;
-  --color-secondary-container: #d4e8d6;
-  --color-on-surface: #181a1a;
-  --color-surface-tint: #e26a4a;
+  /* ==========================================
+     1. BRAND COLORS (PRIMARY & SECONDARY)
+     ========================================== */
+  /* Primary (Màu thương hiệu chính - Clementine Cam) */
   --color-primary: #e26a4a;
-  --color-on-secondary-fixed: #0f1f14;
-  --color-inverse-surface: #2e3130;
-  --color-whisper-border: rgba(24, 26, 26, 0.05);
-  --color-surface-container-highest: #e2e3e1;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #c15234;
+  --color-on-primary-container: #fffbff;
+
+  /* Secondary (Màu thương hiệu phụ - Sage Green) */
+  --color-secondary: #5c6e60;
   --color-on-secondary: #ffffff;
-  --color-primary-fixed-dim: #ffb4a1;
-  --color-on-error-container: #93000a;
-  --color-sunlit-clementine: #e26a4a;
-  --color-on-tertiary-container: #fffbff;
-  --color-on-secondary-fixed-variant: #3a4b3e;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f3f4f2;
-  --color-surface-container-high: #e7e8e6;
-  --color-pure-surface: #ffffff;
-  --color-terracotta-rose: #d65c5c;
-  --color-inverse-primary: #ffb4a1;
-  --color-primary-fixed: #ffdbd1;
-  --color-obsidian-ink: #181a1a;
-  --color-canvas-linen: #f7f8f6;
-  --color-surface-bright: #f7f8f6;
+  --color-secondary-container: #d4e8d6;
   --color-on-secondary-container: #57695b;
 
+  /* ==========================================
+     2. ACCENT COLORS (TERTIARY)
+     ========================================== */
+  /* Tertiary (Màu nhấn phụ thứ ba) */
+  --color-tertiary: #a33638;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #c34e4f;
+  --color-on-tertiary-container: #fffbff;
+
+  /* ==========================================
+     3. SYSTEM STATES (FEEDBACK / ERRORS)
+     ========================================== */
+  /* Error (Màu cảnh báo lỗi) */
+  --color-error: #d65c5c;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* ==========================================
+     4. SURFACES & BACKGROUNDS
+     ========================================== */
+  /* Layout Background */
+  --color-background: #f7f8f6;
+  --color-on-background: #181a1a;
+
+  /* Surface containers (Cards, forms, modals) */
+  --color-surface: #ffffff;
+  --color-on-surface: #181a1a;
+  --color-surface-bright: #ffffff;
+  --color-surface-dim: #d9dad8;
+  --color-surface-variant: #e2e3e1;
+  --color-on-surface-variant: #5c6e60;
+
+  /* Material Design 3 nested containers */
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f4f2;
+  --color-surface-container: #edeeec;
+  --color-surface-container-high: #e7e8e6;
+  --color-surface-container-highest: #e2e3e1;
+
+  /* ==========================================
+     5. INVERSE & UTILITY ROLES
+     ========================================== */
+  --color-inverse-surface: #2e3130;
+  --color-inverse-on-surface: #f0f1ef;
+  --color-inverse-primary: #ffb4a1;
+  --color-surface-tint: #e26a4a;
+
+  /* ==========================================
+     6. BORDERS & LINES (OUTLINES)
+     ========================================== */
+  --color-outline: #8b716b;
+  --color-outline-variant: #dec0b9;
+
+  /* ==========================================
+     7. FIXED COLORS (NO SHIFT IN DARK/LIGHT MODES)
+     ========================================== */
+  /* Primary Fixed */
+  --color-primary-fixed: #ffdbd1;
+  --color-primary-fixed-dim: #ffb4a1;
+  --color-on-primary-fixed: #3c0800;
+  --color-on-primary-fixed-variant: #84250b;
+
+  /* Secondary Fixed */
+  --color-secondary-fixed: #d4e8d6;
+  --color-secondary-fixed-dim: #b8cbbb;
+  --color-on-secondary-fixed: #0f1f14;
+  --color-on-secondary-fixed-variant: #3a4b3e;
+
+  /* Tertiary Fixed */
+  --color-tertiary-fixed: #ffdad8;
+  --color-tertiary-fixed-dim: #ffb3b0;
+  --color-on-tertiary-fixed: #410006;
+  --color-on-tertiary-fixed-variant: #862025;
+
+  /* ==========================================
+     8. CUSTOM SEMANTIC ALIASES
+     ========================================== */
+  --color-sunlit-clementine: #e26a4a;
+  --color-muted-leaf: #5c6e60;
+  --color-terracotta-rose: #d65c5c;
+  --color-obsidian-ink: #181a1a;
+  --color-canvas-linen: #f7f8f6;
+  --color-pure-surface: #ffffff;
+  --color-whisper-border: rgba(24, 26, 26, 0.05);
+
+  /* ==========================================
+     9. RADIUS, SPACING & TYPOGRAPHY
+     ========================================== */
   --radius-default: 0.125rem;
   --radius-lg: 0.25rem;
   --radius-xl: 0.5rem;

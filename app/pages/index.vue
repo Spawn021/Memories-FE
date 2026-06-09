@@ -64,7 +64,7 @@
         :style="polaroid1Style"
       >
         <div class="aspect-[4/3] bg-canvas-linen overflow-hidden">
-          <img src="/images/polaroid_2.png" class="w-full h-full object-cover grayscale-[10%]" />
+          <img src="../assets/images/polaroid_2.png" class="w-full h-full object-cover grayscale-[10%]" />
         </div>
         <p class="font-poetic-accent text-lg italic text-center text-obsidian-ink pt-3 pb-1">Traces of Summer</p>
       </div>
@@ -75,7 +75,7 @@
         :style="polaroid2Style"
       >
         <div class="aspect-[4/3] bg-canvas-linen overflow-hidden">
-          <img src="/images/polaroid_1.png" class="w-full h-full object-cover grayscale-[10%]" />
+          <img src="../assets/images/polaroid_1.png" class="w-full h-full object-cover grayscale-[10%]" />
         </div>
         <p class="font-poetic-accent text-lg italic text-center text-obsidian-ink pt-3 pb-1">Quiet Afternoons</p>
       </div>
@@ -86,7 +86,7 @@
         :style="polaroid3Style"
       >
         <div class="aspect-[4/3] bg-canvas-linen overflow-hidden">
-          <img src="/images/polaroid_4.png" class="w-full h-full object-cover grayscale-[10%]" />
+          <img src="../assets/images/polaroid_4.png" class="w-full h-full object-cover grayscale-[10%]" />
         </div>
         <p class="font-poetic-accent text-md italic text-center text-obsidian-ink pt-2 pb-0.5">Fragments of Light</p>
       </div>

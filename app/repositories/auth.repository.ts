@@ -20,6 +20,13 @@ export const createAuthRepository = (api: ReturnType<typeof $fetch.create>) => (
     })
   },
 
+  async verifyEmail(email: string, otp: string): Promise<void> {
+    return api('/auth/verify-email', {
+      method: 'POST',
+      body: { email, otp },
+    })
+  },
+
   async logout(): Promise<void> {
     await api('/auth/logout', {
       method: 'POST',

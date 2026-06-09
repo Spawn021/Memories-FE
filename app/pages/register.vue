@@ -1,5 +1,6 @@
 <template>
   <main class="h-screen w-screen flex" @mousemove="onMouseMove">
+
     <section class="w-full md:w-1/2 flex flex-col justify-between px-8 md:px-16 py-8">
       <div class="reveal-item" style="animation-delay: 50ms">
         <NuxtLink to="/">
@@ -8,25 +9,62 @@
       </div>
 
       <div class="max-w-form-max-width w-full mx-auto my-auto">
-        <div v-if="registrationSuccess" class="animate-waterfall text-center py-6">
+        <div v-if="registrationSuccess" class="animate-waterfall text-center py-6 max-w-sm mx-auto">
           <div
             class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary-container text-secondary mb-4"
           >
             <span class="material-symbols-outlined text-2xl">mail</span>
           </div>
-          <h2 class="font-headline-md text-xl mb-3">Space Reserved!</h2>
+          <h2 class="font-headline-md text-xl mb-3">Enter Verification Code</h2>
           <p class="text-muted-leaf mb-6 font-body-md text-[15px] leading-relaxed">
-            We have sent a verification code to
+            We have sent a 6-digit verification code to<br />
             <strong class="text-obsidian-ink">{{ email }}</strong
-            >.<br />
-            Please check your inbox to activate your space.
+            >.
           </p>
-          <NuxtLink
-            to="/login"
-            class="inline-block px-6 py-2.5 bg-sunlit-clementine text-pure-surface font-semibold rounded-md spring-hover spring-active uppercase tracking-wider text-[12px]"
+
+          <div
+            v-if="otpError"
+            class="mb-4 p-3.5 bg-error-container text-error rounded-md text-[13px] border border-error/10 text-left animate-waterfall"
           >
-            Go to Sign In
-          </NuxtLink>
+            {{ otpError }}
+          </div>
+
+          <form class="space-y-6" @submit.prevent="handleVerifyOtp">
+            <div class="flex justify-center mb-6 v-otp-container">
+              <v-otp-input
+                v-model="otp"
+                length="6"
+                type="number"
+                :disabled="loading"
+                @finish="handleVerifyOtp"
+              />
+            </div>
+
+            <BaseButton
+              type="submit"
+              variant="primary"
+              full-width
+              size="lg"
+              :loading="loading"
+              :disabled="otp.length !== 6"
+            >
+              Verify Account
+            </BaseButton>
+          </form>
+
+          <div class="mt-6 text-center">
+            <p class="text-muted-leaf font-body-md text-[14px]">
+              Didn't receive the code?
+              <button
+                type="button"
+                class="text-sunlit-clementine font-medium hover:underline focus:outline-none cursor-pointer disabled:opacity-50 disabled:no-underline font-body-md"
+                :disabled="resendCooldown > 0 || loading"
+                @click="handleResendOtp"
+              >
+                {{ resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend Code' }}
+              </button>
+            </p>
+          </div>
         </div>
 
         <!-- Form State -->
@@ -45,64 +83,122 @@
             {{ error }}
           </div>
 
-          <form class="space-y-3" @submit.prevent="handleRegister">
+          <form class="space-y-4" @submit.prevent="handleRegister">
             <!-- Email Field -->
-            <BaseInput
-              id="email"
-              v-model="email"
-              label="EMAIL ADDRESS"
-              type="email"
-              placeholder="e.g. hoang.nam@domain.com"
-              required
-              :error="validationErrors.email"
-              class="animate-waterfall"
-              style="animation-delay: 100ms"
-            />
+            <div class="space-y-1.5 animate-waterfall" style="animation-delay: 100ms">
+              <label
+                class="block font-label-sm text-[12px] uppercase tracking-widest text-muted-leaf"
+                >EMAIL ADDRESS</label
+              >
+              <v-text-field
+                v-model="email"
+                type="email"
+                placeholder="e.g. hoang.nam@domain.com"
+                variant="outlined"
+                density="compact"
+                hide-details="auto"
+                :error-messages="validationErrors.email"
+                class="custom-v-input"
+              />
+            </div>
 
             <!-- Password Field -->
-            <BaseInput
-              id="password"
-              v-model="password"
-              label="PASSWORD"
-              type="password"
-              placeholder="••••••••"
-              required
-              :error="validationErrors.password"
-              class="animate-waterfall"
-              style="animation-delay: 150ms"
-            />
+            <div class="space-y-1.5 animate-waterfall" style="animation-delay: 150ms">
+              <label
+                class="block font-label-sm text-[12px] uppercase tracking-widest text-muted-leaf"
+                >PASSWORD</label
+              >
+              <v-text-field
+                v-model="password"
+                :type="showPassword ? 'text' : 'password'"
+                placeholder="••••••••"
+                variant="outlined"
+                density="compact"
+                hide-details="auto"
+                :error-messages="validationErrors.password"
+                class="custom-v-input"
+              >
+                <template #append-inner>
+                  <button
+                    type="button"
+                    class="text-muted-leaf/40 hover:text-sunlit-clementine transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
+                    :title="showPassword ? 'Hide password' : 'Show password'"
+                    @click="showPassword = !showPassword"
+                  >
+                    <span class="material-symbols-outlined !text-[20px]">
+                      {{ showPassword ? 'visibility_off' : 'visibility' }}
+                    </span>
+                  </button>
+                </template>
+              </v-text-field>
+            </div>
 
             <!-- Confirm Password Field -->
-            <BaseInput
-              id="confirmPassword"
-              v-model="confirmPassword"
-              label="CONFIRM PASSWORD"
-              type="password"
-              placeholder="••••••••"
-              required
-              :error="validationErrors.confirmPassword"
-              class="animate-waterfall"
-              style="animation-delay: 200ms"
-            />
+            <div class="space-y-1.5 animate-waterfall" style="animation-delay: 200ms">
+              <label
+                class="block font-label-sm text-[12px] uppercase tracking-widest text-muted-leaf"
+                >CONFIRM PASSWORD</label
+              >
+              <v-text-field
+                v-model="confirmPassword"
+                :type="showConfirmPassword ? 'text' : 'password'"
+                placeholder="••••••••"
+                variant="outlined"
+                density="compact"
+                hide-details="auto"
+                :error-messages="validationErrors.confirmPassword"
+                class="custom-v-input"
+              >
+                <template #append-inner>
+                  <button
+                    type="button"
+                    class="text-muted-leaf/40 hover:text-sunlit-clementine transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
+                    :title="showConfirmPassword ? 'Hide password' : 'Show password'"
+                    @click="showConfirmPassword = !showConfirmPassword"
+                  >
+                    <span class="material-symbols-outlined !text-[20px]">
+                      {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
+                    </span>
+                  </button>
+                </template>
+              </v-text-field>
+            </div>
 
             <!-- Terms Checkbox -->
-            <BaseCheckbox
-              id="terms"
+            <v-checkbox
               v-model="terms"
-              required
-              class="animate-waterfall pt-1"
+              hide-details="auto"
+              color="primary"
+              class="animate-waterfall"
               style="animation-delay: 250ms"
             >
-              I agree to the
-              <NuxtLink class="text-primary hover:underline" to="/terms">Terms</NuxtLink> &amp;
-              <NuxtLink class="text-primary hover:underline" to="/privacy">Privacy Policy</NuxtLink>
-            </BaseCheckbox>
+              <template #label>
+                <span class="text-[13px] font-body-md text-muted-leaf">
+                  I agree to the
+                  <NuxtLink class="text-sunlit-clementine hover:underline" to="/terms" @click.stop
+                    >Terms</NuxtLink
+                  >
+                  &amp;
+                  <NuxtLink class="text-sunlit-clementine hover:underline" to="/privacy" @click.stop
+                    >Privacy Policy</NuxtLink
+                  >
+                </span>
+              </template>
+            </v-checkbox>
 
             <!-- CTA Actions -->
-            <div class="space-y-3 pt-3 animate-waterfall" style="animation-delay: 400ms">
-              <BaseButton type="submit" variant="primary" full-width size="lg" :loading="loading">
+            <div class="space-y-4 pt-3 animate-waterfall" style="animation-delay: 400ms">
+              <v-btn
+                type="submit"
+                color="primary"
+                block
+                size="large"
+                :loading="loading"
+                class="spring-btn font-label-md tracking-wider uppercase"
+                style="font-weight: 600; border-radius: var(--radius-lg); height: 50px"
+              >
                 Create Space
-              </BaseButton>
+              </v-btn>
 
               <div class="relative flex items-center py-1">
                 <div class="grow border-t border-whisper-border"></div>
@@ -110,33 +206,37 @@
                 <div class="grow border-t border-whisper-border"></div>
               </div>
 
-              <BaseButton
+              <v-btn
                 type="button"
-                variant="secondary"
-                full-width
-                size="lg"
+                variant="outlined"
+                block
+                size="large"
+                class="spring-btn font-label-md tracking-wider uppercase text-obsidian-ink border-obsidian-ink/10"
+                style="font-weight: 600; border-radius: var(--radius-lg); height: 50px"
                 @click="handleGoogleLogin"
               >
-                <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24">
-                  <path
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    fill="#4285F4"
-                  ></path>
-                  <path
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    fill="#34A853"
-                  ></path>
-                  <path
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
-                    fill="#FBBC05"
-                  ></path>
-                  <path
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                    fill="#EA4335"
-                  ></path>
-                </svg>
+                <template #prepend>
+                  <svg class="h-4 w-4 shrink-0 mr-1" viewBox="0 0 24 24">
+                    <path
+                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      fill="#4285F4"
+                    ></path>
+                    <path
+                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      fill="#34A853"
+                    ></path>
+                    <path
+                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                      fill="#FBBC05"
+                    ></path>
+                    <path
+                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      fill="#EA4335"
+                    ></path>
+                  </svg>
+                </template>
                 Continue with Google
-              </BaseButton>
+              </v-btn>
             </div>
           </form>
 
@@ -150,16 +250,8 @@
           </footer>
         </div>
       </div>
-
-      <!-- Footer Link Info -->
-      <div class="mt-4 text-center md:text-left reveal-item" style="animation-delay: 500ms">
-        <span class="text-[11px] tracking-wider text-muted-leaf/40"
-          >MEMORIES // SECURITY VALIDATED</span
-        >
-      </div>
     </section>
 
-    <!-- Right Panel: Nostalgia Art Panel (Desktop Only) -->
     <section
       class="hidden md:flex md:w-1/2 bg-canvas-linen flex-col justify-center items-center px-16 relative overflow-hidden"
     >
@@ -171,7 +263,7 @@
             <img
               alt="Memory fragment 1"
               class="w-full aspect-3/4 object-cover"
-              src="/images/polaroid_1.png"
+              src="../assets/images/polaroid_1.png"
             />
           </div>
         </div>
@@ -181,7 +273,7 @@
             <img
               alt="Memory fragment 2"
               class="w-full aspect-4/3 object-cover"
-              src="/images/polaroid_2.png"
+              src="../assets/images/polaroid_2.png"
             />
           </div>
         </div>
@@ -191,7 +283,7 @@
             <img
               alt="Memory fragment 3"
               class="w-full aspect-square object-cover"
-              src="/images/polaroid_3.png"
+              src="../assets/images/polaroid_3.png"
             />
           </div>
         </div>
@@ -200,13 +292,12 @@
             <img
               alt="Memory fragment 4"
               class="w-full aspect-3/4 object-cover"
-              src="/images/polaroid_4.png"
+              src="../assets/images/polaroid_4.png"
             />
           </div>
         </div>
       </div>
 
-      <!-- Quote Container -->
       <div
         class="mt-16 text-center max-w-sm z-10 animate-waterfall"
         style="animation-delay: 1100ms"
@@ -235,20 +326,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useAuth } from '~/composables/useAuth'
 import { useForm } from '~/composables/useForm'
 import { LogoText } from '~/assets/icons'
 import { registerSchema } from '~/schema/register.schema'
+import { navigateTo } from '#app'
+import { ApiError, type ApiErrorResponse } from '~/types'
+import { useToast } from '~/composables/useToast'
 
-const { register, loginWithGoogle, loading } = useAuth()
+const { register, verifyEmail, loginWithGoogle, loading } = useAuth()
 const { validationErrors, error, validate, handleApiError } = useForm(registerSchema)
+const toast = useToast()
 
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const terms = ref(false)
 const registrationSuccess = ref(false)
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
+
+const otp = ref('')
+const otpError = ref('')
+const resendCooldown = ref(0)
+let cooldownInterval: any = null
+
+const startCooldownTimer = () => {
+  if (cooldownInterval) clearInterval(cooldownInterval)
+  cooldownInterval = setInterval(() => {
+    if (resendCooldown.value > 0) {
+      resendCooldown.value--
+    } else {
+      if (cooldownInterval) {
+        clearInterval(cooldownInterval)
+        cooldownInterval = null
+      }
+    }
+  }, 1000)
+}
+
+onUnmounted(() => {
+  if (cooldownInterval) clearInterval(cooldownInterval)
+})
 
 // Parallax effect reactive variables
 const moveX = ref(0)
@@ -295,11 +415,36 @@ const handleRegister = async () => {
   if (!isValid) return
 
   try {
-    await register(email.value, password.value)
+    const result = await register(email.value, password.value)
+    console.log(result)
     registrationSuccess.value = true
+    toast.success('Registration successful! Please check your email for the verification code.')
   } catch (err) {
-    console.log(err, '1')
     handleApiError(err)
+  }
+}
+
+const handleVerifyOtp = async () => {
+  if (otp.value.length !== 6) return
+  otpError.value = ''
+  try {
+    const result = await verifyEmail(email.value, otp.value)
+    await navigateTo('/login?verified=true')
+  } catch (err) {
+    const error = err as ApiErrorResponse
+    otpError.value = error.message
+  }
+}
+
+const handleResendOtp = async () => {
+  if (resendCooldown.value > 0) return
+  otpError.value = ''
+  try {
+    await register(email.value, password.value)
+    resendCooldown.value = 60
+    startCooldownTimer()
+  } catch {
+    otpError.value = 'Failed to resend verification code.'
   }
 }
 
@@ -307,3 +452,71 @@ const handleGoogleLogin = () => {
   loginWithGoogle()
 }
 </script>
+
+<style scoped>
+.v-otp-container :deep(.v-otp-input) {
+  padding: 0;
+  justify-content: center;
+}
+.v-otp-container :deep(.v-otp-input__content) {
+  gap: 8px;
+  max-width: 100%;
+}
+.v-otp-container :deep(.v-otp-input__field) {
+  background-color: var(--color-pure-surface) !important;
+  border: 1px solid rgba(24, 26, 26, 0.1) !important;
+  border-radius: var(--radius-lg) !important;
+  color: var(--color-obsidian-ink) !important;
+  height: 52px !important;
+  width: 44px !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+}
+.v-otp-container :deep(.v-otp-input__field:focus) {
+  border-color: var(--color-sunlit-clementine) !important;
+  box-shadow: 0 0 0 3px rgba(226, 106, 74, 0.18) !important;
+  outline: none !important;
+}
+
+/* Custom Vuetify input styles to match design system */
+:deep(.v-text-field .v-field) {
+  background-color: var(--color-pure-surface) !important;
+  border-radius: var(--radius-lg) !important;
+}
+:deep(.v-text-field .v-field__outline) {
+  --v-field-border-opacity: 0.15 !important;
+  color: var(--color-obsidian-ink) !important;
+}
+:deep(.v-text-field .v-field--focused .v-field__outline) {
+  --v-field-border-opacity: 1 !important;
+  color: var(--color-sunlit-clementine) !important;
+}
+:deep(.v-text-field .v-field__input) {
+  font-family: var(--font-body-md) !important;
+  font-size: 15px !important;
+  min-height: 48px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  color: var(--color-obsidian-ink) !important;
+}
+:deep(.v-text-field .v-input__details) {
+  padding-inline: 4px !important;
+  padding-top: 4px !important;
+  font-size: 11px !important;
+  color: var(--color-error) !important;
+}
+
+/* Custom Vuetify checkbox styles */
+:deep(.v-checkbox .v-selection-control) {
+  min-height: 32px !important;
+}
+:deep(.v-checkbox .v-label) {
+  opacity: 1 !important;
+}
+:deep(.v-checkbox .v-selection-control__input) {
+  color: var(--color-sunlit-clementine) !important;
+}
+</style>

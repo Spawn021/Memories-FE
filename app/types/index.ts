@@ -17,7 +17,7 @@ export interface ApiResponse<T = unknown> {
 export interface ApiErrorResponse {
   success: false
   statusCode: number
-  message: string | string[]
+  message: string
   errors?: ApiValidationError
 }
 
@@ -30,6 +30,6 @@ export class ApiError extends Error {
     super(parsedMessage)
     this.statusCode = statusCode
     this.errors = errors
-    this.name = 'ApiError'
+    this.name = 'ApiErrorr'
   }
 }
