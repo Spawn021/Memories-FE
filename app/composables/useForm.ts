@@ -1,6 +1,7 @@
 import { ref, unref } from 'vue'
 import { z } from 'zod'
 import { ApiError, type ApiValidationError } from '~/types'
+import { t } from '~/utils/i18n'
 
 export const useForm = <TSchema extends z.ZodTypeAny>(
   schema?: TSchema,
@@ -37,10 +38,10 @@ export const useForm = <TSchema extends z.ZodTypeAny>(
         if (!errors[field]) {
           errors[field] = []
         }
-        errors[field].push(issue.message)
+        errors[field].push(t(issue.message))
       })
       validationErrors.value = errors
-      error.value = 'Please correct the validation errors.'
+      error.value = t('E100')
       return false
     }
     return true
@@ -60,7 +61,7 @@ export const useForm = <TSchema extends z.ZodTypeAny>(
       validationErrors.value[field] = []
     } else {
       const fieldIssues = result.error.issues.filter(issue => issue.path[0] === field)
-      validationErrors.value[field] = fieldIssues.map(i => i.message)
+      validationErrors.value[field] = fieldIssues.map(i => t(i.message))
     }
   }
 
@@ -70,10 +71,14 @@ export const useForm = <TSchema extends z.ZodTypeAny>(
   ) => {
     if (err instanceof ApiError) {
       if (err.statusCode === 400 && err.errors) {
-        validationErrors.value = err.errors
-        error.value = err.message || 'Please correct the validation errors.'
+        const translatedErrors: ApiValidationError = {}
+        for (const [key, messages] of Object.entries(err.errors)) {
+          translatedErrors[key] = messages.map(msg => t(msg))
+        }
+        validationErrors.value = translatedErrors
+        error.value = t(err.message) || t('E100')
       } else {
-        error.value = err.message
+        error.value = t(err.message)
       }
     } else if (err instanceof Error) {
       if (process.dev) {
