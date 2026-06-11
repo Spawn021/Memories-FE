@@ -1,7 +1,7 @@
 <template>
-  <main class="h-screen w-screen bg-canvas-linen text-obsidian-ink p-margin-mobile md:p-margin-desktop flex flex-col justify-between overflow-hidden selection:bg-sunlit-clementine/30">
+  <main class="h-screen w-screen bg-background text-on-background p-margin-mobile md:p-margin-desktop flex flex-col justify-between overflow-hidden selection:bg-primary/30">
     <!-- Top Decorative Header -->
-    <header class="flex justify-between items-center text-muted-leaf/40 font-label-sm text-[11px] tracking-widest reveal-item" style="animation-delay: 50ms;">
+    <header class="flex justify-between items-center text-secondary/40 font-body text-[11px] tracking-widest reveal-item" style="animation-delay: 50ms;">
       <span>MEMORIES ARCHIVE // PRIVACY</span>
       <span>SECURE END-TO-END</span>
     </header>
@@ -9,31 +9,31 @@
     <!-- Center Document Card -->
     <div class="my-auto mx-auto w-full max-w-[640px] z-10 px-2">
       <div class="reveal-item" style="animation-delay: 150ms;">
-        <div class="bg-pure-surface border border-whisper-border p-6 md:p-10 shadow-2xl relative rotate-[0.5deg] max-h-[72vh] flex flex-col transition-all duration-300 hover:rotate-0">
+        <div class="bg-surface border border-border p-6 md:p-10 shadow-2xl relative rotate-[0.5deg] max-h-[72vh] flex flex-col transition-all duration-300 hover:rotate-0">
           
           <!-- Back Link & Header -->
           <div class="shrink-0 mb-6">
             <button 
-              class="spring-btn flex items-center gap-2 font-label-sm text-[11px] uppercase tracking-widest text-muted-leaf hover:text-sunlit-clementine transition-colors cursor-pointer"
+              class="spring-btn flex items-center gap-2 font-body text-[11px] uppercase tracking-widest text-secondary hover:text-primary transition-colors cursor-pointer"
               @click="goBack"
             >
               <span class="material-symbols-outlined !text-[14px]">arrow_back</span>
               Back to space creator
             </button>
 
-            <h1 class="font-poetic-accent text-4xl md:text-5xl italic font-normal text-obsidian-ink mb-2 mt-5">
+            <h1 class="font-poetic text-4xl md:text-5xl italic font-normal text-on-background mb-2 mt-5">
               Privacy Policy
             </h1>
-            <p class="font-label-sm text-[11px] uppercase tracking-widest text-muted-leaf/50 border-b border-obsidian-ink/5 pb-4">
+            <p class="font-body text-[11px] uppercase tracking-widest text-secondary/50 border-b border-border pb-4">
               Last Updated: June 08, 2026 // Vol. 2026
             </p>
           </div>
 
           <!-- Scrollable Content -->
-          <div class="flex-1 overflow-y-auto pr-3 space-y-6 text-[14px] leading-relaxed font-body-md text-obsidian-ink/80 custom-scroll">
+          <div class="flex-1 overflow-y-auto pr-3 space-y-6 text-[14px] leading-relaxed font-body text-on-background/80 custom-scroll">
             
             <section class="space-y-2">
-              <h2 class="font-headline-md font-bold text-[12px] uppercase tracking-wider text-sunlit-clementine">
+              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">
                 01 // Information Collection
               </h2>
               <p>
@@ -42,7 +42,7 @@
             </section>
 
             <section class="space-y-2">
-              <h2 class="font-headline-md font-bold text-[12px] uppercase tracking-wider text-sunlit-clementine">
+              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">
                 02 // Use of Data
               </h2>
               <p>
@@ -51,7 +51,7 @@
             </section>
 
             <section class="space-y-2">
-              <h2 class="font-headline-md font-bold text-[12px] uppercase tracking-wider text-sunlit-clementine">
+              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">
                 03 // Storage & Security
               </h2>
               <p>
@@ -60,7 +60,7 @@
             </section>
 
             <section class="space-y-2">
-              <h2 class="font-headline-md font-bold text-[12px] uppercase tracking-wider text-sunlit-clementine">
+              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">
                 04 // User Rights & Portability
               </h2>
               <p>
@@ -69,7 +69,7 @@
             </section>
 
             <section class="space-y-2">
-              <h2 class="font-headline-md font-bold text-[12px] uppercase tracking-wider text-sunlit-clementine">
+              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">
                 05 // Cookies & Tracking
               </h2>
               <p>
@@ -80,7 +80,7 @@
           </div>
 
           <!-- Card Footer Seal -->
-          <div class="shrink-0 pt-4 mt-4 border-t border-obsidian-ink/5 flex justify-between items-center text-muted-leaf/40 font-label-sm text-[10px] tracking-widest">
+          <div class="shrink-0 pt-4 mt-4 border-t border-border flex justify-between items-center text-secondary/40 font-body text-[10px] tracking-widest">
             <span>MEMORIES INC. // SECURITY & AUDITS</span>
             <span class="italic">Encryption Active</span>
           </div>
@@ -90,7 +90,7 @@
     </div>
 
     <!-- Bottom Footer -->
-    <footer class="flex justify-between items-center text-muted-leaf/30 font-label-sm text-[11px] tracking-widest reveal-item" style="animation-delay: 250ms;">
+    <footer class="flex justify-between items-center text-secondary/30 font-body text-[11px] tracking-widest reveal-item" style="animation-delay: 250ms;">
       <span>© 2026 MEMORIES</span>
       <span>ALL RIGHTS PRESERVED</span>
     </footer>
@@ -120,10 +120,10 @@ const goBack = () => {
   background: transparent;
 }
 .custom-scroll::-webkit-scrollbar-thumb {
-  background-color: rgba(24, 26, 26, 0.1);
+  background-color: var(--border-strong);
   border-radius: 9px;
 }
 .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-sunlit-clementine);
+  background-color: var(--primary);
 }
-</style>
+</style>>

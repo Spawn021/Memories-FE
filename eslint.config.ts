@@ -3,21 +3,35 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import json from '@eslint/json'
 import css from '@eslint/css'
+import pluginVue from 'eslint-plugin-vue' // Import thêm plugin Vue
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
-    plugins: { js },
-    extends: ['js/recommended'],
-    languageOptions: { globals: globals.browser },
+    // Bỏ qua các thư mục build/system
+    ignores: ['.nuxt/**', '.output/**', 'node_modules/**', 'dist/**'],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...pluginVue.configs['flat/recommended'],
+  {
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        parser: tseslint.parser,
+        sourceType: 'module',
+      },
+    },
     rules: {
-      'no-unused-vars': 'warn',
-      'no-undef': 'warn',
       'no-console': 'error',
+      '@typescript-eslint/no-unused-vars': 'error',
+      'vue/html-self-closing': 'off',
+      'vue/max-attributes-per-line': 'off',
+      'vue/multi-word-component-names': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
     },
   },
-  tseslint.configs.recommended,
   { files: ['**/*.json'], plugins: { json }, language: 'json/json', extends: ['json/recommended'] },
   { files: ['**/*.css'], plugins: { css }, language: 'css/css', extends: ['css/recommended'] },
 ])

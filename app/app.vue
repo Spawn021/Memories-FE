@@ -16,6 +16,13 @@
 
 <script setup lang="ts">
 import { useToast } from '~/composables/useToast'
+import { useTheme } from '~/composables/useTheme'
+import { onMounted } from 'vue'
 
 const { show, message, color, timeout } = useToast()
+const { initTheme } = useTheme()
+
+onMounted(() => {
+  initTheme()
+})
 </script>

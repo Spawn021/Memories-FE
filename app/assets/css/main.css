@@ -1,114 +1,105 @@
 @import 'tailwindcss';
 
+:root {
+  /* Core Brand Colors */
+  --primary: #e26a4a;
+  --primary-hover: #d15e3e;
+  --primary-active: #c15234;
+  --on-primary: #ffffff;
+  --primary-glow: 0 0 0 3px rgba(226, 106, 74, 0.18);
+
+  --secondary: #5c6e60;
+  --secondary-hover: #4e5e52;
+  --on-secondary: #ffffff;
+
+  /* Backgrounds & Surfaces */
+  --background: #f7f8f6;
+  --on-background: #181a1a;
+
+  --surface: #ffffff;
+  --on-surface: #181a1a;
+
+  --surface-variant: #edeeec;
+  --on-surface-variant: #5c6e60;
+
+  /* Borders & Dividers */
+  --border: #181a1a0d;
+  --border-strong: #181a1a1f;
+
+  /* System States & Destructive */
+  --error: #d65c5c;
+  --on-error: #ffffff;
+
+  --danger-container: #ffdad6;
+  --on-danger-container: #93000a;
+}
+
+.dark {
+  /* Core Brand Colors */
+  --primary: #f08265;
+  --primary-hover: #e26a4a;
+  --primary-active: #c15234;
+  --on-primary: #181a1a;
+  --primary-glow: 0 0 0 3px rgba(240, 130, 101, 0.25);
+
+  --secondary: #8ea092;
+  --secondary-hover: #acbcae;
+  --on-secondary: #181a1a;
+
+  /* Backgrounds & Surfaces */
+  --background: #121414;
+  --on-background: #f7f8f6;
+
+  --surface: #1a1d1d;
+  --on-surface: #f7f8f6;
+
+  --surface-variant: #282c2c;
+  --on-surface-variant: #8ea092;
+
+  /* Borders & Dividers */
+  --border: rgba(247, 248, 246, 0.08);
+  --border-strong: rgba(247, 248, 246, 0.18);
+
+  /* System States & Destructive */
+  --error: #e57373;
+  --on-error: #181a1a;
+
+  --danger-container: #93000a;
+  --on-danger-container: #ffdad6;
+}
+
 @theme {
-  /* ==========================================
-     1. BRAND COLORS (PRIMARY & SECONDARY)
-     ========================================== */
-  /* Primary (Màu thương hiệu chính - Clementine Cam) */
-  --color-primary: #e26a4a;
-  --color-on-primary: #ffffff;
-  --color-primary-container: #c15234;
-  --color-on-primary-container: #fffbff;
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-on-primary: var(--on-primary);
 
-  /* Secondary (Màu thương hiệu phụ - Sage Green) */
-  --color-secondary: #5c6e60;
-  --color-on-secondary: #ffffff;
-  --color-secondary-container: #d4e8d6;
-  --color-on-secondary-container: #57695b;
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-on-secondary: var(--on-secondary);
 
-  /* ==========================================
-     2. ACCENT COLORS (TERTIARY)
-     ========================================== */
-  /* Tertiary (Màu nhấn phụ thứ ba) */
-  --color-tertiary: #a33638;
-  --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #c34e4f;
-  --color-on-tertiary-container: #fffbff;
+  --color-background: var(--background);
+  --color-on-background: var(--on-background);
 
-  /* ==========================================
-     3. SYSTEM STATES (FEEDBACK / ERRORS)
-     ========================================== */
-  /* Error (Màu cảnh báo lỗi) */
-  --color-error: #d65c5c;
-  --color-on-error: #ffffff;
-  --color-error-container: #ffdad6;
-  --color-on-error-container: #93000a;
+  --color-surface: var(--surface);
+  --color-on-surface: var(--on-surface);
 
-  /* ==========================================
-     4. SURFACES & BACKGROUNDS
-     ========================================== */
-  /* Layout Background */
-  --color-background: #f7f8f6;
-  --color-on-background: #181a1a;
+  --color-surface-variant: var(--surface-variant);
+  --color-on-surface-variant: var(--on-surface-variant);
 
-  /* Surface containers (Cards, forms, modals) */
-  --color-surface: #ffffff;
-  --color-on-surface: #181a1a;
-  --color-surface-bright: #ffffff;
-  --color-surface-dim: #d9dad8;
-  --color-surface-variant: #e2e3e1;
-  --color-on-surface-variant: #5c6e60;
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
 
-  /* Material Design 3 nested containers */
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f3f4f2;
-  --color-surface-container: #edeeec;
-  --color-surface-container-high: #e7e8e6;
-  --color-surface-container-highest: #e2e3e1;
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
 
-  /* ==========================================
-     5. INVERSE & UTILITY ROLES
-     ========================================== */
-  --color-inverse-surface: #2e3130;
-  --color-inverse-on-surface: #f0f1ef;
-  --color-inverse-primary: #ffb4a1;
-  --color-surface-tint: #e26a4a;
+  --color-danger-container: var(--danger-container);
+  --color-on-danger-container: var(--on-danger-container);
 
-  /* ==========================================
-     6. BORDERS & LINES (OUTLINES)
-     ========================================== */
-  --color-outline: #8b716b;
-  --color-outline-variant: #dec0b9;
-
-  /* ==========================================
-     7. FIXED COLORS (NO SHIFT IN DARK/LIGHT MODES)
-     ========================================== */
-  /* Primary Fixed */
-  --color-primary-fixed: #ffdbd1;
-  --color-primary-fixed-dim: #ffb4a1;
-  --color-on-primary-fixed: #3c0800;
-  --color-on-primary-fixed-variant: #84250b;
-
-  /* Secondary Fixed */
-  --color-secondary-fixed: #d4e8d6;
-  --color-secondary-fixed-dim: #b8cbbb;
-  --color-on-secondary-fixed: #0f1f14;
-  --color-on-secondary-fixed-variant: #3a4b3e;
-
-  /* Tertiary Fixed */
-  --color-tertiary-fixed: #ffdad8;
-  --color-tertiary-fixed-dim: #ffb3b0;
-  --color-on-tertiary-fixed: #410006;
-  --color-on-tertiary-fixed-variant: #862025;
-
-  /* ==========================================
-     8. CUSTOM SEMANTIC ALIASES
-     ========================================== */
-  --color-sunlit-clementine: #e26a4a;
-  --color-muted-leaf: #5c6e60;
-  --color-terracotta-rose: #d65c5c;
-  --color-obsidian-ink: #181a1a;
-  --color-canvas-linen: #f7f8f6;
-  --color-pure-surface: #ffffff;
-  --color-whisper-border: rgba(24, 26, 26, 0.05);
-
-  /* ==========================================
-     9. RADIUS, SPACING & TYPOGRAPHY
-     ========================================== */
-  --radius-default: 0.125rem;
-  --radius-lg: 0.25rem;
-  --radius-xl: 0.5rem;
-  --radius-full: 0.75rem;
+  --radius-default: 0.125rem; /* 2px */
+  --radius-lg: 0.25rem; /* 4px */
+  --radius-xl: 0.5rem; /* 8px */
+  --radius-full: 0.75rem; /* 12px */
 
   --spacing-gutter: 24px;
   --spacing-form-max-width: 440px;
@@ -116,14 +107,9 @@
   --spacing-margin-mobile: clamp(2rem, 5vw, 4rem);
   --spacing-container-max: 1440px;
 
-  --font-headline-md: 'Outfit', sans-serif;
-  --font-body-md: 'Geist', sans-serif;
-  --font-label-sm: 'Geist', sans-serif;
-  --font-display-lg: 'Outfit', sans-serif;
-  --font-body-lg: 'Geist', sans-serif;
-  --font-poetic-accent: 'Instrument Serif', serif;
-  --font-headline-lg: 'Outfit', sans-serif;
-  --font-label-md: 'Geist', sans-serif;
+  --font-title: 'Outfit', sans-serif;
+  --font-body: 'Geist', sans-serif;
+  --font-poetic: 'Instrument Serif', serif;
 }
 
 @keyframes waterfall {
@@ -137,12 +123,17 @@
   }
 }
 
-.reveal-item,
-.animate-waterfall {
-  opacity: 0;
-  animation: waterfall 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Material Symbols Icons */
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24;
+  vertical-align: middle;
 }
 
+/* SPRING ANIMATIONS (Smooth & Responsive) */
 .spring-btn,
 .spring-hover {
   transition:
@@ -160,25 +151,72 @@
   transform: scale(0.98);
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 300,
-    'GRAD' 0,
-    'opsz' 24;
-  vertical-align: middle;
+/* ANIMATIONS */
+.reveal-item,
+.animate-waterfall {
+  opacity: 0;
+  animation: waterfall 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.input-focus-ring:focus {
-  border-color: var(--color-sunlit-clementine) !important;
-  box-shadow: 0 0 0 3px rgba(226, 106, 74, 0.18) !important;
+/* Animation Delay Utilities */
+.delay-50 {
+  animation-delay: 50ms !important;
+}
+.delay-100 {
+  animation-delay: 100ms !important;
+}
+.delay-150 {
+  animation-delay: 150ms !important;
+}
+.delay-200 {
+  animation-delay: 200ms !important;
+}
+.delay-250 {
+  animation-delay: 250ms !important;
+}
+.delay-300 {
+  animation-delay: 300ms !important;
+}
+.delay-350 {
+  animation-delay: 350ms !important;
+}
+.delay-400 {
+  animation-delay: 400ms !important;
+}
+.delay-450 {
+  animation-delay: 450ms !important;
+}
+.delay-500 {
+  animation-delay: 500ms !important;
+}
+.delay-600 {
+  animation-delay: 600ms !important;
+}
+.delay-700 {
+  animation-delay: 700ms !important;
+}
+.delay-800 {
+  animation-delay: 800ms !important;
+}
+.delay-900 {
+  animation-delay: 900ms !important;
+}
+.delay-1000 {
+  animation-delay: 1000ms !important;
+}
+.delay-1100 {
+  animation-delay: 1100ms !important;
+}
+.delay-1200 {
+  animation-delay: 1200ms !important;
 }
 
+/* IMAGE EFFECTS */
 .collage-tint::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-sunlit-clementine);
+  background: var(--primary);
   mix-blend-mode: soft-light;
   opacity: 0.1;
   pointer-events: none;
@@ -188,15 +226,78 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(161, 58, 30, 0.08); /* Tonal shift to warm primary */
+  background: rgba(161, 58, 30, 0.08);
   mix-blend-mode: multiply;
   pointer-events: none;
 }
 
+/* POLAROID EFFECT */
 .polaroid {
   padding: 12px 12px 48px 12px;
   background: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   transform: rotate(var(--rotation, 0deg));
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================
+   GLOBAL VUETIFY CUSTOMIZATIONS
+   ========================================== */
+.v-otp-input__field {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  transition: all 0.2s ease !important;
+  font-weight: 600 !important;
+}
+.v-otp-input .v-field--focused .v-field__outline {
+  --v-field-border-opacity: 1;
+  color: var(--primary) !important;
+}
+.v-otp-input input:focus {
+  outline: none !important;
+}
+
+/* Custom Vuetify input styles to match design system */
+.v-text-field .v-field {
+  background-color: var(--surface) !important;
+  border-radius: var(--radius-lg) !important;
+}
+.v-text-field .v-field__outline {
+  --v-field-border-opacity: 0.15 !important;
+  color: var(--on-surface) !important;
+}
+.v-field--error:not(.v-field--disabled) .v-field__outline {
+  color: var(--error) !important;
+}
+.v-input.v-input--error .v-field__outline {
+  --v-field-border-opacity: 1 !important;
+}
+.v-text-field .v-field--focused .v-field__outline {
+  --v-field-border-opacity: 1 !important;
+  color: var(--primary) !important;
+}
+.v-text-field .v-field__input {
+  font-family: var(--font-body) !important;
+  font-size: 15px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  color: var(--on-surface) !important;
+}
+.v-text-field .v-input__details {
+  padding-inline: 4px !important;
+  padding-top: 4px !important;
+  font-size: 11px !important;
+  color: var(--error) !important;
+}
+
+/* Custom Vuetify checkbox styles */
+.v-checkbox .v-selection-control {
+  min-height: 32px !important;
+}
+.v-checkbox .v-label {
+  opacity: 1 !important;
+}
+.v-checkbox .v-selection-control__input {
+  color: var(--primary) !important;
 }

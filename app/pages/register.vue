@@ -1,36 +1,57 @@
 <template>
-  <main class="h-screen w-screen flex" @mousemove="onMouseMove">
-
-    <section class="w-full md:w-1/2 flex flex-col justify-between px-8 md:px-16 py-8">
-      <div class="reveal-item" style="animation-delay: 50ms">
+  <main
+    class="h-screen w-screen flex bg-background text-on-background font-body"
+    @mousemove="onMouseMove"
+  >
+    <section class="w-full md:w-1/2 flex flex-col justify-between px-8 md:px-16 py-8 bg-surface z-10 overflow-y-auto">
+      <div class="reveal-item flex justify-between items-center delay-50">
         <NuxtLink to="/">
-          <img :src="LogoText" alt="Logo" class="h-7 w-auto mb-6" />
+          <img
+            :src="isDark ? LogoTextDark : LogoTextLight"
+            class="h-7 w-auto mb-6"
+            alt="Memories Logo"
+          />
         </NuxtLink>
+
+        <button
+          class="spring-btn p-2 -mt-6 rounded-full border border-border flex items-center justify-center cursor-pointer"
+          :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+          type="button"
+          @click="toggleTheme"
+        >
+          <span class="material-symbols-outlined text-[20px]! text-primary">
+            {{ isDark ? 'light_mode' : 'dark_mode' }}
+          </span>
+        </button>
       </div>
 
       <div class="max-w-form-max-width w-full mx-auto my-auto">
-        <div v-if="registrationSuccess" class="animate-waterfall text-center py-6 max-w-sm mx-auto">
-          <div
-            class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary-container text-secondary mb-4"
-          >
-            <span class="material-symbols-outlined text-2xl">mail</span>
+        <div
+          v-if="registrationSuccess"
+          class="animate-waterfall text-center py-6 max-w-sm mx-auto"
+        >
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary/10 text-secondary mb-4">
+            <span class="material-symbols-outlined text-2xl text-primary">mail</span>
           </div>
-          <h2 class="font-headline-md text-xl mb-3">Enter Verification Code</h2>
-          <p class="text-muted-leaf mb-6 font-body-md text-[15px] leading-relaxed">
+          <h2 class="font-title text-xl mb-3">Enter Verification Code</h2>
+          <p class="text-secondary mb-6 font-body text-[15px] leading-relaxed">
             We have sent a 6-digit verification code to<br />
-            <strong class="text-obsidian-ink">{{ email }}</strong
-            >.
+            <strong class="text-on-surface">{{ email }}</strong>
+            .
           </p>
 
           <div
             v-if="otpError"
-            class="mb-4 p-3.5 bg-error-container text-error rounded-md text-[13px] border border-error/10 text-left animate-waterfall"
+            class="mb-4 p-3.5 bg-danger-container text-on-danger-container rounded-md text-[13px] border border-border text-left animate-waterfall"
           >
             {{ otpError }}
           </div>
 
-          <form class="space-y-6" @submit.prevent="handleVerifyOtp">
-            <div class="flex justify-center mb-6 v-otp-container">
+          <form
+            class="space-y-6"
+            @submit.prevent="handleVerifyOtp"
+          >
+            <div class="flex justify-center mb-6">
               <v-otp-input
                 v-model="otp"
                 length="6"
@@ -40,24 +61,25 @@
               />
             </div>
 
-            <BaseButton
+            <v-btn
               type="submit"
-              variant="primary"
-              full-width
-              size="lg"
+              color="primary"
+              block
+              size="large"
               :loading="loading"
               :disabled="otp.length !== 6"
+              class="spring-btn font-body! tracking-wider uppercase! font-sembold! h-12.5! rounded-lg!"
             >
               Verify Account
-            </BaseButton>
+            </v-btn>
           </form>
 
           <div class="mt-6 text-center">
-            <p class="text-muted-leaf font-body-md text-[14px]">
+            <p class="text-secondary font-body text-[14px]">
               Didn't receive the code?
               <button
                 type="button"
-                class="text-sunlit-clementine font-medium hover:underline focus:outline-none cursor-pointer disabled:opacity-50 disabled:no-underline font-body-md"
+                class="text-primary font-semibold hover:underline focus:outline-none cursor-pointer disabled:opacity-50 disabled:no-underline"
                 :disabled="resendCooldown > 0 || loading"
                 @click="handleResendOtp"
               >
@@ -69,63 +91,53 @@
 
         <!-- Form State -->
         <div v-else>
-          <header class="mb-6 animate-waterfall" style="animation-delay: 50ms">
-            <h1 class="font-headline-lg text-2xl md:text-3xl mb-1.5">Create your space</h1>
-            <p class="font-body-md text-muted-leaf text-[15px]">
-              Start preserving your moments with friends and family.
-            </p>
+          <header class="mb-6 animate-waterfall delay-50">
+            <h1 class="font-title text-2xl md:text-3xl mb-1.5">Create your space</h1>
+            <p class="font-body text-secondary text-[15px]">Start preserving your moments with friends and family.</p>
           </header>
 
           <div
             v-if="error"
-            class="mb-4 p-3.5 bg-error-container text-error rounded-md text-[13px] border border-error/10 animate-waterfall"
+            class="mb-4 p-3.5 bg-danger-container text-on-danger-container rounded-md text-[13px] border border-border animate-waterfall"
           >
             {{ error }}
           </div>
 
-          <form class="space-y-4" @submit.prevent="handleRegister">
-            <!-- Email Field -->
-            <div class="space-y-1.5 animate-waterfall" style="animation-delay: 100ms">
-              <label
-                class="block font-label-sm text-[12px] uppercase tracking-widest text-muted-leaf"
-                >EMAIL ADDRESS</label
-              >
+          <form
+            class="space-y-4"
+            @submit.prevent="handleRegister"
+          >
+            <div class="space-y-1.5 animate-waterfall delay-100">
+              <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">EMAIL ADDRESS</label>
               <v-text-field
                 v-model="email"
                 type="email"
                 placeholder="e.g. hoang.nam@domain.com"
                 variant="outlined"
-                density="compact"
+                density="comfortable"
                 hide-details="auto"
                 :error-messages="validationErrors.email"
-                class="custom-v-input"
               />
             </div>
-
-            <!-- Password Field -->
-            <div class="space-y-1.5 animate-waterfall" style="animation-delay: 150ms">
-              <label
-                class="block font-label-sm text-[12px] uppercase tracking-widest text-muted-leaf"
-                >PASSWORD</label
-              >
+            <div class="space-y-1.5 animate-waterfall delay-150">
+              <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">PASSWORD</label>
               <v-text-field
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="••••••••"
                 variant="outlined"
-                density="compact"
+                density="comfortable"
                 hide-details="auto"
                 :error-messages="validationErrors.password"
-                class="custom-v-input"
               >
                 <template #append-inner>
                   <button
                     type="button"
-                    class="text-muted-leaf/40 hover:text-sunlit-clementine transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
+                    class="text-on-surface-variant/40 hover:text-primary transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
                     :title="showPassword ? 'Hide password' : 'Show password'"
                     @click="showPassword = !showPassword"
                   >
-                    <span class="material-symbols-outlined !text-[20px]">
+                    <span class="material-symbols-outlined text-[20px]! text-primary">
                       {{ showPassword ? 'visibility_off' : 'visibility' }}
                     </span>
                   </button>
@@ -134,29 +146,25 @@
             </div>
 
             <!-- Confirm Password Field -->
-            <div class="space-y-1.5 animate-waterfall" style="animation-delay: 200ms">
-              <label
-                class="block font-label-sm text-[12px] uppercase tracking-widest text-muted-leaf"
-                >CONFIRM PASSWORD</label
-              >
+            <div class="space-y-1.5 animate-waterfall delay-200">
+              <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">CONFIRM PASSWORD</label>
               <v-text-field
                 v-model="confirmPassword"
                 :type="showConfirmPassword ? 'text' : 'password'"
                 placeholder="••••••••"
                 variant="outlined"
-                density="compact"
+                density="comfortable"
                 hide-details="auto"
                 :error-messages="validationErrors.confirmPassword"
-                class="custom-v-input"
               >
                 <template #append-inner>
                   <button
                     type="button"
-                    class="text-muted-leaf/40 hover:text-sunlit-clementine transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
+                    class="text-on-surface-variant/40 hover:text-primary transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
                     :title="showConfirmPassword ? 'Hide password' : 'Show password'"
                     @click="showConfirmPassword = !showConfirmPassword"
                   >
-                    <span class="material-symbols-outlined !text-[20px]">
+                    <span class="material-symbols-outlined text-[20px]! text-primary">
                       {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
                     </span>
                   </button>
@@ -164,46 +172,51 @@
               </v-text-field>
             </div>
 
-            <!-- Terms Checkbox -->
             <v-checkbox
               v-model="terms"
               hide-details="auto"
               color="primary"
-              class="animate-waterfall"
-              style="animation-delay: 250ms"
+              class="animate-waterfall delay-250"
             >
               <template #label>
-                <span class="text-[13px] font-body-md text-muted-leaf">
+                <span class="text-[13px] font-body text-secondary">
                   I agree to the
-                  <NuxtLink class="text-sunlit-clementine hover:underline" to="/terms" @click.stop
-                    >Terms</NuxtLink
+                  <NuxtLink
+                    class="text-primary hover:underline"
+                    to="/terms"
+                    @click.stop
                   >
+                    Terms
+                  </NuxtLink>
                   &amp;
-                  <NuxtLink class="text-sunlit-clementine hover:underline" to="/privacy" @click.stop
-                    >Privacy Policy</NuxtLink
+                  <NuxtLink
+                    class="text-primary hover:underline"
+                    to="/privacy"
+                    @click.stop
                   >
+                    Privacy Policy
+                  </NuxtLink>
                 </span>
               </template>
             </v-checkbox>
 
             <!-- CTA Actions -->
-            <div class="space-y-4 pt-3 animate-waterfall" style="animation-delay: 400ms">
+            <div class="space-y-4 pt-3 animate-waterfall delay-400">
               <v-btn
                 type="submit"
                 color="primary"
                 block
                 size="large"
                 :loading="loading"
-                class="spring-btn font-label-md tracking-wider uppercase"
-                style="font-weight: 600; border-radius: var(--radius-lg); height: 50px"
+                class="spring-btn font-body tracking-wider uppercase font-bold! rounded-lg! h-12.5!"
               >
                 Create Space
               </v-btn>
 
               <div class="relative flex items-center py-1">
-                <div class="grow border-t border-whisper-border"></div>
-                <span class="shrink mx-3 text-surface-dim font-label-sm text-[11px]">OR</span>
-                <div class="grow border-t border-whisper-border"></div>
+                <div class="grow border-t border-border"></div>
+                <span class="shrink mx-3 text-secondary/50 font-body text-[11px]">OR</span>
+                <div class="grow border-t border-border"></div>
               </div>
 
               <v-btn
@@ -211,12 +224,15 @@
                 variant="outlined"
                 block
                 size="large"
-                class="spring-btn font-label-md tracking-wider uppercase text-obsidian-ink border-obsidian-ink/10"
+                class="spring-btn font-body tracking-wider uppercase text-on-surface border-border"
                 style="font-weight: 600; border-radius: var(--radius-lg); height: 50px"
                 @click="handleGoogleLogin"
               >
                 <template #prepend>
-                  <svg class="h-4 w-4 shrink-0 mr-1" viewBox="0 0 24 24">
+                  <svg
+                    class="h-4 w-4 shrink-0 mr-1"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                       fill="#4285F4"
@@ -240,10 +256,12 @@
             </div>
           </form>
 
-          <footer class="mt-8 text-center animate-waterfall" style="animation-delay: 450ms">
-            <p class="font-body-md text-muted-leaf text-[14px]">
+          <footer class="mt-8 text-center animate-waterfall delay-450">
+            <p class="font-body text-secondary text-[14px]">
               Already have a space?
-              <NuxtLink class="text-sunlit-clementine font-medium hover:underline" to="/login"
+              <NuxtLink
+                class="text-primary font-medium hover:underline"
+                to="/login"
                 >Sign In</NuxtLink
               >
             </p>
@@ -252,14 +270,15 @@
       </div>
     </section>
 
-    <section
-      class="hidden md:flex md:w-1/2 bg-canvas-linen flex-col justify-center items-center px-16 relative overflow-hidden"
-    >
+    <section class="hidden md:flex md:w-1/2 bg-background flex-col justify-center items-center px-16 relative overflow-hidden">
       <!-- Asymmetric Collage Container -->
       <div class="grid grid-cols-2 gap-8 max-w-lg relative z-10 p-4">
         <!-- Polaroid 1 -->
-        <div class="animate-waterfall self-start" style="animation-delay: 600ms">
-          <div class="polaroid sienna-overlay" :style="getPolaroidStyle('-4deg', 0.5)">
+        <div class="animate-waterfall self-start delay-600">
+          <div
+            class="polaroid sienna-overlay"
+            :style="getPolaroidStyle('-4deg', 0.5)"
+          >
             <img
               alt="Memory fragment 1"
               class="w-full aspect-3/4 object-cover"
@@ -268,8 +287,11 @@
           </div>
         </div>
         <!-- Polaroid 2 -->
-        <div class="animate-waterfall mt-12" style="animation-delay: 700ms">
-          <div class="polaroid sienna-overlay" :style="getPolaroidStyle('2deg', 1.0)">
+        <div class="animate-waterfall mt-12 delay-700">
+          <div
+            class="polaroid sienna-overlay"
+            :style="getPolaroidStyle('2deg', 1.0)"
+          >
             <img
               alt="Memory fragment 2"
               class="w-full aspect-4/3 object-cover"
@@ -278,8 +300,11 @@
           </div>
         </div>
         <!-- Polaroid 3 -->
-        <div class="animate-waterfall -mt-6" style="animation-delay: 800ms">
-          <div class="polaroid sienna-overlay" :style="getPolaroidStyle('-2deg', 1.5)">
+        <div class="animate-waterfall -mt-6 delay-800">
+          <div
+            class="polaroid sienna-overlay"
+            :style="getPolaroidStyle('-2deg', 1.5)"
+          >
             <img
               alt="Memory fragment 3"
               class="w-full aspect-square object-cover"
@@ -287,8 +312,11 @@
             />
           </div>
         </div>
-        <div class="animate-waterfall self-end" style="animation-delay: 900ms">
-          <div class="polaroid sienna-overlay" :style="getPolaroidStyle('5deg', 2.0)">
+        <div class="animate-waterfall self-end delay-900">
+          <div
+            class="polaroid sienna-overlay"
+            :style="getPolaroidStyle('5deg', 2.0)"
+          >
             <img
               alt="Memory fragment 4"
               class="w-full aspect-3/4 object-cover"
@@ -298,42 +326,33 @@
         </div>
       </div>
 
-      <div
-        class="mt-16 text-center max-w-sm z-10 animate-waterfall"
-        style="animation-delay: 1100ms"
-      >
-        <p
-          class="font-poetic-accent text-poetic-accent italic text-on-surface-variant mb-4 text-xl"
-        >
+      <div class="mt-16 text-center max-w-sm z-10 animate-waterfall delay-1100">
+        <p class="font-poetic italic text-on-surface-variant mb-4 text-xl">
           “We write to taste life twice, in the moment and in retrospect.”
         </p>
-        <cite
-          class="font-label-sm text-label-sm tracking-widest text-muted-leaf uppercase not-italic"
-        >
-          — Anaïs Nin
-        </cite>
+        <cite class="font-body tracking-widest text-secondary uppercase not-italic"> — Anaïs Nin </cite>
       </div>
 
       <!-- Atmospheric Pulse Background Details -->
-      <div
-        class="absolute top-1/4 right-0 w-96 h-96 bg-sunlit-clementine/5 rounded-full blur-[100px] -mr-48"
-      ></div>
-      <div
-        class="absolute bottom-1/4 left-0 w-96 h-96 bg-muted-leaf/5 rounded-full blur-[100px] -ml-48"
-      ></div>
+      <div class="absolute top-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -mr-48"></div>
+      <div class="absolute bottom-1/4 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-[100px] -ml-48"></div>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { LogoTextLight, LogoTextDark } from '~/assets/icons'
 import { useAuth } from '~/composables/useAuth'
 import { useForm } from '~/composables/useForm'
-import { LogoText } from '~/assets/icons'
 import { registerSchema } from '~/schema/register.schema'
 import { navigateTo } from '#app'
-import { ApiError, type ApiErrorResponse } from '~/types'
+import { type ApiErrorResponse } from '~/types'
 import { useToast } from '~/composables/useToast'
+import { useTheme } from '~/composables/useTheme'
+
+// Theme composable
+const { isDark, toggleTheme } = useTheme()
 
 const { register, verifyEmail, loginWithGoogle, loading } = useAuth()
 const { validationErrors, error, validate, handleApiError } = useForm(registerSchema)
@@ -452,71 +471,3 @@ const handleGoogleLogin = () => {
   loginWithGoogle()
 }
 </script>
-
-<style scoped>
-.v-otp-container :deep(.v-otp-input) {
-  padding: 0;
-  justify-content: center;
-}
-.v-otp-container :deep(.v-otp-input__content) {
-  gap: 8px;
-  max-width: 100%;
-}
-.v-otp-container :deep(.v-otp-input__field) {
-  background-color: var(--color-pure-surface) !important;
-  border: 1px solid rgba(24, 26, 26, 0.1) !important;
-  border-radius: var(--radius-lg) !important;
-  color: var(--color-obsidian-ink) !important;
-  height: 52px !important;
-  width: 44px !important;
-  font-size: 18px !important;
-  font-weight: 600 !important;
-  text-align: center !important;
-  transition: all 0.2s ease !important;
-  box-shadow: none !important;
-}
-.v-otp-container :deep(.v-otp-input__field:focus) {
-  border-color: var(--color-sunlit-clementine) !important;
-  box-shadow: 0 0 0 3px rgba(226, 106, 74, 0.18) !important;
-  outline: none !important;
-}
-
-/* Custom Vuetify input styles to match design system */
-:deep(.v-text-field .v-field) {
-  background-color: var(--color-pure-surface) !important;
-  border-radius: var(--radius-lg) !important;
-}
-:deep(.v-text-field .v-field__outline) {
-  --v-field-border-opacity: 0.15 !important;
-  color: var(--color-obsidian-ink) !important;
-}
-:deep(.v-text-field .v-field--focused .v-field__outline) {
-  --v-field-border-opacity: 1 !important;
-  color: var(--color-sunlit-clementine) !important;
-}
-:deep(.v-text-field .v-field__input) {
-  font-family: var(--font-body-md) !important;
-  font-size: 15px !important;
-  min-height: 48px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  color: var(--color-obsidian-ink) !important;
-}
-:deep(.v-text-field .v-input__details) {
-  padding-inline: 4px !important;
-  padding-top: 4px !important;
-  font-size: 11px !important;
-  color: var(--color-error) !important;
-}
-
-/* Custom Vuetify checkbox styles */
-:deep(.v-checkbox .v-selection-control) {
-  min-height: 32px !important;
-}
-:deep(.v-checkbox .v-label) {
-  opacity: 1 !important;
-}
-:deep(.v-checkbox .v-selection-control__input) {
-  color: var(--color-sunlit-clementine) !important;
-}
-</style>

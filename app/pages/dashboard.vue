@@ -1,80 +1,58 @@
 <template>
   <main
-    class="h-screen w-screen flex flex-col md:flex-row bg-canvas-linen text-obsidian-ink font-body-md selection:bg-sunlit-clementine/30 overflow-hidden"
+    class="h-screen w-screen flex flex-col md:flex-row bg-background text-on-background font-body-md selection:bg-primary/30 overflow-hidden"
   >
     <!-- LEFT PANEL (Sidebar Controls) -->
     <aside
-      class="w-full md:w-[360px] h-full flex flex-col justify-between p-8 bg-pure-surface border-b md:border-b-0 md:border-r border-whisper-border z-10 shrink-0 select-none"
+      class="w-full md:w-[360px] h-full flex flex-col justify-between p-8 bg-surface border-b md:border-b-0 md:border-r border-border z-10 shrink-0 select-none"
     >
       <!-- Top Branding & User profile -->
       <div class="space-y-6">
         <div class="reveal-item" style="animation-delay: 50ms">
-          <svg
-            class="h-7 w-auto"
-            viewBox="0 0 160 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g transform="translate(0, 2)">
-              <rect
-                x="2"
-                y="2"
-                width="32"
-                height="32"
-                rx="4"
-                fill="#FFFFFF"
-                stroke="#181A1A"
-                stroke-width="2"
-              />
-              <line x1="2" y1="26" x2="34" y2="26" stroke="#181A1A" stroke-width="1.5" />
-              <circle cx="18" cy="14" r="5" fill="#E26A4A" />
-              <path d="M6 26L13 16L18 21L24 13L30 26H6Z" fill="#181A1A" opacity="0.95" />
-              <path d="M12 26L18 18L23 23L27 18L30 26H12Z" fill="#5C6E60" opacity="0.8" />
-            </g>
-            <text
-              x="44"
-              y="26"
-              fill="#181A1A"
-              font-family="Outfit, sans-serif"
-              font-size="20"
-              font-weight="700"
-              letter-spacing="-0.03em"
-            >
-              memories
-            </text>
-          </svg>
+          <img :src="isDark ? LogoTextDark : LogoTextLight" class="h-7 w-auto" alt="Memories Logo" />
         </div>
 
         <!-- User profile widget -->
         <div
-          class="p-4 bg-canvas-linen border border-whisper-border rounded-md flex items-center justify-between reveal-item cursor-pointer hover:border-sunlit-clementine/30 transition-colors group/profile"
+          class="p-4 bg-background border border-border rounded-md flex items-center justify-between reveal-item cursor-pointer hover:border-primary/30 transition-colors group/profile"
           style="animation-delay: 100ms"
           title="Click to edit profile"
           @click="openProfileModal"
         >
           <div class="flex items-center gap-3">
             <div
-              class="w-8 h-8 rounded-full bg-sunlit-clementine text-pure-surface flex items-center justify-center font-bold text-sm tracking-tighter uppercase shadow-sm group-hover/profile:scale-105 transition-transform"
+              class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-sm tracking-tighter uppercase shadow-sm group-hover/profile:scale-105 transition-transform"
             >
               {{ userInitial }}
             </div>
             <div class="overflow-hidden">
-              <p class="font-bold text-[14px] leading-tight truncate text-obsidian-ink flex items-center gap-1">
+              <p class="font-bold text-[14px] leading-tight truncate text-on-surface flex items-center gap-1">
                 {{ user?.displayName || 'Archive Owner' }}
-                <span class="material-symbols-outlined !text-[12px] opacity-0 group-hover/profile:opacity-100 text-sunlit-clementine transition-opacity">edit</span>
+                <span class="material-symbols-outlined !text-[12px] opacity-0 group-hover/profile:opacity-100 text-primary transition-opacity">edit</span>
               </p>
-              <p class="text-[11px] text-muted-leaf truncate">
+              <p class="text-[11px] text-secondary truncate">
                 {{ user?.email }}
               </p>
             </div>
           </div>
-          <button
-            class="spring-btn p-1.5 hover:text-sunlit-clementine text-muted-leaf/50 transition-colors cursor-pointer"
-            title="Sign Out"
-            @click.stop="handleLogout"
-          >
-            <span class="material-symbols-outlined !text-[20px]">logout</span>
-          </button>
+          <div class="flex items-center">
+            <button
+              class="spring-btn p-1.5 hover:text-primary text-secondary/55 transition-colors cursor-pointer mr-1"
+              :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+              @click.stop="toggleTheme"
+            >
+              <span class="material-symbols-outlined !text-[20px]">
+                {{ isDark ? 'light_mode' : 'dark_mode' }}
+              </span>
+            </button>
+            <button
+              class="spring-btn p-1.5 hover:text-primary text-secondary/55 transition-colors cursor-pointer"
+              title="Sign Out"
+              @click.stop="handleLogout"
+            >
+              <span class="material-symbols-outlined !text-[20px]">logout</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -82,11 +60,11 @@
       <div class="my-6 md:my-auto space-y-6 flex-grow flex flex-col justify-center">
         <!-- Poetic Date Header -->
         <div class="reveal-item space-y-1" style="animation-delay: 150ms">
-          <div class="font-poetic-accent text-3xl italic text-sunlit-clementine">
+          <div class="font-poetic-accent text-3xl italic text-primary">
             {{ formattedDate }}
           </div>
           <div
-            class="font-label-sm text-[11px] uppercase tracking-widest text-muted-leaf/50 flex items-center gap-1"
+            class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/50 flex items-center gap-1"
           >
             <span class="material-symbols-outlined !text-[12px]">location_on</span>
             Hanoi, VN // ACTIVE SESSION
@@ -98,12 +76,12 @@
           <div class="relative">
             <input
               v-model="searchQuery"
-              class="w-full bg-canvas-linen border border-obsidian-ink/10 rounded-md py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-sunlit-clementine/20 focus:border-sunlit-clementine transition-all font-body-md text-[13px] placeholder:text-muted-leaf/40"
+              class="w-full bg-background border border-border rounded-md py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-[13px] placeholder:text-on-surface-variant/40 text-on-surface"
               placeholder="Search memories or #tags..."
               type="text"
             />
             <span
-              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-leaf/40 !text-[18px]"
+              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/40 !text-[18px]"
               >search</span
             >
           </div>
@@ -111,7 +89,7 @@
 
         <!-- Filter Tags -->
         <div class="reveal-item space-y-2" style="animation-delay: 250ms">
-          <p class="font-label-sm text-[11px] uppercase tracking-widest text-muted-leaf/60">
+          <p class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/60">
             Filter by category
           </p>
           <div class="flex flex-wrap gap-1.5">
@@ -121,8 +99,8 @@
               class="px-3 py-1 rounded-md text-[12px] font-label-md tracking-wider transition-all duration-200 cursor-pointer"
               :class="
                 selectedTag === tag
-                  ? 'bg-sunlit-clementine text-pure-surface font-semibold'
-                  : 'bg-canvas-linen hover:bg-obsidian-ink/5 text-muted-leaf'
+                  ? 'bg-primary text-on-primary font-semibold'
+                  : 'bg-background hover:bg-border text-secondary'
               "
               @click="toggleTag(tag)"
             >
@@ -134,7 +112,7 @@
         <!-- CTA Capture Button -->
         <div class="reveal-item pt-2" style="animation-delay: 300ms">
           <button
-            class="spring-btn w-full bg-sunlit-clementine text-pure-surface py-3.5 rounded-md font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-sunlit-clementine/10"
+            class="spring-btn w-full bg-primary text-on-primary py-3.5 rounded-md font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-primary/10"
             @click="openCreateModal = true"
           >
             <span class="material-symbols-outlined !text-[18px]">add_a_photo</span>
@@ -145,15 +123,15 @@
 
       <!-- Footer Info -->
       <footer
-        class="flex justify-between items-center text-muted-leaf/40 font-label-sm text-[10px] tracking-widest reveal-item"
+        class="flex justify-between items-center text-secondary/40 font-label-sm text-[10px] tracking-widest reveal-item"
         style="animation-delay: 350ms"
       >
         <span>VOL. 2026 // SECURE</span>
         <div class="flex gap-3">
-          <NuxtLink to="/terms" class="hover:text-sunlit-clementine underline transition-colors"
+          <NuxtLink to="/terms" class="hover:text-primary underline transition-colors"
             >Terms</NuxtLink
           >
-          <NuxtLink to="/privacy" class="hover:text-sunlit-clementine underline transition-colors"
+          <NuxtLink to="/privacy" class="hover:text-primary underline transition-colors"
             >Privacy</NuxtLink
           >
         </div>
@@ -162,7 +140,7 @@
 
     <!-- RIGHT PANEL (Gallery stream) -->
     <section
-      class="flex-1 h-full overflow-y-auto p-6 md:p-12 relative bg-canvas-linen custom-scroll flex flex-col justify-between"
+      class="flex-1 h-full overflow-y-auto p-6 md:p-12 relative bg-background custom-scroll flex flex-col justify-between"
     >
       <!-- Staggered Polaroid Feed -->
       <div
@@ -177,33 +155,33 @@
         >
           <!-- Polaroid Item wrapper with dynamic tilted rotation -->
           <div
-            class="bg-pure-surface p-4 border border-whisper-border shadow-md transition-all duration-300 hover:scale-[1.03] hover:rotate-0 hover:shadow-xl group cursor-pointer"
+            class="bg-surface p-4 border border-border shadow-md transition-all duration-300 hover:scale-[1.03] hover:rotate-0 hover:shadow-xl group cursor-pointer"
             :style="{ transform: `rotate(${item.rotation}deg)` }"
             @click="activeLightbox = item"
           >
-            <div class="aspect-[4/3] overflow-hidden bg-canvas-linen relative">
+            <div class="aspect-[4/3] overflow-hidden bg-background relative">
               <img
                 :src="item.image"
                 :alt="item.title"
                 class="w-full h-full object-cover grayscale-[15%] sepia-[10%] group-hover:grayscale-0 group-hover:sepia-0 transition-all duration-500"
               />
               <span
-                class="absolute top-3 right-3 bg-pure-surface/90 text-obsidian-ink px-2 py-0.5 rounded text-[10px] uppercase font-label-md tracking-wider border border-whisper-border"
+                class="absolute top-3 right-3 bg-surface/90 text-on-surface px-2 py-0.5 rounded text-[10px] uppercase font-label-md tracking-wider border border-border"
               >
                 {{ item.tag }}
               </span>
             </div>
 
             <div class="pt-4 pb-2 px-1 text-left space-y-1">
-              <p class="font-poetic-accent text-2xl italic leading-none text-obsidian-ink truncate">
+              <p class="font-poetic-accent text-2xl italic leading-none text-on-surface truncate">
                 {{ item.title }}
               </p>
               <div
-                class="flex justify-between items-center text-[11px] font-label-sm text-muted-leaf/50 tracking-wider"
+                class="flex justify-between items-center text-[11px] font-label-sm text-secondary/50 tracking-wider"
               >
                 <span>{{ item.date }}</span>
                 <span
-                  class="material-symbols-outlined !text-[14px] opacity-0 group-hover:opacity-100 transition-opacity text-sunlit-clementine"
+                  class="material-symbols-outlined !text-[14px] opacity-0 group-hover:opacity-100 transition-opacity text-primary"
                   >zoom_in</span
                 >
               </div>
@@ -217,17 +195,17 @@
         v-else
         class="flex-grow flex flex-col items-center justify-center py-20 text-center select-none reveal-item"
       >
-        <span class="material-symbols-outlined !text-[48px] text-muted-leaf/30 mb-4 animate-pulse"
+        <span class="material-symbols-outlined !text-[48px] text-secondary/30 mb-4 animate-pulse"
           >photo_library</span
         >
-        <h3 class="font-poetic-accent text-3xl italic text-obsidian-ink mb-1">
+        <h3 class="font-poetic-accent text-3xl italic text-on-background mb-1">
           Your archive is quiet
         </h3>
-        <p class="text-[13px] text-muted-leaf max-w-xs leading-relaxed">
+        <p class="text-[13px] text-secondary max-w-xs leading-relaxed">
           No memories match your search query. Try capturing a new memory or clearing filters.
         </p>
         <button
-          class="spring-btn mt-6 border border-obsidian-ink/10 bg-pure-surface hover:border-sunlit-clementine/30 text-[12px] uppercase font-label-md tracking-widest text-muted-leaf hover:text-sunlit-clementine py-2 px-6 rounded-md cursor-pointer"
+          class="spring-btn mt-6 border border-border bg-surface hover:border-primary/30 text-[12px] uppercase font-label-md tracking-widest text-secondary hover:text-primary py-2 px-6 rounded-md cursor-pointer"
           @click="clearFilters"
         >
           Clear filters
@@ -236,7 +214,7 @@
 
       <!-- Right Footer Info -->
       <footer
-        class="shrink-0 pt-6 border-t border-obsidian-ink/5 flex justify-between items-center text-muted-leaf/30 font-label-sm text-[10px] tracking-widest"
+        class="shrink-0 pt-6 border-t border-border flex justify-between items-center text-secondary/30 font-label-sm text-[10px] tracking-widest"
       >
         <span>MEMORIES CAPTURED: {{ memories.length }}</span>
         <span>GALLERY VIEW // ASYMMETRIC GRID</span>
@@ -246,19 +224,19 @@
     <!-- CREATE MEMORY MODAL -->
     <div
       v-if="openCreateModal"
-      class="fixed inset-0 bg-obsidian-ink/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 select-none animate-fadeIn"
+      class="fixed inset-0 bg-on-background/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 select-none animate-fadeIn"
       @click.self="closeModal"
     >
       <div
-        class="bg-pure-surface border border-whisper-border p-6 md:p-8 shadow-2xl relative rotate-[-1deg] hover:rotate-0 transition-all duration-300 max-w-md w-full max-h-[90vh] flex flex-col overflow-y-auto custom-scroll"
+        class="bg-surface border border-border p-6 md:p-8 shadow-2xl relative rotate-[-1deg] hover:rotate-0 transition-all duration-300 max-w-md w-full max-h-[90vh] flex flex-col overflow-y-auto custom-scroll"
       >
         <header class="mb-5 flex justify-between items-start">
           <div>
-            <h2 class="font-headline-lg text-2xl font-bold text-obsidian-ink">Capture Memory</h2>
-            <p class="text-[12px] text-muted-leaf">Record a new visual artifact in your archive.</p>
+            <h2 class="font-headline-lg text-2xl font-bold text-on-surface">Capture Memory</h2>
+            <p class="text-[12px] text-secondary">Record a new visual artifact in your archive.</p>
           </div>
           <button
-            class="spring-btn text-muted-leaf/50 hover:text-sunlit-clementine cursor-pointer"
+            class="spring-btn text-secondary/50 hover:text-primary cursor-pointer"
             @click="closeModal"
           >
             <span class="material-symbols-outlined">close</span>
@@ -267,23 +245,28 @@
 
         <form class="space-y-4" @submit.prevent="saveMemory">
           <!-- Memory Title -->
-          <BaseInput
-            id="m-title"
-            v-model="newMemory.title"
-            label="MEMORY TITLE"
-            required
-            placeholder="e.g. Rainy sunset over West Lake"
-          />
+          <div class="space-y-1.5">
+            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">MEMORY TITLE</label>
+            <v-text-field
+              id="m-title"
+              v-model="newMemory.title"
+              placeholder="e.g. Rainy sunset over West Lake"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              class="custom-v-input"
+            />
+          </div>
 
           <!-- Tag Selection -->
           <div>
-            <label class="block font-label-sm text-[12px] text-muted-leaf mb-1.5" for="m-tag"
+            <label class="block font-label-sm text-[12px] text-secondary mb-1.5" for="m-tag"
               >CATEGORY TAG</label
             >
             <select
               id="m-tag"
               v-model="newMemory.tag"
-              class="w-full px-4 py-2 bg-pure-surface border border-obsidian-ink/10 rounded-md focus:outline-none focus:ring-2 focus:ring-sunlit-clementine/20 focus:border-sunlit-clementine transition-all font-body-md text-[14px] cursor-pointer"
+              class="w-full px-4 py-2 bg-surface border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-[14px] cursor-pointer text-on-surface"
             >
               <option value="#journal">#journal</option>
               <option value="#moments">#moments</option>
@@ -294,7 +277,7 @@
 
           <!-- Visual Artifact Selection (Mock Photo grid) -->
           <div>
-            <label class="block font-label-sm text-[12px] text-muted-leaf mb-2"
+            <label class="block font-label-sm text-[12px] text-secondary mb-2"
               >SELECT VISUAL ARTIFACT</label
             >
             <div class="grid grid-cols-4 gap-2">
@@ -304,37 +287,53 @@
                 class="aspect-square border-2 rounded-md overflow-hidden cursor-pointer transition-all relative group"
                 :class="
                   newMemory.image === img.url
-                    ? 'border-sunlit-clementine ring-2 ring-sunlit-clementine/10'
-                    : 'border-obsidian-ink/5 hover:border-obsidian-ink/20'
+                    ? 'border-primary ring-2 ring-primary/10'
+                    : 'border-border hover:border-border-strong'
                 "
                 @click="newMemory.image = img.url"
               >
                 <img :src="img.url" class="w-full h-full object-cover grayscale-[30%]" />
                 <div
-                  class="absolute inset-0 bg-sunlit-clementine/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                  class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"
                 ></div>
               </div>
             </div>
           </div>
 
           <!-- Date -->
-          <BaseInput id="m-date" v-model="newMemory.date" label="DATE CAPTURED" required />
+          <div class="space-y-1.5">
+            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">DATE CAPTURED</label>
+            <v-text-field
+              id="m-date"
+              v-model="newMemory.date"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              class="custom-v-input"
+            />
+          </div>
 
           <!-- CTA Buttons -->
           <div class="pt-4 flex gap-3">
-            <BaseButton
+            <v-btn
               type="button"
-              variant="secondary"
-              full-width
-              size="sm"
-              class="flex-1"
+              variant="outlined"
+              size="large"
+              class="flex-1 spring-btn font-label-md tracking-wider uppercase text-on-surface border-border"
+              style="font-weight: 600; border-radius: var(--radius-lg); height: 44px"
               @click="closeModal"
             >
               Cancel
-            </BaseButton>
-            <BaseButton type="submit" variant="primary" full-width size="sm" class="flex-1">
+            </v-btn>
+            <v-btn
+              type="submit"
+              color="primary"
+              size="large"
+              class="flex-1 spring-btn font-label-md tracking-wider uppercase"
+              style="font-weight: 600; border-radius: var(--radius-lg); height: 44px"
+            >
               Save Archive
-            </BaseButton>
+            </v-btn>
           </div>
         </form>
       </div>
@@ -343,22 +342,22 @@
     <!-- LIGHTBOX MODAL OVERLAY -->
     <div
       v-if="activeLightbox"
-      class="fixed inset-0 bg-obsidian-ink/95 backdrop-blur-md z-50 flex items-center justify-center p-4 md:p-8 animate-fadeIn"
+      class="fixed inset-0 bg-on-background/95 backdrop-blur-md z-50 flex items-center justify-center p-4 md:p-8 animate-fadeIn"
       @click="activeLightbox = null"
     >
       <div class="relative max-w-4xl w-full flex flex-col items-center">
         <!-- Close button -->
         <button
-          class="absolute -top-12 right-0 text-pure-surface hover:text-sunlit-clementine transition-colors flex items-center gap-2 font-label-sm text-[11px] tracking-widest cursor-pointer"
+          class="absolute -top-12 right-0 text-on-primary hover:text-primary transition-colors flex items-center gap-2 font-label-sm text-[11px] tracking-widest cursor-pointer"
           @click="activeLightbox = null"
         >
           CLOSE <span class="material-symbols-outlined !text-[16px]">close</span>
         </button>
 
         <div
-          class="bg-pure-surface p-4 md:p-6 shadow-2xl max-w-lg md:max-w-xl w-full border border-whisper-border"
+          class="bg-surface p-4 md:p-6 shadow-2xl max-w-lg md:max-w-xl w-full border border-border"
         >
-          <div class="aspect-[4/3] overflow-hidden bg-canvas-linen">
+          <div class="aspect-[4/3] overflow-hidden bg-background">
             <img
               :src="activeLightbox.image"
               :alt="activeLightbox.title"
@@ -366,15 +365,15 @@
             />
           </div>
           <div class="pt-5 pb-1 text-center space-y-2">
-            <p class="font-poetic-accent text-3xl italic text-obsidian-ink">
+            <p class="font-poetic-accent text-3xl italic text-on-surface">
               "{{ activeLightbox.title }}"
             </p>
             <div
-              class="flex justify-center items-center gap-3 text-[11px] font-label-sm text-muted-leaf/50 tracking-wider"
+              class="flex justify-center items-center gap-3 text-[11px] font-label-sm text-secondary/50 tracking-wider"
             >
               <span>{{ activeLightbox.date }}</span>
               <span>•</span>
-              <span class="text-sunlit-clementine font-bold">{{ activeLightbox.tag }}</span>
+              <span class="text-primary font-bold">{{ activeLightbox.tag }}</span>
             </div>
           </div>
         </div>
@@ -384,15 +383,15 @@
     <!-- PROFILE SETUP MODAL OVERLAY -->
     <div
       v-if="showProfileModal"
-      class="fixed inset-0 bg-obsidian-ink/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 select-none animate-fadeIn"
+      class="fixed inset-0 bg-on-background/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 select-none animate-fadeIn"
       @click.self="closeProfileModal"
     >
       <div
-        class="bg-pure-surface border border-whisper-border p-8 md:p-10 shadow-2xl relative rotate-[-1deg] hover:rotate-0 transition-all duration-300 max-w-md w-full flex flex-col"
+        class="bg-surface border border-border p-8 md:p-10 shadow-2xl relative rotate-[-1deg] hover:rotate-0 transition-all duration-300 max-w-md w-full flex flex-col"
       >
         <!-- Close button in upper right corner -->
         <button
-          class="absolute top-4 right-4 text-muted-leaf/40 hover:text-sunlit-clementine transition-colors cursor-pointer p-1"
+          class="absolute top-4 right-4 text-secondary/40 hover:text-primary transition-colors cursor-pointer p-1"
           title="Close Setup"
           @click="closeProfileModal"
         >
@@ -400,42 +399,9 @@
         </button>
 
         <header class="mb-6 text-center">
-          <svg
-            class="h-8 w-auto mx-auto mb-4"
-            viewBox="0 0 160 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g transform="translate(0, 2)">
-              <rect
-                x="2"
-                y="2"
-                width="32"
-                height="32"
-                rx="4"
-                fill="#FFFFFF"
-                stroke="#181A1A"
-                stroke-width="2"
-              />
-              <line x1="2" y1="26" x2="34" y2="26" stroke="#181A1A" stroke-width="1.5" />
-              <circle cx="18" cy="14" r="5" fill="#E26A4A" />
-              <path d="M6 26L13 16L18 21L24 13L30 26H6Z" fill="#181A1A" opacity="0.95" />
-              <path d="M12 26L18 18L23 23L27 18L30 26H12Z" fill="#5C6E60" opacity="0.8" />
-            </g>
-            <text
-              x="44"
-              y="26"
-              fill="#181A1A"
-              font-family="Outfit, sans-serif"
-              font-size="20"
-              font-weight="700"
-              letter-spacing="-0.03em"
-            >
-              memories
-            </text>
-          </svg>
-          <h2 class="font-headline-lg text-2xl font-bold text-obsidian-ink">Set Up Your Profile</h2>
-          <p class="text-[12px] text-muted-leaf mt-1">
+          <img :src="isDark ? LogoTextDark : LogoTextLight" class="h-8 w-auto mx-auto mb-4" alt="Memories Logo" />
+          <h2 class="font-headline-lg text-2xl font-bold text-on-surface">Set Up Your Profile</h2>
+          <p class="text-[12px] text-secondary mt-1">
             Please provide a display name and username to personalize your vault.
           </p>
         </header>
@@ -443,50 +409,63 @@
         <!-- Global Error Banner -->
         <div
           v-if="setupGlobalError"
-          class="mb-4 p-3 bg-error-container text-error rounded-md text-[13px] border border-error/10"
+          class="mb-4 p-3 bg-danger-container text-on-danger-container rounded-md text-[13px] border border-border"
         >
           {{ setupGlobalError }}
         </div>
 
         <form class="space-y-4" @submit.prevent="submitProfileSetup">
-          <BaseInput
-            id="setup-displayname"
-            v-model="setupDisplayName"
-            label="Full Name / Display Name"
-            placeholder="e.g. Hoang Nam"
-            required
-            :error="setupValidationErrors.displayName"
-          />
+          <div class="space-y-1.5">
+            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">Full Name / Display Name</label>
+            <v-text-field
+              id="setup-displayname"
+              v-model="setupDisplayName"
+              placeholder="e.g. Hoang Nam"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :error-messages="setupValidationErrors.displayName"
+              class="custom-v-input"
+            />
+          </div>
 
-          <BaseInput
-            id="setup-username"
-            v-model="setupUsername"
-            label="Username"
-            placeholder="e.g. hoangnam"
-            required
-            :error="setupValidationErrors.username"
-          />
+          <div class="space-y-1.5">
+            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">Username</label>
+            <v-text-field
+              id="setup-username"
+              v-model="setupUsername"
+              placeholder="e.g. hoangnam"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :error-messages="setupValidationErrors.username"
+              class="custom-v-input"
+            />
+          </div>
 
           <div class="pt-4 flex flex-col gap-2.5">
-            <BaseButton
+            <v-btn
               type="submit"
-              variant="primary"
-              full-width
+              color="primary"
+              block
+              size="large"
               :loading="setupLoading"
+              class="spring-btn font-label-md tracking-wider uppercase"
+              style="font-weight: 600; border-radius: var(--radius-lg); height: 50px"
             >
               Save & Enter Vault
-            </BaseButton>
+            </v-btn>
             <div class="flex justify-between items-center text-[12px] px-1 pt-1.5">
               <button
                 type="button"
-                class="text-muted-leaf/60 hover:text-sunlit-clementine hover:underline cursor-pointer"
+                class="text-secondary/60 hover:text-primary hover:underline cursor-pointer"
                 @click="closeProfileModal"
               >
                 Set up later
               </button>
               <button
                 type="button"
-                class="text-muted-leaf/60 hover:text-sunlit-clementine hover:underline cursor-pointer"
+                class="text-secondary/60 hover:text-primary hover:underline cursor-pointer"
                 @click="handleLogout"
               >
                 Sign Out
@@ -501,9 +480,13 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { LogoTextLight, LogoTextDark } from '~/assets/icons'
 import { useAuth } from '~/composables/useAuth'
 import { navigateTo } from '#app'
 import { z } from 'zod'
+import { useTheme } from '~/composables/useTheme'
+
+const { isDark, toggleTheme } = useTheme()
 
 const profileSchema = z.object({
   displayName: z.string()
@@ -770,11 +753,11 @@ const handleLogout = async () => {
   background: transparent;
 }
 .custom-scroll::-webkit-scrollbar-thumb {
-  background-color: rgba(24, 26, 26, 0.08);
+  background-color: var(--border-strong);
   border-radius: 9px;
 }
 .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-sunlit-clementine);
+  background-color: var(--primary);
 }
 
 @keyframes fadeIn {
