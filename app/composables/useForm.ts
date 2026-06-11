@@ -1,21 +1,35 @@
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { z } from 'zod'
 import { ApiError, type ApiValidationError } from '~/types'
 
-export const useForm = <TSchema extends z.ZodTypeAny>(schema?: TSchema) => {
+export const useForm = <TSchema extends z.ZodTypeAny>(
+  schema?: TSchema,
+  formData?: unknown
+) => {
   const validationErrors = ref<ApiValidationError>({})
   const error = ref('')
+  const hasSubmitted = ref(false)
 
   const clearErrors = () => {
     validationErrors.value = {}
     error.value = ''
   }
 
-  const validate = (data: unknown): data is z.infer<TSchema> => {
+  const getFormData = () => {
+    if (typeof formData === 'function') {
+      return formData()
+    }
+    return unref(formData)
+  }
+
+  const validate = (data?: unknown): data is z.infer<TSchema> => {
+    hasSubmitted.value = true
     clearErrors()
     if (!schema) return true
 
-    const result = schema.safeParse(data)
+    const dataToValidate = data !== undefined ? data : getFormData()
+
+    const result = schema.safeParse(dataToValidate)
     if (!result.success) {
       const errors: ApiValidationError = {}
       result.error.issues.forEach(issue => {
@@ -30,6 +44,24 @@ export const useForm = <TSchema extends z.ZodTypeAny>(schema?: TSchema) => {
       return false
     }
     return true
+  }
+
+  const clearFieldError = (field: string) => {
+    validationErrors.value[field] = []
+  }
+
+  const validateFieldOnBlur = (field: string) => {
+    if (!hasSubmitted.value) return
+    if (!schema) return
+
+    const dataToValidate = getFormData()
+    const result = schema.safeParse(dataToValidate)
+    if (result.success) {
+      validationErrors.value[field] = []
+    } else {
+      const fieldIssues = result.error.issues.filter(issue => issue.path[0] === field)
+      validationErrors.value[field] = fieldIssues.map(i => i.message)
+    }
   }
 
   const handleApiError = (
@@ -57,7 +89,10 @@ export const useForm = <TSchema extends z.ZodTypeAny>(schema?: TSchema) => {
   return {
     validationErrors,
     error,
+    hasSubmitted,
     validate,
+    clearFieldError,
+    validateFieldOnBlur,
     handleApiError,
     clearErrors,
   }

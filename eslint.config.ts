@@ -17,7 +17,10 @@ export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        process: 'readonly',
+      },
       parserOptions: {
         parser: tseslint.parser,
         sourceType: 'module',
@@ -25,6 +28,7 @@ export default defineConfig([
     },
     rules: {
       'no-console': 'error',
+      'no-undef': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
       'vue/html-self-closing': 'off',
       'vue/max-attributes-per-line': 'off',

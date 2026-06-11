@@ -27,6 +27,13 @@ export const createAuthRepository = (api: ReturnType<typeof $fetch.create>) => (
     })
   },
 
+  async resendVerification(email: string): Promise<void> {
+    return api('/auth/resend-verification', {
+      method: 'POST',
+      body: { email },
+    })
+  },
+
   async logout(): Promise<void> {
     await api('/auth/logout', {
       method: 'POST',

@@ -42,6 +42,16 @@ export const useAuth = () => {
     }
   }
 
+  const resendVerificationCode = async (email: string) => {
+    authStore.loading = true
+    try {
+      const response = await authRepo.resendVerification(email)
+      return response
+    } finally {
+      authStore.loading = false
+    }
+  }
+
   const updateProfile = async (displayName: string, username: string) => {
     authStore.loading = true
     try {
@@ -88,6 +98,7 @@ export const useAuth = () => {
     login,
     register,
     verifyEmail,
+    resendVerificationCode,
     updateProfile,
     logout,
     initAuth,

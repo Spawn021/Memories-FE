@@ -8,8 +8,15 @@
     >
       <!-- Top Branding & User profile -->
       <div class="space-y-6">
-        <div class="reveal-item" style="animation-delay: 50ms">
-          <img :src="isDark ? LogoTextDark : LogoTextLight" class="h-7 w-auto" alt="Memories Logo" />
+        <div
+          class="reveal-item"
+          style="animation-delay: 50ms"
+        >
+          <img
+            :src="isDark ? LogoTextDark : LogoTextLight"
+            class="h-7 w-auto"
+            alt="Memories Logo"
+          />
         </div>
 
         <!-- User profile widget -->
@@ -28,7 +35,10 @@
             <div class="overflow-hidden">
               <p class="font-bold text-[14px] leading-tight truncate text-on-surface flex items-center gap-1">
                 {{ user?.displayName || 'Archive Owner' }}
-                <span class="material-symbols-outlined !text-[12px] opacity-0 group-hover/profile:opacity-100 text-primary transition-opacity">edit</span>
+                <span
+                  class="material-symbols-outlined !text-[12px] opacity-0 group-hover/profile:opacity-100 text-primary transition-opacity"
+                  >edit</span
+                >
               </p>
               <p class="text-[11px] text-secondary truncate">
                 {{ user?.email }}
@@ -59,20 +69,24 @@
       <!-- Controls & Creation Section -->
       <div class="my-6 md:my-auto space-y-6 flex-grow flex flex-col justify-center">
         <!-- Poetic Date Header -->
-        <div class="reveal-item space-y-1" style="animation-delay: 150ms">
+        <div
+          class="reveal-item space-y-1"
+          style="animation-delay: 150ms"
+        >
           <div class="font-poetic-accent text-3xl italic text-primary">
             {{ formattedDate }}
           </div>
-          <div
-            class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/50 flex items-center gap-1"
-          >
+          <div class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/50 flex items-center gap-1">
             <span class="material-symbols-outlined !text-[12px]">location_on</span>
             Hanoi, VN // ACTIVE SESSION
           </div>
         </div>
 
         <!-- Search Bar -->
-        <div class="reveal-item" style="animation-delay: 200ms">
+        <div
+          class="reveal-item"
+          style="animation-delay: 200ms"
+        >
           <div class="relative">
             <input
               v-model="searchQuery"
@@ -80,28 +94,24 @@
               placeholder="Search memories or #tags..."
               type="text"
             />
-            <span
-              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/40 !text-[18px]"
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/40 !text-[18px]"
               >search</span
             >
           </div>
         </div>
 
         <!-- Filter Tags -->
-        <div class="reveal-item space-y-2" style="animation-delay: 250ms">
-          <p class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/60">
-            Filter by category
-          </p>
+        <div
+          class="reveal-item space-y-2"
+          style="animation-delay: 250ms"
+        >
+          <p class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/60">Filter by category</p>
           <div class="flex flex-wrap gap-1.5">
             <button
               v-for="tag in availableTags"
               :key="tag"
               class="px-3 py-1 rounded-md text-[12px] font-label-md tracking-wider transition-all duration-200 cursor-pointer"
-              :class="
-                selectedTag === tag
-                  ? 'bg-primary text-on-primary font-semibold'
-                  : 'bg-background hover:bg-border text-secondary'
-              "
+              :class="selectedTag === tag ? 'bg-primary text-on-primary font-semibold' : 'bg-background hover:bg-border text-secondary'"
               @click="toggleTag(tag)"
             >
               {{ tag }}
@@ -110,7 +120,10 @@
         </div>
 
         <!-- CTA Capture Button -->
-        <div class="reveal-item pt-2" style="animation-delay: 300ms">
+        <div
+          class="reveal-item pt-2"
+          style="animation-delay: 300ms"
+        >
           <button
             class="spring-btn w-full bg-primary text-on-primary py-3.5 rounded-md font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-primary/10"
             @click="openCreateModal = true"
@@ -128,20 +141,24 @@
       >
         <span>VOL. 2026 // SECURE</span>
         <div class="flex gap-3">
-          <NuxtLink to="/terms" class="hover:text-primary underline transition-colors"
-            >Terms</NuxtLink
+          <NuxtLink
+            to="/terms"
+            class="hover:text-primary underline transition-colors"
           >
-          <NuxtLink to="/privacy" class="hover:text-primary underline transition-colors"
-            >Privacy</NuxtLink
+            Terms
+          </NuxtLink>
+          <NuxtLink
+            to="/privacy"
+            class="hover:text-primary underline transition-colors"
           >
+            Privacy
+          </NuxtLink>
         </div>
       </footer>
     </aside>
 
     <!-- RIGHT PANEL (Gallery stream) -->
-    <section
-      class="flex-1 h-full overflow-y-auto p-6 md:p-12 relative bg-background custom-scroll flex flex-col justify-between"
-    >
+    <section class="flex-1 h-full overflow-y-auto p-6 md:p-12 relative bg-background custom-scroll flex flex-col justify-between">
       <!-- Staggered Polaroid Feed -->
       <div
         v-if="filteredMemories.length > 0"
@@ -176,12 +193,9 @@
               <p class="font-poetic-accent text-2xl italic leading-none text-on-surface truncate">
                 {{ item.title }}
               </p>
-              <div
-                class="flex justify-between items-center text-[11px] font-label-sm text-secondary/50 tracking-wider"
-              >
+              <div class="flex justify-between items-center text-[11px] font-label-sm text-secondary/50 tracking-wider">
                 <span>{{ item.date }}</span>
-                <span
-                  class="material-symbols-outlined !text-[14px] opacity-0 group-hover:opacity-100 transition-opacity text-primary"
+                <span class="material-symbols-outlined !text-[14px] opacity-0 group-hover:opacity-100 transition-opacity text-primary"
                   >zoom_in</span
                 >
               </div>
@@ -195,12 +209,8 @@
         v-else
         class="flex-grow flex flex-col items-center justify-center py-20 text-center select-none reveal-item"
       >
-        <span class="material-symbols-outlined !text-[48px] text-secondary/30 mb-4 animate-pulse"
-          >photo_library</span
-        >
-        <h3 class="font-poetic-accent text-3xl italic text-on-background mb-1">
-          Your archive is quiet
-        </h3>
+        <span class="material-symbols-outlined !text-[48px] text-secondary/30 mb-4 animate-pulse">photo_library</span>
+        <h3 class="font-poetic-accent text-3xl italic text-on-background mb-1">Your archive is quiet</h3>
         <p class="text-[13px] text-secondary max-w-xs leading-relaxed">
           No memories match your search query. Try capturing a new memory or clearing filters.
         </p>
@@ -243,7 +253,10 @@
           </button>
         </header>
 
-        <form class="space-y-4" @submit.prevent="saveMemory">
+        <form
+          class="space-y-4"
+          @submit.prevent="saveMemory"
+        >
           <!-- Memory Title -->
           <div class="space-y-1.5">
             <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">MEMORY TITLE</label>
@@ -260,7 +273,9 @@
 
           <!-- Tag Selection -->
           <div>
-            <label class="block font-label-sm text-[12px] text-secondary mb-1.5" for="m-tag"
+            <label
+              class="block font-label-sm text-[12px] text-secondary mb-1.5"
+              for="m-tag"
               >CATEGORY TAG</label
             >
             <select
@@ -277,25 +292,20 @@
 
           <!-- Visual Artifact Selection (Mock Photo grid) -->
           <div>
-            <label class="block font-label-sm text-[12px] text-secondary mb-2"
-              >SELECT VISUAL ARTIFACT</label
-            >
+            <label class="block font-label-sm text-[12px] text-secondary mb-2">SELECT VISUAL ARTIFACT</label>
             <div class="grid grid-cols-4 gap-2">
               <div
                 v-for="img in mockImageArtifacts"
                 :key="img.url"
                 class="aspect-square border-2 rounded-md overflow-hidden cursor-pointer transition-all relative group"
-                :class="
-                  newMemory.image === img.url
-                    ? 'border-primary ring-2 ring-primary/10'
-                    : 'border-border hover:border-border-strong'
-                "
+                :class="newMemory.image === img.url ? 'border-primary ring-2 ring-primary/10' : 'border-border hover:border-border-strong'"
                 @click="newMemory.image = img.url"
               >
-                <img :src="img.url" class="w-full h-full object-cover grayscale-[30%]" />
-                <div
-                  class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                ></div>
+                <img
+                  :src="img.url"
+                  class="w-full h-full object-cover grayscale-[30%]"
+                />
+                <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
             </div>
           </div>
@@ -354,9 +364,7 @@
           CLOSE <span class="material-symbols-outlined !text-[16px]">close</span>
         </button>
 
-        <div
-          class="bg-surface p-4 md:p-6 shadow-2xl max-w-lg md:max-w-xl w-full border border-border"
-        >
+        <div class="bg-surface p-4 md:p-6 shadow-2xl max-w-lg md:max-w-xl w-full border border-border">
           <div class="aspect-[4/3] overflow-hidden bg-background">
             <img
               :src="activeLightbox.image"
@@ -365,12 +373,8 @@
             />
           </div>
           <div class="pt-5 pb-1 text-center space-y-2">
-            <p class="font-poetic-accent text-3xl italic text-on-surface">
-              "{{ activeLightbox.title }}"
-            </p>
-            <div
-              class="flex justify-center items-center gap-3 text-[11px] font-label-sm text-secondary/50 tracking-wider"
-            >
+            <p class="font-poetic-accent text-3xl italic text-on-surface">"{{ activeLightbox.title }}"</p>
+            <div class="flex justify-center items-center gap-3 text-[11px] font-label-sm text-secondary/50 tracking-wider">
               <span>{{ activeLightbox.date }}</span>
               <span>•</span>
               <span class="text-primary font-bold">{{ activeLightbox.tag }}</span>
@@ -399,11 +403,13 @@
         </button>
 
         <header class="mb-6 text-center">
-          <img :src="isDark ? LogoTextDark : LogoTextLight" class="h-8 w-auto mx-auto mb-4" alt="Memories Logo" />
+          <img
+            :src="isDark ? LogoTextDark : LogoTextLight"
+            class="h-8 w-auto mx-auto mb-4"
+            alt="Memories Logo"
+          />
           <h2 class="font-headline-lg text-2xl font-bold text-on-surface">Set Up Your Profile</h2>
-          <p class="text-[12px] text-secondary mt-1">
-            Please provide a display name and username to personalize your vault.
-          </p>
+          <p class="text-[12px] text-secondary mt-1">Please provide a display name and username to personalize your vault.</p>
         </header>
 
         <!-- Global Error Banner -->
@@ -414,7 +420,10 @@
           {{ setupGlobalError }}
         </div>
 
-        <form class="space-y-4" @submit.prevent="submitProfileSetup">
+        <form
+          class="space-y-4"
+          @submit.prevent="submitProfileSetup"
+        >
           <div class="space-y-1.5">
             <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">Full Name / Display Name</label>
             <v-text-field
@@ -481,7 +490,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { LogoTextLight, LogoTextDark } from '~/assets/icons'
-import { useAuth } from '~/composables/useAuth'
 import { navigateTo } from '#app'
 import { z } from 'zod'
 import { useTheme } from '~/composables/useTheme'
@@ -489,13 +497,12 @@ import { useTheme } from '~/composables/useTheme'
 const { isDark, toggleTheme } = useTheme()
 
 const profileSchema = z.object({
-  displayName: z.string()
-    .min(2, 'Display name must be at least 2 characters')
-    .max(50, 'Display name cannot exceed 50 characters'),
-  username: z.string()
+  displayName: z.string().min(2, 'Display name must be at least 2 characters').max(50, 'Display name cannot exceed 50 characters'),
+  username: z
+    .string()
     .min(3, 'Username must be at least 3 characters')
     .max(30, 'Username cannot exceed 30 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain alphanumeric characters and underscores')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain alphanumeric characters and underscores'),
 })
 
 // Page guard middleware
@@ -541,7 +548,7 @@ const submitProfileSetup = async () => {
 
   const validation = profileSchema.safeParse({
     displayName: setupDisplayName.value,
-    username: setupUsername.value
+    username: setupUsername.value,
   })
 
   if (!validation.success) {
@@ -664,8 +671,7 @@ const filteredMemories = computed(() => {
   return memories.value
     .filter(mem => {
       const matchesSearch =
-        mem.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-        mem.tag.toLowerCase().includes(searchQuery.value.toLowerCase())
+        mem.title.toLowerCase().includes(searchQuery.value.toLowerCase()) || mem.tag.toLowerCase().includes(searchQuery.value.toLowerCase())
       const matchesTag = !selectedTag.value || mem.tag === selectedTag.value
       return matchesSearch && matchesTag
     })
@@ -683,20 +689,7 @@ const mockImageArtifacts = [
 
 const getTodayString = () => {
   const d = new Date()
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ]
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   return `${months[d.getMonth()]} ${String(d.getDate()).padStart(2, '0')}, ${d.getFullYear()}`
 }
 

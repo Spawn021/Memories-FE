@@ -10,7 +10,6 @@
     <div class="my-auto mx-auto w-full max-w-[640px] z-10 px-2">
       <div class="reveal-item" style="animation-delay: 150ms;">
         <div class="bg-surface border border-border p-6 md:p-10 shadow-2xl relative rotate-[-0.5deg] max-h-[72vh] flex flex-col transition-all duration-300 hover:rotate-0">
-          
           <!-- Back Link & Header -->
           <div class="shrink-0 mb-6">
             <button 
@@ -31,7 +30,6 @@
 
           <!-- Scrollable Content -->
           <div class="flex-1 overflow-y-auto pr-3 space-y-6 text-[14px] leading-relaxed font-body text-on-background/80 custom-scroll">
-            
             <section class="space-y-2">
               <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">
                 01 // Archive Purpose
@@ -76,7 +74,6 @@
                 We reserve the right to refine these terms at any time. Your continued use of the platform constitutes agreement to the updated framework. Significant updates will be communicated directly within your space dashboard.
               </p>
             </section>
-
           </div>
 
           <!-- Card Footer Seal -->
@@ -84,7 +81,6 @@
             <span>MEMORIES INC. // OFFICE OF PRIVACY</span>
             <span class="italic">Authorized Archive</span>
           </div>
-
         </div>
       </div>
     </div>

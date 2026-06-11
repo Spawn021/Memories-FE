@@ -1,50 +1,45 @@
 import { ref } from 'vue'
 
-export interface ToastOptions {
+export interface Toast {
+  id: string
   message: string
-  color?: string
-  timeout?: number
+  type: 'success' | 'error' | 'warning' | 'info'
 }
 
-const show = ref(true)
-const message = ref('')
-const color = ref('secondary')
-const timeout = ref(5000)
+const toasts = ref<Toast[]>([])
 
 export const useToast = () => {
-  const toast = (opts: ToastOptions | string) => {
-    if (typeof opts === 'string') {
-      message.value = opts
-      color.value = 'secondary'
-      timeout.value = 5000
-    } else {
-      message.value = opts.message
-      color.value = opts.color || 'secondary'
-      timeout.value = opts.timeout ?? 5000
-    }
-    show.value = true
+  const addToast = (message: string, type: Toast['type']) => {
+    const id = Math.random().toString(36).substring(2, 9)
+    toasts.value.push({ id, message, type })
   }
 
-  const success = (msg: string, time?: number) => {
-    toast({ message: msg, color: 'secondary', timeout: time })
+  const removeToast = (id: string) => {
+    toasts.value = toasts.value.filter(t => t.id !== id)
   }
 
-  const error = (msg: string, time?: number) => {
-    toast({ message: msg, color: 'error', timeout: time })
+  const success = (msg: string) => {
+    addToast(msg, 'success')
   }
 
-  const info = (msg: string, time?: number) => {
-    toast({ message: msg, color: 'primary', timeout: time })
+  const error = (msg: string) => {
+    addToast(msg, 'error')
+  }
+
+  const warning = (msg: string) => {
+    addToast(msg, 'warning')
+  }
+
+  const info = (msg: string) => {
+    addToast(msg, 'info')
   }
 
   return {
-    show,
-    message,
-    color,
-    timeout,
-    toast,
+    toasts,
+    removeToast,
     success,
     error,
+    warning,
     info,
   }
 }
