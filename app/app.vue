@@ -9,7 +9,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useTheme } from '~/composables/useTheme'
-import ToastMessage from '~/components/common/ToastMessage.vue'
 const { initTheme } = useTheme()
 
 onMounted(() => {

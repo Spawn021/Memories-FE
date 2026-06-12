@@ -1,12 +1,9 @@
 import { ref, unref } from 'vue'
 import { z } from 'zod'
 import { ApiError, type ApiValidationError } from '~/types'
-import { t } from '~/utils/i18n'
 
-export const useForm = <TSchema extends z.ZodTypeAny>(
-  schema?: TSchema,
-  formData?: unknown
-) => {
+export const useForm = <TSchema extends z.ZodTypeAny>(schema?: TSchema, formData?: unknown) => {
+  const { t } = useI18n()
   const validationErrors = ref<ApiValidationError>({})
   const error = ref('')
   const hasSubmitted = ref(false)
@@ -65,10 +62,7 @@ export const useForm = <TSchema extends z.ZodTypeAny>(
     }
   }
 
-  const handleApiError = (
-    err: unknown,
-    fallbackMessage = 'An unexpected error occurred. Please try again.',
-  ) => {
+  const handleApiError = (err: unknown, fallbackMessage = 'An unexpected error occurred. Please try again.') => {
     if (err instanceof ApiError) {
       if (err.statusCode === 400 && err.errors) {
         const translatedErrors: ApiValidationError = {}

@@ -8,7 +8,7 @@
       class="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border px-6 py-4 flex justify-between items-center transition-all select-none"
     >
       <NuxtLink
-        to="/"
+        :to="localePath('/')"
         class="spring-btn"
       >
         <img
@@ -31,12 +31,12 @@
           >Features</a
         >
         <NuxtLink
-          to="/terms"
+          :to="localePath('/terms')"
           class="hover:text-primary transition-colors"
           >Terms</NuxtLink
         >
         <NuxtLink
-          to="/privacy"
+          :to="localePath('/privacy')"
           class="hover:text-primary transition-colors"
           >Privacy</NuxtLink
         >
@@ -44,6 +44,9 @@
 
       <!-- Right CTAs -->
       <div class="flex items-center gap-4">
+        <!-- Language Switcher -->
+        <LanguageSwitcher />
+
         <!-- Theme Toggle Button -->
         <button
           class="spring-btn p-2 rounded-full border border-border text-secondary hover:text-primary hover:border-primary/20 bg-surface flex items-center justify-center cursor-pointer select-none"
@@ -57,7 +60,7 @@
 
         <template v-if="isAuthenticated">
           <NuxtLink
-            to="/dashboard"
+            :to="localePath('/dashboard')"
             class="spring-btn bg-primary text-on-primary text-[12px] uppercase font-label-md font-semibold tracking-wider px-5 py-2.5 rounded-md shadow-md shadow-primary/10"
           >
             Dashboard
@@ -65,13 +68,13 @@
         </template>
         <template v-else>
           <NuxtLink
-            to="/login"
+            :to="localePath('/login')"
             class="text-[12px] uppercase font-label-md font-semibold tracking-wider text-secondary hover:text-primary transition-colors px-3"
           >
             Sign In
           </NuxtLink>
           <NuxtLink
-            to="/register"
+            :to="localePath('/register')"
             class="spring-btn bg-primary text-on-primary text-[12px] uppercase font-label-md font-semibold tracking-wider px-5 py-2.5 rounded-md shadow-md shadow-primary/10"
           >
             Create Space
@@ -156,7 +159,7 @@
           style="animation-delay: 400ms"
         >
           <NuxtLink
-            :to="isAuthenticated ? '/dashboard' : '/register'"
+            :to="isAuthenticated ? localePath('/dashboard') : localePath('/register')"
             class="spring-btn inline-block bg-primary text-on-primary font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold py-4 px-10 rounded-md shadow-lg shadow-primary/10 cursor-pointer"
           >
             {{ isAuthenticated ? 'Go to Dashboard' : 'Open Your Vault' }}
@@ -287,7 +290,7 @@
         </p>
         <div class="pt-4">
           <NuxtLink
-            :to="isAuthenticated ? '/dashboard' : '/register'"
+            :to="isAuthenticated ? localePath('/dashboard') : localePath('/register')"
             class="spring-btn inline-block bg-primary text-on-primary font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold py-4 px-10 rounded-md shadow-lg shadow-primary/10 cursor-pointer"
           >
             {{ isAuthenticated ? 'Go to Dashboard' : 'Create Space Vault' }}
@@ -309,12 +312,12 @@
 
         <div class="flex flex-wrap justify-center gap-6 text-[12px] font-label-md tracking-wider text-secondary/60">
           <NuxtLink
-            to="/terms"
+            :to="localePath('/terms')"
             class="hover:text-primary transition-colors"
             >Terms of Service</NuxtLink
           >
           <NuxtLink
-            to="/privacy"
+            :to="localePath('/privacy')"
             class="hover:text-primary transition-colors"
             >Privacy Policy</NuxtLink
           >
@@ -327,6 +330,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+const localePath = useLocalePath()
 import { LogoTextLight, LogoTextDark } from '~/assets/icons'
 import { useHead } from '#imports'
 import { useTheme } from '~/composables/useTheme'
@@ -336,6 +340,7 @@ const { isDark, toggleTheme } = useTheme()
 // Setup SEO headers
 useHead({
   title: 'memories — your intimate digital archive',
+  titleTemplate: null,
   meta: [
     {
       name: 'description',

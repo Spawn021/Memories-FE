@@ -9,7 +9,7 @@
     >
       <!-- Top Branding -->
       <div class="reveal-item flex justify-between items-center" style="animation-delay: 50ms">
-        <NuxtLink to="/">
+        <NuxtLink :to="localePath('/')">
           <img
             :src="isDark ? LogoTextDark : LogoTextLight"
             class="h-7 w-auto mb-6"
@@ -17,16 +17,19 @@
           />
         </NuxtLink>
 
-        <button
-          class="spring-btn p-2 -mt-6 rounded-full border border-border text-secondary hover:text-primary hover:border-primary/20 bg-surface flex items-center justify-center cursor-pointer select-none"
-          :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
-          type="button"
-          @click="toggleTheme"
-        >
-          <span class="material-symbols-outlined !text-[20px]">
-            {{ isDark ? 'light_mode' : 'dark_mode' }}
-          </span>
-        </button>
+        <div class="flex items-center gap-3">
+          <LanguageSwitcher class="-mt-6" />
+          <button
+            class="spring-btn p-2 -mt-6 rounded-full border border-border text-secondary hover:text-primary hover:border-primary/20 bg-surface flex items-center justify-center cursor-pointer select-none"
+            :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+            type="button"
+            @click="toggleTheme"
+          >
+            <span class="material-symbols-outlined !text-[20px]">
+              {{ isDark ? 'light_mode' : 'dark_mode' }}
+            </span>
+          </button>
+        </div>
       </div>
 
       <!-- Form Content -->
@@ -61,7 +64,7 @@
           New here?
           <NuxtLink
             class="text-on-background font-bold underline underline-offset-4 hover:text-primary transition-colors"
-            to="/register"
+            :to="localePath('/register')"
           >
             Create your space
           </NuxtLink>
@@ -132,10 +135,16 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useHead } from '#imports'
+
+useHead({
+  title: 'Sign In',
+})
 import { LogoTextLight, LogoTextDark } from '~/assets/icons'
 import { useRoute } from '#app'
+
+const localePath = useLocalePath()
 import { useTheme } from '~/composables/useTheme'
-import LoginForm from '~/components/auth/LoginForm.vue'
 
 // Theme composable
 const { isDark, toggleTheme } = useTheme()

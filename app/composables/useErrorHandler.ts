@@ -1,9 +1,9 @@
 import { useToast } from '~/composables/useToast'
 import { ApiError } from '~/types'
-import { t } from '~/utils/i18n'
 
 export const useErrorHandler = () => {
   const toast = useToast()
+  const { t } = useI18n()
 
   const handleError = (err: unknown) => {
     if (err instanceof ApiError) {

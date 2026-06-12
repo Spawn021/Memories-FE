@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
+    '@nuxtjs/i18n',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', config => {
         // @ts-expect-error config.plugins type
@@ -18,6 +19,28 @@ export default defineNuxtConfig({
       })
     },
   ],
+  i18n: {
+    locales: [
+      { code: 'vi', file: 'vi.json', name: 'Tiếng Việt' },
+      { code: 'en', file: 'en.json', name: 'English' },
+      { code: 'ja', file: 'ja.json', name: '日本語' },
+    ],
+    defaultLocale: 'vi',
+    strategy: 'prefix',
+    langDir: 'locales',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    },
+  },
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
+
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()],
@@ -32,7 +55,22 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: 'memories — your intimate digital archive',
+      titleTemplate: '%s — memories',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        {
+          name: 'description',
+          content: 'A secure, beautiful, completely private vault for your memories, journals, and reflections. Zero noise, zero algorithms.',
+        },
+      ],
       link: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/app-icon.svg',
+        },
         {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap',

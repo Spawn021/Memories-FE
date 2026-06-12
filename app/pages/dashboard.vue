@@ -9,7 +9,7 @@
       <!-- Top Branding & User profile -->
       <div class="space-y-6">
         <div
-          class="reveal-item"
+          class="reveal-item flex justify-between items-center"
           style="animation-delay: 50ms"
         >
           <img
@@ -17,6 +17,7 @@
             class="h-7 w-auto"
             alt="Memories Logo"
           />
+          <LanguageSwitcher />
         </div>
 
         <!-- User profile widget -->
@@ -142,13 +143,13 @@
         <span>VOL. 2026 // SECURE</span>
         <div class="flex gap-3">
           <NuxtLink
-            to="/terms"
+            :to="localePath('/terms')"
             class="hover:text-primary underline transition-colors"
           >
             Terms
           </NuxtLink>
           <NuxtLink
-            to="/privacy"
+            :to="localePath('/privacy')"
             class="hover:text-primary underline transition-colors"
           >
             Privacy
@@ -489,10 +490,17 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useHead } from '#imports'
+
+useHead({
+  title: 'Your Scrapbook',
+})
 import { LogoTextLight, LogoTextDark } from '~/assets/icons'
 import { navigateTo } from '#app'
 import { z } from 'zod'
 import { useTheme } from '~/composables/useTheme'
+
+const localePath = useLocalePath()
 
 const { isDark, toggleTheme } = useTheme()
 
@@ -582,13 +590,9 @@ const submitProfileSetup = async () => {
   }
 }
 
-// Redirect to login if user logs out or state clears
+// Check profile setup on page load
 onMounted(() => {
-  if (!isAuthenticated.value) {
-    navigateTo('/login')
-  } else {
-    checkProfileSetup()
-  }
+  checkProfileSetup()
 })
 
 // Current user initials for avatar badge
@@ -733,7 +737,7 @@ const activeLightbox = ref<Memory | null>(null)
 // Logout handler
 const handleLogout = async () => {
   await logout()
-  navigateTo('/login')
+  navigateTo(localePath('/login'))
 }
 </script>
 

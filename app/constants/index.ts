@@ -1,6 +1,3 @@
-/*
-Define routes that do not require authentication.
-*/
-export const publicRoutes = ['/', '/login', '/register']
+export * from './routes'
 
 export const TIME_RESEND_OTP = 60

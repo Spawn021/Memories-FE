@@ -102,7 +102,7 @@
             I agree to the
             <NuxtLink
               class="text-primary hover:underline"
-              to="/terms"
+              :to="localePath('/terms')"
               @click.stop
             >
               Terms
@@ -110,7 +110,7 @@
             &amp;
             <NuxtLink
               class="text-primary hover:underline"
-              to="/privacy"
+              :to="localePath('/privacy')"
               @click.stop
             >
               Privacy Policy
@@ -164,7 +164,7 @@
         Already have a space?
         <NuxtLink
           class="text-primary font-medium hover:underline"
-          to="/login"
+          :to="localePath('/login')"
         >
           Sign In
         </NuxtLink>
@@ -179,6 +179,8 @@ import { GoogleIcon } from '~/assets/icons'
 import { useForm } from '~/composables/useForm'
 import { registerSchema } from '~/schema/register.schema'
 import { useToast } from '~/composables/useToast'
+
+const localePath = useLocalePath()
 
 const emit = defineEmits<{
   (e: 'success', data: { email: string; password?: string }): void

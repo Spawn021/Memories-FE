@@ -94,16 +94,22 @@
 </template>
 
 <script setup lang="ts">
+import { useHead } from '#imports'
 import { navigateTo } from '#app'
+
+useHead({
+  title: 'Privacy Policy',
+})
 import { useRouter } from 'vue-router'
 
+const localePath = useLocalePath()
 const router = useRouter()
 
 const goBack = () => {
   if (window.history.length > 1) {
     router.back()
   } else {
-    navigateTo('/register')
+    navigateTo(localePath('/register'))
   }
 }
 </script>

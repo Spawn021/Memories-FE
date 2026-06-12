@@ -39,7 +39,7 @@
         <div class="flex justify-between items-end">
           <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">PASSWORD</label>
           <NuxtLink
-            to="/forgot-password"
+            :to="localePath('/forgot-password')"
             class="text-[13px] text-secondary hover:text-primary transition-colors underline underline-offset-4"
           >
             Forgot password?
@@ -136,8 +136,11 @@
 import { ref } from 'vue'
 import { GoogleIcon } from '~/assets/icons'
 import { useForm } from '~/composables/useForm'
-import { navigateTo } from '#app'
+import { navigateTo, useRoute } from '#app'
 import { z } from 'zod'
+
+const localePath = useLocalePath()
+const route = useRoute()
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address format'),
@@ -162,7 +165,12 @@ const handleLogin = async () => {
 
   try {
     await login(email.value, password.value)
-    await navigateTo('/')
+    const redirectPath = route.query.redirect as string | undefined
+    if (redirectPath && redirectPath.startsWith('/')) {
+      await navigateTo(redirectPath)
+    } else {
+      await navigateTo(localePath('/'))
+    }
   } catch (err) {
     handleApiError(err)
   }

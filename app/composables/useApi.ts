@@ -1,5 +1,5 @@
 import { useRuntimeConfig, navigateTo, useRoute } from '#app'
-import { publicRoutes } from '~/constants'
+import { noAuthRoutes, ROUTES } from '~/constants'
 import { useAuthStore } from '~/stores/auth'
 import { ApiError, type ApiErrorResponse } from '~/types'
 
@@ -20,6 +20,7 @@ export const useApi = () => {
   const authStore = useAuthStore()
   const apiBase = config.public.apiBase
   const route = useRoute()
+  const localePath = useLocalePath()
 
   const customFetch: typeof $fetch = $fetch.create({
     baseURL: apiBase,
@@ -27,12 +28,7 @@ export const useApi = () => {
       options.credentials = 'include'
     },
     onResponse({ response }) {
-      if (
-        response._data &&
-        typeof response._data === 'object' &&
-        'success' in response._data &&
-        response._data.success === true
-      ) {
+      if (response._data && typeof response._data === 'object' && 'success' in response._data && response._data.success === true) {
         response._data = response._data.data
       }
     },
@@ -57,59 +53,37 @@ export const useApi = () => {
             isRefreshing = false
             onRefreshed(true)
 
-            return customFetch(
-              request,
-              fetchOptions as unknown as Parameters<typeof customFetch>[1],
-            )
+            return customFetch(request, fetchOptions as unknown as Parameters<typeof customFetch>[1])
           } catch {
             isRefreshing = false
             onRefreshed(false)
             authStore.clearUser()
-            const isPublic = publicRoutes.includes(route.path) || route.meta.public === true
-            if (!isPublic) {
-              await navigateTo('/login')
+            const cleanPath = route.path.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
+            const isNoAuth = noAuthRoutes.includes(cleanPath)
+            if (!isNoAuth) {
+              await navigateTo(localePath({ path: ROUTES.LOGIN, query: { redirect: route.fullPath } }))
             }
 
             const status = response ? response.status : 500
             const errorData = response?._data as ApiErrorResponse | undefined
-            return Promise.reject(
-              new ApiError(
-                status,
-                errorData?.message || 'Session expired. Please log in again.',
-                errorData?.errors,
-              ),
-            )
+            return Promise.reject(new ApiError(status, errorData?.message || 'Session expired. Please log in again.', errorData?.errors))
           }
         }
 
         return new Promise((resolve, reject) => {
           subscribeTokenRefresh(success => {
             if (success) {
-              resolve(
-                customFetch(request, fetchOptions as unknown as Parameters<typeof customFetch>[1]),
-              )
+              resolve(customFetch(request, fetchOptions as unknown as Parameters<typeof customFetch>[1]))
             } else {
               const status = response ? response.status : 500
               const errorData = response?._data as ApiErrorResponse | undefined
-              reject(
-                new ApiError(
-                  status,
-                  errorData?.message || 'Authentication failed',
-                  errorData?.errors,
-                ),
-              )
+              reject(new ApiError(status, errorData?.message || 'Authentication failed', errorData?.errors))
             }
           })
         })
       }
       const errorData = response._data as ApiErrorResponse | undefined
-      return Promise.reject(
-        new ApiError(
-          response.status,
-          errorData?.message || 'Something went wrong',
-          errorData?.errors,
-        ),
-      )
+      return Promise.reject(new ApiError(response.status, errorData?.message || 'Something went wrong', errorData?.errors))
     },
   })
 

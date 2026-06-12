@@ -97,13 +97,15 @@ onUnmounted(() => {
   if (cooldownInterval) clearInterval(cooldownInterval)
 })
 
+const localePath = useLocalePath()
+
 const handleVerifyOtp = async () => {
   if (otp.value.length !== 6) return
   otpError.value = ''
   try {
     await verifyEmail(props.email, otp.value)
     toast.success('Verification successful! Please check your email for the verification code.')
-    await navigateTo('/login?verified=true')
+    await navigateTo(localePath({ path: '/login', query: { verified: 'true' } }))
   } catch (err) {
     const error = err as ApiErrorResponse
     otpError.value = error.message

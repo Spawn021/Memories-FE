@@ -5,7 +5,7 @@
   >
     <section class="w-full md:w-1/2 flex flex-col justify-between px-8 md:px-16 py-8 bg-surface z-10 overflow-y-auto">
       <div class="reveal-item flex justify-between items-center delay-50">
-        <NuxtLink to="/">
+        <NuxtLink :to="localePath('/')">
           <img
             :src="isDark ? LogoTextDark : LogoTextLight"
             class="h-7 w-auto mb-6"
@@ -13,16 +13,19 @@
           />
         </NuxtLink>
 
-        <button
-          class="spring-btn p-2 -mt-6 rounded-full border border-border flex items-center justify-center cursor-pointer"
-          :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
-          type="button"
-          @click="toggleTheme"
-        >
-          <span class="material-symbols-outlined text-[20px]! text-primary">
-            {{ isDark ? 'light_mode' : 'dark_mode' }}
-          </span>
-        </button>
+        <div class="flex items-center gap-3">
+          <LanguageSwitcher class="-mt-6" />
+          <button
+            class="spring-btn p-2 -mt-6 rounded-full border border-border flex items-center justify-center cursor-pointer"
+            :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+            type="button"
+            @click="toggleTheme"
+          >
+            <span class="material-symbols-outlined text-[20px]! text-primary">
+              {{ isDark ? 'light_mode' : 'dark_mode' }}
+            </span>
+          </button>
+        </div>
       </div>
 
       <div class="max-w-form-max-width w-full mx-auto my-auto">
@@ -109,10 +112,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useHead } from '#imports'
+
+useHead({
+  title: 'Create Space',
+})
 import { LogoTextLight, LogoTextDark } from '~/assets/icons'
+
+const localePath = useLocalePath()
 import { useTheme } from '~/composables/useTheme'
-import RegisterForm from '~/components/auth/RegisterForm.vue'
-import OtpForm from '~/components/auth/OtpForm.vue'
 
 const { isDark, toggleTheme } = useTheme()
 
