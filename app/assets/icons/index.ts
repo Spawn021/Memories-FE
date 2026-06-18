@@ -1,3 +1,6 @@
 export { default as LogoTextLight } from './LogoTextLight.svg'
 export { default as LogoTextDark } from './LogoTextDark.svg'
 export { default as GoogleIcon } from './GoogleIcon.svg'
+export { default as EnglishIcon } from './UkFlag.svg'
+export { default as JapaneseIcon } from './JpFlag.svg'
+export { default as VietnameseIcon } from './VnFlag.svg'

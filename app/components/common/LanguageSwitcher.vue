@@ -55,12 +55,15 @@
               class="w-4 h-3 object-cover rounded-[2px] mr-2 border border-border/10"
             />
           </template>
-          
+
           <v-list-item-title class="!text-[12px] font-medium uppercase font-body">
             {{ loc.name }}
           </v-list-item-title>
 
-          <template #append v-if="locale === loc.code">
+          <template
+            v-if="locale === loc.code"
+            #append
+          >
             <span class="material-symbols-outlined !text-[14px] text-primary ml-1">check</span>
           </template>
         </v-list-item>
@@ -71,9 +74,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import VnFlag from '~/assets/icons/vn.svg'
-import GbFlag from '~/assets/icons/gb.svg'
-import JpFlag from '~/assets/icons/jp.svg'
+import { EnglishIcon, JapaneseIcon, VietnameseIcon } from '~/assets/icons'
 
 const { locale, setLocale } = useI18n()
 
@@ -85,9 +86,9 @@ interface LocaleItem {
 
 // Available locales list with local SVG flag imports
 const localesList: LocaleItem[] = [
-  { code: 'vi', name: 'VN', flag: VnFlag },
-  { code: 'en', name: 'EN', flag: GbFlag },
-  { code: 'ja', name: 'JP', flag: JpFlag },
+  { code: 'vi', name: 'VN', flag: VietnameseIcon },
+  { code: 'en', name: 'EN', flag: EnglishIcon },
+  { code: 'ja', name: 'JP', flag: JapaneseIcon },
 ]
 
 const menuOpen = ref(false)
@@ -106,4 +107,3 @@ const selectLocale = async (code: string) => {
   await setLocale(code)
 }
 </script>
-

@@ -62,7 +62,7 @@ export const useForm = <TSchema extends z.ZodTypeAny>(schema?: TSchema, formData
     }
   }
 
-  const handleApiError = (err: unknown, fallbackMessage = 'An unexpected error occurred. Please try again.') => {
+  const handleApiError = (err: unknown, fallbackMessage = t('DEFAULT_ERROR')) => {
     if (err instanceof ApiError) {
       if (err.statusCode === 400 && err.errors) {
         const translatedErrors: ApiValidationError = {}

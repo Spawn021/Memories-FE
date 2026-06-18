@@ -53,8 +53,8 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'memories — your intimate digital archive',
-      titleTemplate: '%s — memories',
+      title: 'Memories — Your intimate digital archive',
+      titleTemplate: '%s — Memories',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
