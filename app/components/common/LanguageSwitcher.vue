@@ -1,112 +1,109 @@
 <template>
   <div class="relative inline-block text-left select-none z-50">
-    <!-- Dropdown Trigger Button -->
-    <button
-      type="button"
-      class="spring-btn flex items-center gap-2 px-3 py-1.5 rounded-full border border-border text-secondary hover:text-primary hover:border-primary/20 bg-surface text-[12px] font-medium tracking-wider cursor-pointer uppercase transition-colors"
-      @click="isOpen = !isOpen"
-      v-click-outside="closeDropdown"
+    <v-menu
+      v-model="menuOpen"
+      transition="slide-y-transition"
     >
-      <span class="material-symbols-outlined !text-[16px]">language</span>
-      <span>{{ currentLocaleName }}</span>
-      <span
-        class="material-symbols-outlined !text-[14px] transition-transform duration-300"
-        :class="{ 'rotate-180': isOpen }"
-      >
-        keyboard_arrow_down
-      </span>
-    </button>
+      <template #activator="{ props }">
+        <v-btn
+          variant="outlined"
+          color="secondary"
+          class="text-none font-body text-[12px] font-medium tracking-wider !rounded-full border-border hover:border-primary/20 bg-surface !h-8 !px-3 spring-btn"
+          v-bind="props"
+          :ripple="false"
+        >
+          <template #prepend>
+            <span class="material-symbols-outlined !text-[16px] text-secondary">language</span>
+          </template>
+          <div class="flex items-center gap-1.5">
+            <img
+              :src="currentLocaleFlag"
+              :alt="currentLocaleName"
+              class="w-4 h-3 object-cover rounded-[2px] border border-border/10"
+            />
+            <span>{{ currentLocaleName }}</span>
+          </div>
+          <template #append>
+            <span
+              class="material-symbols-outlined !text-[14px] text-secondary transition-transform duration-300"
+              :class="{ 'rotate-180': menuOpen }"
+            >
+              keyboard_arrow_down
+            </span>
+          </template>
+        </v-btn>
+      </template>
 
-    <!-- Dropdown Menu -->
-    <transition name="dropdown-fade">
-      <div
-        v-if="isOpen"
-        class="absolute right-0 mt-2 w-36 bg-surface border border-border rounded-lg shadow-xl py-1 overflow-hidden"
+      <v-list
+        class="bg-surface border border-border mt-1 py-1 rounded-lg min-w-[110px]"
+        density="compact"
+        nav
       >
-        <button
+        <v-list-item
           v-for="loc in localesList"
           :key="loc.code"
-          type="button"
-          class="w-full text-left px-4 py-2 text-[12px] tracking-wide font-medium flex items-center justify-between transition-colors duration-150 cursor-pointer"
-          :class="
-            locale === loc.code
-              ? 'bg-primary/10 text-primary font-bold'
-              : 'text-secondary hover:bg-background hover:text-primary'
-          "
+          :value="loc.code"
+          :active="locale === loc.code"
+          color="primary"
+          class="!px-3 !py-1"
           @click="selectLocale(loc.code)"
         >
-          <span>{{ loc.name }}</span>
-          <span
-            v-if="locale === loc.code"
-            class="material-symbols-outlined !text-[14px] text-primary"
-          >
-            check
-          </span>
-        </button>
-      </div>
-    </transition>
+          <template #prepend>
+            <img
+              :src="loc.flag"
+              :alt="loc.name"
+              class="w-4 h-3 object-cover rounded-[2px] mr-2 border border-border/10"
+            />
+          </template>
+          
+          <v-list-item-title class="!text-[12px] font-medium uppercase font-body">
+            {{ loc.name }}
+          </v-list-item-title>
+
+          <template #append v-if="locale === loc.code">
+            <span class="material-symbols-outlined !text-[14px] text-primary ml-1">check</span>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import VnFlag from '~/assets/icons/vn.svg'
+import GbFlag from '~/assets/icons/gb.svg'
+import JpFlag from '~/assets/icons/jp.svg'
 
 const { locale, setLocale } = useI18n()
 
 interface LocaleItem {
   code: string
   name: string
+  flag: string
 }
 
-// Available locales list (must match those in nuxt.config.ts)
+// Available locales list with local SVG flag imports
 const localesList: LocaleItem[] = [
-  { code: 'vi', name: 'Tiếng Việt' },
-  { code: 'en', name: 'English' },
-  { code: 'ja', name: '日本語' },
+  { code: 'vi', name: 'VN', flag: VnFlag },
+  { code: 'en', name: 'EN', flag: GbFlag },
+  { code: 'ja', name: 'JP', flag: JpFlag },
 ]
 
-const isOpen = ref(false)
+const menuOpen = ref(false)
 
 const currentLocaleName = computed(() => {
   const found = localesList.find(l => l.code === locale.value)
   return found ? found.name : locale.value
 })
 
+const currentLocaleFlag = computed(() => {
+  const found = localesList.find(l => l.code === locale.value)
+  return found ? found.flag : ''
+})
+
 const selectLocale = async (code: string) => {
-  isOpen.value = false
   await setLocale(code)
-}
-
-const closeDropdown = () => {
-  isOpen.value = false
-}
-
-// Custom directive to handle click outside
-const vClickOutside = {
-  mounted(el: any, binding: any) {
-    el.clickOutsideEvent = (event: Event) => {
-      if (!(el === event.target || el.contains(event.target))) {
-        binding.value()
-      }
-    }
-    document.addEventListener('click', el.clickOutsideEvent)
-  },
-  unmounted(el: any) {
-    document.removeEventListener('click', el.clickOutsideEvent)
-  },
 }
 </script>
 
-<style scoped>
-.dropdown-fade-enter-active {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.dropdown-fade-leave-active {
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.dropdown-fade-enter-from,
-.dropdown-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-8px) scale(0.96);
-}
-</style>

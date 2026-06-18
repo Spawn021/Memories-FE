@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'vuetify/styles';
 
 :root {
   /* Core Brand Colors */
@@ -237,7 +238,35 @@
   background: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   transform: rotate(var(--rotation, 0deg));
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    z-index 0s;
+  position: relative;
+}
+
+.polaroid:hover {
+  z-index: 50 !important;
+  transform: scale(1.05) rotate(var(--rotation)) translateY(-12px) !important;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.07);
+}
+
+@keyframes ink-reveal {
+  from {
+    filter: blur(8px);
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.poetic-ink-reveal {
+  opacity: 0;
+  animation: ink-reveal 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ==========================================

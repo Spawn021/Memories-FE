@@ -21,9 +21,9 @@ export default defineNuxtConfig({
   ],
   i18n: {
     locales: [
-      { code: 'vi', file: 'vi.json', name: 'Tiếng Việt' },
-      { code: 'en', file: 'en.json', name: 'English' },
-      { code: 'ja', file: 'ja.json', name: '日本語' },
+      { code: 'vi', file: 'vi.json', name: 'VN' },
+      { code: 'en', file: 'en.json', name: 'EN' },
+      { code: 'ja', file: 'ja.json', name: 'JP' },
     ],
     defaultLocale: 'vi',
     strategy: 'prefix',
@@ -40,8 +40,6 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-
-  css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()],
     vue: {
@@ -62,7 +60,8 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'A secure, beautiful, completely private vault for your memories, journals, and reflections. Zero noise, zero algorithms.',
+          content:
+            'A secure, beautiful, completely private vault for your memories, journals, and reflections. Zero noise, zero algorithms.',
         },
       ],
       link: [
