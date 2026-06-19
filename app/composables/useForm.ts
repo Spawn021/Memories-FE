@@ -1,16 +1,17 @@
 import { ref, unref } from 'vue'
 import { z } from 'zod'
+import { ERROR_STATUS_CODE } from '~/constants'
 import { ApiError, type ApiValidationError } from '~/types'
 
 export const useForm = <TSchema extends z.ZodTypeAny>(schema?: TSchema, formData?: unknown) => {
   const { t } = useI18n()
   const validationErrors = ref<ApiValidationError>({})
-  const error = ref('')
+  const error = ref<string | null>(null)
   const hasSubmitted = ref(false)
 
   const clearErrors = () => {
     validationErrors.value = {}
-    error.value = ''
+    error.value = null
   }
 
   const getFormData = () => {
@@ -64,13 +65,15 @@ export const useForm = <TSchema extends z.ZodTypeAny>(schema?: TSchema, formData
 
   const handleApiError = (err: unknown, fallbackMessage = t('DEFAULT_ERROR')) => {
     if (err instanceof ApiError) {
-      if (err.statusCode === 400 && err.errors) {
+      if (err.statusCode === ERROR_STATUS_CODE.BAD_REQUEST && err.errors) {
         const translatedErrors: ApiValidationError = {}
         for (const [key, messages] of Object.entries(err.errors)) {
           translatedErrors[key] = messages.map(msg => t(msg))
         }
         validationErrors.value = translatedErrors
         error.value = t(err.message) || t('E100')
+      } else if (err.statusCode === ERROR_STATUS_CODE.CONNECTION_ERROR) {
+        error.value = null
       } else {
         error.value = t(err.message)
       }

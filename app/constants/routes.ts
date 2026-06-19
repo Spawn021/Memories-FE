@@ -1,13 +1,18 @@
 export const ROUTES = {
+  // Guest routes
   HOME: '/',
+
+  // Authentication routes (guests only)
   LOGIN: '/login',
   REGISTER: '/register',
   FORGOT_PASSWORD: '/forgot-password',
 
+  // Public routes (guests and logged-in users)
   TERMS: '/terms',
   PRIVACY: '/privacy',
   PROFILE: '/profile',
 
+  // Authenticated routes
   DASHBOARD: '/dashboard',
 } as const
 

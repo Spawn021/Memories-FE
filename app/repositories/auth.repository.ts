@@ -1,4 +1,4 @@
-import type { User } from '~/types'
+import type { ApiSuccessMessage, User } from '~/types'
 
 export const createAuthRepository = (api: ReturnType<typeof $fetch.create>) => ({
   async login(email: string, password: string): Promise<User> {
@@ -8,26 +8,21 @@ export const createAuthRepository = (api: ReturnType<typeof $fetch.create>) => (
     })
   },
 
-  async register(
-    displayName: string,
-    email: string,
-    username: string,
-    password: string,
-  ): Promise<void> {
+  async register(displayName: string, email: string, username: string, password: string): Promise<ApiSuccessMessage> {
     return api('/auth/register', {
       method: 'POST',
       body: { displayName, email, username, password },
     })
   },
 
-  async verifyEmail(email: string, otp: string): Promise<void> {
+  async verifyEmail(email: string, otp: string): Promise<ApiSuccessMessage> {
     return api('/auth/verify-email', {
       method: 'POST',
       body: { email, otp },
     })
   },
 
-  async resendVerification(email: string): Promise<void> {
+  async resendVerification(email: string): Promise<ApiSuccessMessage> {
     return api('/auth/resend-verification', {
       method: 'POST',
       body: { email },

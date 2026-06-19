@@ -9,9 +9,14 @@ export interface User {
   sessionId?: number
 }
 export type ApiValidationError = Record<string, string[]>
+
 export interface ApiResponse<T = unknown> {
   success: true
   data: T
+}
+
+export interface ApiSuccessMessage {
+  message: string
 }
 
 export interface ApiErrorResponse {
@@ -30,6 +35,6 @@ export class ApiError extends Error {
     super(parsedMessage)
     this.statusCode = statusCode
     this.errors = errors
-    this.name = 'ApiErrorr'
+    this.name = 'ApiError'
   }
 }

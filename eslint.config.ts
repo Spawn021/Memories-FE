@@ -2,18 +2,26 @@ import js from '@eslint/js'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import json from '@eslint/json'
-import css from '@eslint/css'
 import pluginVue from 'eslint-plugin-vue' // Import thêm plugin Vue
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
     // Bỏ qua các thư mục build/system
-    ignores: ['.nuxt/**', '.output/**', 'node_modules/**', 'dist/**'],
+    ignores: ['.nuxt/**', '.output/**', 'node_modules/**', 'dist/**', '.stitch/**', 'package-lock.json', 'tsconfig.json', '**/*.css'],
   },
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...pluginVue.configs['flat/recommended'],
+  {
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
+    ...js.configs.recommended,
+  },
+  ...tseslint.configs.recommended.map(config => ({
+    ...config,
+    files: config.files || ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
+  })),
+  ...pluginVue.configs['flat/recommended'].map(config => ({
+    ...config,
+    files: config.files || ['**/*.vue'],
+  })),
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
     languageOptions: {
@@ -34,8 +42,8 @@ export default defineConfig([
       'vue/max-attributes-per-line': 'off',
       'vue/multi-word-component-names': 'off',
       'vue/singleline-html-element-content-newline': 'off',
+      '@typescript-eslint/no-explicit-any': 'error',
     },
   },
   { files: ['**/*.json'], plugins: { json }, language: 'json/json', extends: ['json/recommended'] },
-  { files: ['**/*.css'], plugins: { css }, language: 'css/css', extends: ['css/recommended'] },
 ])

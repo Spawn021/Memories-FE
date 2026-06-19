@@ -2,12 +2,15 @@
   <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
     <!-- Main Collage Image Container -->
     <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[65%] max-w-md pointer-events-auto">
-      <div class="reveal-item" style="animation-delay: 600ms">
+      <div
+        class="reveal-item"
+        style="animation-delay: 600ms"
+      >
         <div
           class="shadow-2xl bg-surface p-5"
           :style="getImageStyle"
         >
-          <div class="aspect-[3/4] overflow-hidden grayscale-[20%] sepia-[10%]">
+          <div class="aspect-3-4 overflow-hidden grayscale-20 sepia-10">
             <img
               alt="Atmospheric Gallery Collage"
               class="w-full h-full object-cover"
@@ -20,7 +23,10 @@
 
     <!-- Floating Label Element -->
     <div class="absolute bottom-[20%] right-[15%] z-20 pointer-events-auto">
-      <div class="reveal-item" style="animation-delay: 800ms">
+      <div
+        class="reveal-item"
+        style="animation-delay: 800ms"
+      >
         <div
           class="bg-surface p-4 shadow-sm border border-border"
           :style="getFloatingLabelStyle"

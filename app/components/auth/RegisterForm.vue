@@ -1,8 +1,8 @@
 <template>
   <div>
     <header class="mb-6 animate-waterfall delay-50">
-      <h1 class="font-title text-2xl md:text-3xl mb-1.5">Create your space</h1>
-      <p class="font-body text-secondary text-[15px]">Start preserving your moments with friends and family.</p>
+      <h1 class="font-title text-2xl md:text-3xl mb-1.5">{{ t('auth.registerTitle') }}</h1>
+      <p class="font-body text-secondary text-[15px]">{{ t('auth.registerSubtitle') }}</p>
     </header>
 
     <div
@@ -17,11 +17,11 @@
       @submit.prevent="handleRegister"
     >
       <div class="space-y-1.5 animate-waterfall delay-100">
-        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">EMAIL ADDRESS</label>
+        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">{{ t('form.labels.email') }}</label>
         <v-text-field
           v-model="form.email"
           type="email"
-          placeholder="e.g. hoang.nam@domain.com"
+          :placeholder="t('form.placeholders.email')"
           variant="outlined"
           density="comfortable"
           hide-details="auto"
@@ -31,11 +31,11 @@
         />
       </div>
       <div class="space-y-1.5 animate-waterfall delay-150">
-        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">PASSWORD</label>
+        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">{{ t('form.labels.password') }}</label>
         <v-text-field
           v-model="form.password"
           :type="showPassword ? 'text' : 'password'"
-          placeholder="••••••••"
+          :placeholder="t('form.placeholders.password')"
           variant="outlined"
           density="comfortable"
           hide-details="auto"
@@ -47,7 +47,7 @@
             <button
               type="button"
               class="text-on-surface-variant/40 hover:text-primary transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
-              :title="showPassword ? 'Hide password' : 'Show password'"
+              :title="showPassword ? t('form.hidePassword') : t('form.showPassword')"
               @click="showPassword = !showPassword"
             >
               <span class="material-symbols-outlined text-[20px]! text-primary">
@@ -60,11 +60,11 @@
 
       <!-- Confirm Password Field -->
       <div class="space-y-1.5 animate-waterfall delay-200">
-        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">CONFIRM PASSWORD</label>
+        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">{{ t('form.labels.confirmPassword') }}</label>
         <v-text-field
           v-model="form.confirmPassword"
           :type="showConfirmPassword ? 'text' : 'password'"
-          placeholder="••••••••"
+          :placeholder="t('form.placeholders.password')"
           variant="outlined"
           density="comfortable"
           hide-details="auto"
@@ -76,7 +76,7 @@
             <button
               type="button"
               class="text-on-surface-variant/40 hover:text-primary transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
-              :title="showConfirmPassword ? 'Hide password' : 'Show password'"
+              :title="showConfirmPassword ? t('form.hidePassword') : t('form.showPassword')"
               @click="showConfirmPassword = !showConfirmPassword"
             >
               <span class="material-symbols-outlined text-[20px]! text-primary">
@@ -99,13 +99,13 @@
       >
         <template #label>
           <span class="text-[13px] font-body text-secondary">
-            I agree to the
+            {{ t('auth.agreeTo') }}
             <NuxtLink
               class="text-primary hover:underline"
               :to="localePath('/terms')"
               @click.stop
             >
-              Terms
+              {{ t('auth.terms') }}
             </NuxtLink>
             &amp;
             <NuxtLink
@@ -113,7 +113,7 @@
               :to="localePath('/privacy')"
               @click.stop
             >
-              Privacy Policy
+              {{ t('auth.privacy') }}
             </NuxtLink>
           </span>
         </template>
@@ -129,12 +129,12 @@
           :loading="loading"
           class="spring-btn font-body tracking-wider uppercase font-bold! rounded-lg! h-12.5!"
         >
-          Create Space
+          {{ t('auth.createSpace') }}
         </v-btn>
 
         <div class="relative flex items-center py-1">
           <div class="grow border-t border-border"></div>
-          <span class="shrink mx-3 text-secondary/50 font-body text-[11px]">OR</span>
+          <span class="shrink mx-3 text-secondary/50 font-body text-[11px] uppercase">{{ t('auth.or') }}</span>
           <div class="grow border-t border-border"></div>
         </div>
 
@@ -154,19 +154,19 @@
               class="h-4 w-4 shrink-0 mr-1"
             />
           </template>
-          Continue with Google
+          {{ t('auth.continueGoogle') }}
         </v-btn>
       </div>
     </form>
 
     <footer class="mt-8 text-center animate-waterfall delay-450">
       <p class="font-body text-secondary text-[14px]">
-        Already have a space?
+        {{ t('auth.alreadyHaveSpace') }}
         <NuxtLink
           class="text-primary font-medium hover:underline"
           :to="localePath('/login')"
         >
-          Sign In
+          {{ t('auth.signIn') }}
         </NuxtLink>
       </p>
     </footer>
@@ -179,6 +179,8 @@ import { GoogleIcon } from '~/assets/icons'
 import { useForm } from '~/composables/useForm'
 import { registerSchema } from '~/schema/register.schema'
 import { useToast } from '~/composables/useToast'
+
+const { t } = useI18n()
 
 const localePath = useLocalePath()
 
@@ -206,8 +208,8 @@ const handleRegister = async () => {
   if (!isValid) return
 
   try {
-    await register(form.email, form.password)
-    toast.success('Registration successful! Please check your email for the verification code.')
+    const result = await register(form.email, form.password)
+    toast.success(t(result.message))
     emit('success', { email: form.email, password: form.password })
   } catch (err) {
     handleApiError(err)

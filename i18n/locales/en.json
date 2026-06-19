@@ -18,6 +18,7 @@
   "E16": "Account has been suspended or deleted.",
   "E100": "Please correct the validation errors.",
   "DEFAULT_ERROR": "An unexpected error occurred. Please try again.",
+  "CONNECTION_ERROR": "Unable to connect to server. Please check your connection.",
 
   "V0": "Invalid email address.",
   "V1": "Password must be at least 8 characters.",
@@ -30,11 +31,60 @@
   "V8": "OTP must be exactly 6 digits.",
   "V9": "Confirm password is required.",
 
-  "S0": "OTP verified successfully.",
+  "S0": "Email verified successfully.",
   "S1": "Password reset successful.",
-  "S2": "Verification OTP has been sent to your email.",
+  "S2": "Registration successful! Please check your email for the verification code",
   "S3": "Password reset OTP has been sent to your email.",
   "S4": "Verification OTP has been resent successfully.",
   "S5": "Logout successful.",
-  "S6": "Session revoked successfully."
+  "S6": "Session revoked successfully.",
+
+  "common": {
+    "switchLight": "Switch to Light Mode",
+    "switchDark": "Switch to Dark Mode"
+  },
+
+  "auth": {
+    "quote": "“We write to taste life twice, in the moment and in retrospect.”",
+    "quoteAuthor": "— Anaïs Nin",
+    "welcomeBack": "Welcome back",
+    "enterDetails": "Enter your details to access your intimate spaces.",
+    "emailVerifiedSuccess": "Email verified successfully! Please sign in to continue.",
+    "newHere": "New here?",
+    "createSpace": "Create your space",
+    "signIn": "Sign In",
+    "rememberDevice": "Remember this device",
+    "or": "or",
+    "registerTitle": "Create your space",
+    "registerSubtitle": "Start preserving your moments with friends and family.",
+    "agreeTo": "I agree to the",
+    "terms": "Terms",
+    "privacy": "Privacy Policy",
+    "alreadyHaveSpace": "Already have a space?",
+    "enterCode": "Enter Verification Code",
+    "sentCodeTo": "We have sent a 6-digit verification code to",
+    "verifyAccount": "Verify Account",
+    "didNotReceiveCode": "Didn't receive the code?",
+    "resendIn": "Resend in {seconds}s",
+    "resending": "Resending...",
+    "resendCode": "Resend Code",
+    "codeSentSuccessToast": "Verification code sent successfully!",
+    "continueGoogle": "Continue with Google"
+  },
+
+  "form": {
+    "labels": {
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "email": "e.g. hoang.nam{'@'}domain.com",
+      "password": "Enter your password",
+      "confirmPassword": "Confirm your password"
+    },
+    "forgotPassword": "Forgot password?",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password"
+  }
 }

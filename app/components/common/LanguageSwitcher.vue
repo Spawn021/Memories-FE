@@ -8,12 +8,12 @@
         <v-btn
           variant="outlined"
           color="secondary"
-          class="text-none font-body text-[12px] font-medium tracking-wider !rounded-full border-border hover:border-primary/20 bg-surface !h-8 !px-3 spring-btn"
+          class="text-none font-body text-[12px] font-medium tracking-wider rounded-full! border-border-strong! hover:border-primary/20 bg-surface h-8 px-3 spring-btn"
           v-bind="props"
           :ripple="false"
         >
           <template #prepend>
-            <span class="material-symbols-outlined !text-[16px] text-secondary">language</span>
+            <span class="material-symbols-outlined text-[16px]! text-primary">language</span>
           </template>
           <div class="flex items-center gap-1.5">
             <img
@@ -25,7 +25,7 @@
           </div>
           <template #append>
             <span
-              class="material-symbols-outlined !text-[14px] text-secondary transition-transform duration-300"
+              class="material-symbols-outlined text-sm! text-secondary transition-transform duration-300"
               :class="{ 'rotate-180': menuOpen }"
             >
               keyboard_arrow_down
@@ -35,9 +35,8 @@
       </template>
 
       <v-list
-        class="bg-surface border border-border mt-1 py-1 rounded-lg min-w-[110px]"
+        class="bg-surface border border-border mt-1 py-1 rounded-lg min-w-27.5"
         density="compact"
-        nav
       >
         <v-list-item
           v-for="loc in localesList"
@@ -45,7 +44,6 @@
           :value="loc.code"
           :active="locale === loc.code"
           color="primary"
-          class="!px-3 !py-1"
           @click="selectLocale(loc.code)"
         >
           <template #prepend>
@@ -56,7 +54,7 @@
             />
           </template>
 
-          <v-list-item-title class="!text-[12px] font-medium uppercase font-body">
+          <v-list-item-title class="text-xs! font-medium uppercase font-body">
             {{ loc.name }}
           </v-list-item-title>
 
@@ -64,7 +62,7 @@
             v-if="locale === loc.code"
             #append
           >
-            <span class="material-symbols-outlined !text-[14px] text-primary ml-1">check</span>
+            <span class="material-symbols-outlined text-sm! text-primary ml-1">check</span>
           </template>
         </v-list-item>
       </v-list>
@@ -78,13 +76,14 @@ import { EnglishIcon, JapaneseIcon, VietnameseIcon } from '~/assets/icons'
 
 const { locale, setLocale } = useI18n()
 
+type LocaleCode = 'vi' | 'en' | 'ja'
+
 interface LocaleItem {
-  code: string
+  code: LocaleCode
   name: string
   flag: string
 }
 
-// Available locales list with local SVG flag imports
 const localesList: LocaleItem[] = [
   { code: 'vi', name: 'VN', flag: VietnameseIcon },
   { code: 'en', name: 'EN', flag: EnglishIcon },
@@ -103,7 +102,7 @@ const currentLocaleFlag = computed(() => {
   return found ? found.flag : ''
 })
 
-const selectLocale = async (code: string) => {
+const selectLocale = async (code: LocaleCode) => {
   await setLocale(code)
 }
 </script>

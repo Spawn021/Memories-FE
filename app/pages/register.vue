@@ -20,8 +20,10 @@ definePageMeta({
   authVisual: 'register',
 })
 
+const { t } = useI18n()
+
 useHead({
-  title: 'Create Space',
+  title: t('auth.createSpace'),
 })
 
 // State

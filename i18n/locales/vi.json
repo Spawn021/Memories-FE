@@ -18,7 +18,8 @@
   "E16": "Tài khoản của bạn đã bị khóa hoặc xóa.",
   "E100": "Vui lòng kiểm tra lại thông tin đầu vào.",
   "DEFAULT_ERROR": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.",
-  
+  "CONNECTION_ERROR": "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối.",
+
   "V0": "Địa chỉ email không hợp lệ.",
   "V1": "Mật khẩu phải có nhất 8 ký tự.",
   "V2": "Mật khẩu phải chứa ít nhất một chữ cái thường, một chữ số và một ký tự đặc biệt.",
@@ -30,11 +31,60 @@
   "V8": "Mã OTP phải có đúng 6 chữ số.",
   "V9": "Xác nhận mật khẩu không được để trống.",
 
-  "S0": "Xác thực OTP thành công.",
+  "S0": "Email xác thực thành công.",
   "S1": "Đặt lại mật khẩu thành công.",
-  "S2": "Mã OTP xác thực đã được gửi đến email của bạn.",
+  "S2": "Đăng ký thành công! Vui lòng kiểm tra email để nhận mã xác thực.",
   "S3": "Mã OTP đặt lại mật khẩu đã được gửi đến email của bạn.",
   "S4": "Gửi lại mã OTP xác thực thành công.",
   "S5": "Đăng xuất thành công.",
-  "S6": "Đã thu hồi phiên làm việc thành công."
+  "S6": "Đã thu hồi phiên làm việc thành công.",
+
+  "common": {
+    "switchLight": "Chuyển sang Chế độ sáng",
+    "switchDark": "Chuyển sang Chế độ tối"
+  },
+
+  "auth": {
+    "quote": "“Chúng ta viết để trải nghiệm cuộc sống hai lần, một lần trong khoảnh khắc và một lần khi nhìn lại.”",
+    "quoteAuthor": "— Anaïs Nin",
+    "welcomeBack": "Chào mừng trở lại",
+    "enterDetails": "Nhập thông tin chi tiết để truy cập vào không gian riêng tư của bạn.",
+    "emailVerifiedSuccess": "Xác thực email thành công! Vui lòng đăng nhập để tiếp tục.",
+    "newHere": "Bạn mới đến đây?",
+    "createSpace": "Tạo không gian của riêng bạn",
+    "signIn": "Đăng nhập",
+    "rememberDevice": "Ghi nhớ thiết bị này",
+    "or": "hoặc",
+    "registerTitle": "Tạo không gian của bạn",
+    "registerSubtitle": "Bắt đầu lưu giữ những khoảnh khắc đẹp cùng bạn bè và gia đình.",
+    "agreeTo": "Tôi đồng ý với",
+    "terms": "Điều khoản",
+    "privacy": "Chính sách bảo mật",
+    "alreadyHaveSpace": "Đã có không gian riêng?",
+    "enterCode": "Nhập mã xác thực",
+    "sentCodeTo": "Chúng tôi đã gửi mã xác thực gồm 6 chữ số đến",
+    "verifyAccount": "Xác thực tài khoản",
+    "didNotReceiveCode": "Không nhận được mã?",
+    "resendIn": "Gửi lại sau {seconds}s",
+    "resending": "Đang gửi lại...",
+    "resendCode": "Gửi lại mã",
+    "codeSentSuccessToast": "Mã xác thực đã được gửi thành công!",
+    "continueGoogle": "Đăng nhập với Google"
+  },
+
+  "form": {
+    "labels": {
+      "email": "Địa chỉ Email",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu"
+    },
+    "placeholders": {
+      "email": "Ví dụ: hoang.nam{'@'}domain.com",
+      "password": "Nhập mật khẩu của bạn",
+      "confirmPassword": "Xác nhận mật khẩu của bạn"
+    },
+    "forgotPassword": "Quên mật khẩu?",
+    "hidePassword": "Ẩn mật khẩu",
+    "showPassword": "Hiện mật khẩu"
+  }
 }

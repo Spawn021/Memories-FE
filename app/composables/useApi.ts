@@ -1,5 +1,5 @@
 import { useRuntimeConfig, navigateTo, useRoute } from '#app'
-import { noAuthRoutes, ROUTES } from '~/constants'
+import { ERROR_STATUS_CODE, noAuthRoutes, ROUTES } from '~/constants'
 import { useAuthStore } from '~/stores/auth'
 import { ApiError, type ApiErrorResponse } from '~/types'
 
@@ -27,6 +27,12 @@ export const useApi = () => {
     onRequest({ options }) {
       options.credentials = 'include'
     },
+    onRequestError() {
+      const toast = useToast()
+      const { t } = useI18n()
+      toast.error(t('CONNECTION_ERROR'))
+      throw new ApiError(ERROR_STATUS_CODE.CONNECTION_ERROR, t('CONNECTION_ERROR'))
+    },
     onResponse({ response }) {
       if (response._data && typeof response._data === 'object' && 'success' in response._data && response._data.success === true) {
         response._data = response._data.data
@@ -37,7 +43,7 @@ export const useApi = () => {
       const isLoginRequest = request.toString().includes('/auth/login')
       const fetchOptions = options as typeof options & { _retry?: boolean }
 
-      if (response.status === 401 && !isRefreshRequest && !isLoginRequest && !fetchOptions._retry) {
+      if (response.status === ERROR_STATUS_CODE.UNAUTHORIZED && !isRefreshRequest && !isLoginRequest && !fetchOptions._retry) {
         fetchOptions._retry = true
 
         if (!isRefreshing) {
@@ -82,6 +88,7 @@ export const useApi = () => {
           })
         })
       }
+
       const errorData = response._data as ApiErrorResponse | undefined
       return Promise.reject(new ApiError(response.status, errorData?.message || 'Something went wrong', errorData?.errors))
     },

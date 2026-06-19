@@ -19,10 +19,7 @@ export const useAuth = () => {
     }
   }
 
-  const register = async (
-    email: string,
-    password: string,
-  ) => {
+  const register = async (email: string, password: string) => {
     authStore.loading = true
     try {
       const response = await authRepo.register('', email, '', password)

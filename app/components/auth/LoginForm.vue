@@ -17,12 +17,12 @@
         class="space-y-1.5 reveal-item"
         style="animation-delay: 200ms"
       >
-        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">EMAIL ADDRESS</label>
+        <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">{{ t('form.labels.email') }}</label>
         <v-text-field
           id="email"
           v-model="email"
           type="email"
-          placeholder="e.g. hoang.nam@domain.com"
+          :placeholder="t('form.placeholders.email')"
           variant="outlined"
           density="compact"
           hide-details="auto"
@@ -37,19 +37,19 @@
         style="animation-delay: 250ms"
       >
         <div class="flex justify-between items-end">
-          <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">PASSWORD</label>
+          <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">{{ t('form.labels.password') }}</label>
           <NuxtLink
             :to="localePath('/forgot-password')"
             class="text-[13px] text-secondary hover:text-primary transition-colors underline underline-offset-4"
           >
-            Forgot password?
+            {{ t('form.forgotPassword') }}
           </NuxtLink>
         </div>
         <v-text-field
           id="password"
           v-model="password"
           :type="showPassword ? 'text' : 'password'"
-          placeholder="••••••••"
+          :placeholder="t('form.placeholders.password')"
           color="primary"
           size="large"
           variant="outlined"
@@ -61,7 +61,7 @@
             <button
               type="button"
               class="text-on-surface-variant/40 hover:text-primary transition-colors focus:outline-none flex items-center justify-center cursor-pointer p-1"
-              :title="showPassword ? 'Hide password' : 'Show password'"
+              :title="showPassword ? t('form.hidePassword') : t('form.showPassword')"
               @click="showPassword = !showPassword"
             >
               <span class="material-symbols-outlined !text-[20px]">
@@ -82,7 +82,7 @@
         style="animation-delay: 300ms"
       >
         <template #label>
-          <span class="text-[13px] font-body text-secondary">Remember this device</span>
+          <span class="text-[13px] font-body text-secondary">{{ t('auth.rememberDevice') }}</span>
         </template>
       </v-checkbox>
 
@@ -97,7 +97,7 @@
           class="reveal-item spring-btn font-body tracking-wider uppercase font-semibold! rounded-lg! h-12.5!"
           style="animation-delay: 350ms"
         >
-          Sign In
+          {{ t('auth.signIn') }}
         </v-btn>
 
         <div
@@ -105,7 +105,7 @@
           style="animation-delay: 400ms"
         >
           <div class="flex-grow h-[1px] bg-border"></div>
-          <span class="text-[13px] text-secondary/50 font-body italic lowercase">or</span>
+          <span class="text-[13px] text-secondary/50 font-body italic lowercase">{{ t('auth.or') }}</span>
           <div class="flex-grow h-[1px] bg-border"></div>
         </div>
 
@@ -125,7 +125,7 @@
               class="h-4 w-4 shrink-0 mr-1"
             />
           </template>
-          Continue with Google
+          {{ t('auth.continueGoogle') }}
         </v-btn>
       </div>
     </form>
@@ -141,10 +141,11 @@ import { z } from 'zod'
 
 const localePath = useLocalePath()
 const route = useRoute()
+const { t } = useI18n()
 
 const loginSchema = z.object({
-  email: z.string().min(1, 'Email is required').email('Invalid email address format'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().min(1, 'V6').email('V0'),
+  password: z.string().min(1, 'V5'),
 })
 
 const { login, loginWithGoogle, loading } = useAuth()
