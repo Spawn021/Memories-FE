@@ -107,7 +107,7 @@ const handleVerifyOtp = async () => {
   try {
     const result = await verifyEmail(props.email, otp.value)
     toast.success(t(result.message))
-    navigateTo(routes.login({ query: { verified: 'true' } }))
+    navigateTo(routes.login({ verified: 'true' }))
   } catch (err) {
     handleError(err)
   }

@@ -1,10 +1,10 @@
 import type { ApiSuccessMessage, User } from '~/types'
 
 export const createAuthRepository = (api: ReturnType<typeof $fetch.create>) => ({
-  async login(email: string, password: string): Promise<User> {
+  async login(email: string, password: string, rememberMe?: boolean): Promise<User> {
     return api<User>('/auth/login', {
       method: 'POST',
-      body: { email, password },
+      body: { email, password, rememberMe },
     })
   },
 

@@ -8,10 +8,10 @@ export const useAuth = () => {
   const { auth: authRepo } = useRepository()
   const config = useRuntimeConfig()
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, rememberMe?: boolean) => {
     authStore.loading = true
     try {
-      const user = await authRepo.login(email, password)
+      const user = await authRepo.login(email, password, rememberMe)
       authStore.setUser(user)
       return user
     } finally {

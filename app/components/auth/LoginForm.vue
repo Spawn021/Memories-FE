@@ -13,10 +13,7 @@
       @submit.prevent="handleLogin"
     >
       <!-- Email Field -->
-      <div
-        class="space-y-1.5 reveal-item"
-        style="animation-delay: 200ms"
-      >
+      <div class="space-y-1.5 reveal-item delay-200">
         <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">{{ t('form.labels.email') }}</label>
         <v-text-field
           id="email"
@@ -27,22 +24,17 @@
           density="compact"
           hide-details="auto"
           :error-messages="validationErrors.email"
-          class="custom-v-input"
         />
       </div>
 
       <!-- Password Field -->
-      <div
-        class="space-y-1.5 reveal-item"
-        style="animation-delay: 250ms"
-      >
+      <div class="space-y-1.5 reveal-item delay-250">
         <div class="flex justify-between items-end">
           <label class="block font-body text-[12px] uppercase tracking-widest text-secondary">{{ t('form.labels.password') }}</label>
-          <NuxtLink
-            :to="localePath('/forgot-password')"
-            class="text-[13px] text-secondary hover:text-primary transition-colors underline underline-offset-4"
-          >
-            {{ t('form.forgotPassword') }}
+          <NuxtLink :to="routes.forgotPassword()">
+            <span class="text-[13px] font-body hover:text-primary! text-secondary hover:underline hover:underline-offset-4">
+              {{ t('form.forgotPassword') }}
+            </span>
           </NuxtLink>
         </div>
         <v-text-field
@@ -55,7 +47,7 @@
           variant="outlined"
           density="compact"
           hide-details="auto"
-          class="custom-v-input"
+          :error-messages="validationErrors.password"
         >
           <template #append-inner>
             <button
@@ -64,7 +56,7 @@
               :title="showPassword ? t('form.hidePassword') : t('form.showPassword')"
               @click="showPassword = !showPassword"
             >
-              <span class="material-symbols-outlined !text-[20px]">
+              <span class="material-symbols-outlined text-xl! text-primary">
                 {{ showPassword ? 'visibility_off' : 'visibility' }}
               </span>
             </button>
@@ -72,21 +64,18 @@
         </v-text-field>
       </div>
 
-      <!-- Remember Me -->
       <v-checkbox
         id="remember"
         v-model="rememberMe"
         hide-details="auto"
         color="primary"
-        class="custom-v-checkbox reveal-item"
-        style="animation-delay: 300ms"
+        class="custom-v-checkbox reveal-item delay-300"
       >
         <template #label>
           <span class="text-[13px] font-body text-secondary">{{ t('auth.rememberDevice') }}</span>
         </template>
       </v-checkbox>
 
-      <!-- CTA Actions -->
       <div class="space-y-4 pt-2">
         <v-btn
           type="submit"
@@ -94,19 +83,15 @@
           block
           size="large"
           :loading="loading"
-          class="reveal-item spring-btn font-body tracking-wider uppercase font-semibold! rounded-lg! h-12.5!"
-          style="animation-delay: 350ms"
+          class="reveal-item spring-btn font-body tracking-wider uppercase font-semibold! rounded-lg! h-12.5! delay-350"
         >
           {{ t('auth.signIn') }}
         </v-btn>
 
-        <div
-          class="flex items-center gap-4 py-1.5 reveal-item"
-          style="animation-delay: 400ms"
-        >
-          <div class="flex-grow h-[1px] bg-border"></div>
+        <div class="flex items-center gap-4 py-1.5 reveal-item delay-400">
+          <div class="grow h-px bg-border"></div>
           <span class="text-[13px] text-secondary/50 font-body italic lowercase">{{ t('auth.or') }}</span>
-          <div class="flex-grow h-[1px] bg-border"></div>
+          <div class="grow h-px bg-border"></div>
         </div>
 
         <v-btn
@@ -114,8 +99,7 @@
           variant="outlined"
           block
           size="large"
-          class="reveal-item spring-btn font-body tracking-wider uppercase text-on-surface border-border"
-          style="animation-delay: 450ms; font-weight: 600; border-radius: var(--radius-lg); height: 50px"
+          class="reveal-item spring-btn font-body tracking-wider uppercase text-on-surface border-border delay-450 font-semibold h-12.5! rounded-lg!"
           @click="handleGoogleLogin"
         >
           <template #prepend>
@@ -137,16 +121,11 @@ import { ref } from 'vue'
 import { GoogleIcon } from '~/assets/icons'
 import { useForm } from '~/composables/useForm'
 import { navigateTo, useRoute } from '#app'
-import { z } from 'zod'
+import { loginSchema } from '~/schema/auth/login.schema'
 
-const localePath = useLocalePath()
 const route = useRoute()
+const routes = useRoutes()
 const { t } = useI18n()
-
-const loginSchema = z.object({
-  email: z.string().min(1, 'V6').email('V0'),
-  password: z.string().min(1, 'V5'),
-})
 
 const { login, loginWithGoogle, loading } = useAuth()
 const { validationErrors, error, validate, handleApiError } = useForm(loginSchema)
@@ -160,17 +139,18 @@ const handleLogin = async () => {
   const isValid = validate({
     email: email.value,
     password: password.value,
+    rememberMe: rememberMe.value,
   })
 
   if (!isValid) return
 
   try {
-    await login(email.value, password.value)
+    await login(email.value, password.value, rememberMe.value)
     const redirectPath = route.query.redirect as string | undefined
     if (redirectPath && redirectPath.startsWith('/')) {
       await navigateTo(redirectPath)
     } else {
-      await navigateTo(localePath('/'))
+      await navigateTo(routes.home())
     }
   } catch (err) {
     handleApiError(err)

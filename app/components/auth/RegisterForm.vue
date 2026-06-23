@@ -102,7 +102,7 @@
             {{ t('auth.agreeTo') }}
             <NuxtLink
               class="text-primary hover:underline"
-              :to="localePath('/terms')"
+              :to="routes.terms()"
               @click.stop
             >
               {{ t('auth.terms') }}
@@ -110,7 +110,7 @@
             &amp;
             <NuxtLink
               class="text-primary hover:underline"
-              :to="localePath('/privacy')"
+              :to="routes.privacy()"
               @click.stop
             >
               {{ t('auth.privacy') }}
@@ -164,7 +164,7 @@
         {{ t('auth.alreadyHaveSpace') }}
         <NuxtLink
           class="text-primary font-medium hover:underline"
-          :to="localePath('/login')"
+          :to="routes.login()"
         >
           {{ t('auth.signIn') }}
         </NuxtLink>
@@ -177,12 +177,11 @@
 import { ref, reactive } from 'vue'
 import { GoogleIcon } from '~/assets/icons'
 import { useForm } from '~/composables/useForm'
-import { registerSchema } from '~/schema/register.schema'
+import { registerSchema } from '~/schema/auth/register.schema'
 import { useToast } from '~/composables/useToast'
 
 const { t } = useI18n()
-
-const localePath = useLocalePath()
+const routes = useRoutes()
 
 const emit = defineEmits<{
   (e: 'success', data: { email: string; password?: string }): void
