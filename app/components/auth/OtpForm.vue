@@ -10,13 +10,6 @@
       .
     </p>
 
-    <div
-      v-if="otpError"
-      class="mb-4 p-3.5 bg-danger-container text-on-danger-container rounded-md text-[13px] border border-border text-left animate-waterfall"
-    >
-      {{ otpError }}
-    </div>
-
     <form
       class="space-y-6"
       @submit.prevent="handleVerifyOtp"
@@ -78,7 +71,6 @@ const { handleError } = useErrorHandler()
 const routes = useRoutes()
 
 const otp = ref('')
-const otpError = ref('')
 const resending = ref(false)
 const resendCooldown = ref(0)
 let cooldownInterval: ReturnType<typeof setInterval> | null = null
@@ -103,7 +95,6 @@ onUnmounted(() => {
 
 const handleVerifyOtp = async () => {
   if (otp.value.length !== 6) return
-  otpError.value = ''
   try {
     const result = await verifyEmail(props.email, otp.value)
     toast.success(t(result.message))
@@ -115,7 +106,6 @@ const handleVerifyOtp = async () => {
 
 const handleResend = async () => {
   if (resendCooldown.value > 0 || resending.value) return
-  otpError.value = ''
   resending.value = true
   try {
     const result = await resendVerificationCode(props.email)

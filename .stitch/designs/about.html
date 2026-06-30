@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About | Memories Archive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;600;700&family=Geist:wght@300;400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#8b716b",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9dad8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f9faf8",
+                        "primary-fixed": "#ffdbd1",
+                        "surface-container": "#edeeec",
+                        "on-secondary-fixed-variant": "#3a4b3e",
+                        "on-secondary-fixed": "#0f1f14",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f9faf8",
+                        "sunlit-clementine": "#E26A4A",
+                        "on-secondary-container": "#57695b",
+                        "primary": "#a13a1e",
+                        "on-primary-fixed-variant": "#84250b",
+                        "on-tertiary-fixed": "#410006",
+                        "secondary-fixed-dim": "#b8cbbb",
+                        "inverse-on-surface": "#f0f1ef",
+                        "canvas-linen": "#F7F8F6",
+                        "surface-container-low": "#f3f4f2",
+                        "outline-variant": "#dec0b9",
+                        "secondary-container": "#d4e8d6",
+                        "background": "#f9faf8",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#516355",
+                        "surface-variant": "#e2e3e1",
+                        "secondary-fixed": "#d4e8d6",
+                        "obsidian-ink": "#181A1A",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#ffb4a1",
+                        "on-surface-variant": "#57423c",
+                        "tertiary-fixed": "#ffdad8",
+                        "tertiary-container": "#c34e4f",
+                        "primary-container": "#c15234",
+                        "on-surface": "#191c1b",
+                        "surface-tint": "#a43c20",
+                        "inverse-surface": "#2e3130",
+                        "surface-container-high": "#e7e8e6",
+                        "terracotta-rose": "#D65C5C",
+                        "on-tertiary-container": "#fffbff",
+                        "surface-container-highest": "#e2e3e1",
+                        "on-background": "#191c1b",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#3c0800",
+                        "on-primary-container": "#fffbff",
+                        "inverse-primary": "#ffb4a1",
+                        "on-error": "#ffffff",
+                        "pure-surface": "#FFFFFF",
+                        "on-tertiary-fixed-variant": "#862025",
+                        "whisper-border": "rgba(24, 26, 26, 0.05)",
+                        "tertiary": "#a33638",
+                        "muted-leaf": "#5C6E60"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "10%",
+                        "margin-mobile": "clamp(2rem, 5vw, 4rem)",
+                        "container-max": "1440px",
+                        "form-max-width": "440px"
+                    },
+                    "fontFamily": {
+                        "poetic-accent": ["Instrument Serif"],
+                        "headline-md": ["Outfit"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Outfit"],
+                        "body-lg": ["Geist"],
+                        "error-text": ["Geist"]
+                    },
+                    "fontSize": {
+                        "poetic-accent": ["20px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["13px", {"lineHeight": "1", "fontWeight": "500"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "error-text": ["12px", {"lineHeight": "1", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .stagger-entry > * {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: waterfall 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes waterfall {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .stagger-entry > *:nth-child(1) { animation-delay: 100ms; }
+        .stagger-entry > *:nth-child(2) { animation-delay: 200ms; }
+        .stagger-entry > *:nth-child(3) { animation-delay: 300ms; }
+        
+        .nostalgia-panel {
+            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+        
+        .floating-accent {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body class="bg-canvas-linen text-on-surface font-body-md selection:bg-sunlit-clementine selection:text-white">
+<!-- TopAppBar -->
+<nav class="w-full top-0 sticky bg-canvas-linen/80 backdrop-blur-md z-50">
+<div class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto">
+<div class="font-poetic-accent text-headline-lg text-primary">Memories</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-muted-leaf hover:text-primary hover:scale-105 transition-transform duration-300 ease-out font-body-md text-body-md" href="#">Stories</a>
+<a class="text-muted-leaf hover:text-primary hover:scale-105 transition-transform duration-300 ease-out font-body-md text-body-md" href="#">Curation</a>
+<a class="text-primary font-semibold border-b-2 border-sunlit-clementine hover:scale-105 transition-transform duration-300 ease-out font-body-md text-body-md" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-all duration-200">account_circle</button>
+</div>
+</div>
+</nav>
+<main class="min-h-screen">
+<!-- Hero Section: Split Screen Philosophy -->
+<section class="flex flex-col md:flex-row min-h-[921px]">
+<!-- Left Panel: Content -->
+<div class="w-full md:w-1/2 flex flex-col justify-center px-margin-mobile md:px-margin-desktop py-12 stagger-entry">
+<span class="text-sunlit-clementine font-label-sm tracking-widest uppercase mb-4">Our Origin</span>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-8 leading-tight">
+                    A digital sanctuary for the <span class="text-primary italic font-poetic-accent">soulful archivist.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-md mb-10 leading-relaxed">
+                    We believe that life’s most precious fragments—the way the light hit the floor, the texture of a letter, the silence of a garden—deserve more than a disappearing feed.
+                </p>
+<div class="flex gap-4">
+<button class="bg-sunlit-clementine text-white px-8 py-4 rounded-full font-headline-md text-body-md hover:scale-105 active:scale-95 transition-all duration-300 ease-out">
+                        Start Archiving
+                    </button>
+</div>
+</div>
+<!-- Right Panel: Nostalgia Art Panel -->
+<div class="hidden md:block md:w-1/2 relative overflow-hidden nostalgia-panel bg-surface-container">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover grayscale-[20%] sepia-[10%] transition-transform duration-1000 hover:scale-110" data-alt="A breathtaking, cinematic shot of a sun-drenched European garden in late afternoon. Soft golden light filters through ancient olive trees, casting long shadows on a rustic stone path. In the foreground, a stack of vintage, leather-bound books sits on a weathered wooden table next to a small ceramic vase with dried wildflowers. The aesthetic is warm, nostalgic, and high-end editorial, matching a canvas linen and sunlit clementine color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVv4qiaX1Iu3Rh1h4Huiey6zViYCsEvQ-uUnbMoCP7tIO01yD_79KAneuDyy5uLoqaS61d2dU6HaWur-DrCEFR841OnIAHyqjxdJDx5Nvt8I-NgySfEibnHGCW1XuJn5Y08UngY6iqvMrxQhYhha2V_Ol9yNj5zL1I3ZrsF43UvV0il3m0wniCgp3XEJ0HIVB58ccm9ZkGvc5_UoNiiQE_r4uDGOGWE2c9XPK70Xz1QkgQFMDR7sOkiK1WP4A8IU8m-MQU3_6cLRfg"/>
+</div>
+<div class="absolute inset-0 bg-primary/5 mix-blend-multiply"></div>
+<!-- Asymmetric Overlays -->
+<div class="absolute top-20 right-20 w-48 h-64 bg-pure-surface shadow-xl p-3 rotate-6 floating-accent">
+<div class="w-full h-48 bg-surface-container overflow-hidden mb-2">
+<img class="w-full h-full object-cover" data-alt="A close-up polaroid-style photograph of a hand holding a single, pressed wildflower against a backdrop of soft, blurred linen fabric. The lighting is delicate and airy, emphasizing natural textures. The color palette is muted greens and warm creams, evoking a sense of quiet preservation and memories." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI7R4vfBKPsJ0omS94-bRSSNXdMmz_LKCgSU0U9wbcx3FGj3HQmzteGjSPw-6Y-qLo36UIDrewOPeuvfThRo92CZTxomryESAYiXZgU3APKL3bcKiE-P447M2zPgEV-cGCL-PEsPW-pnGELKRxUcgW1EYegWkxoNiAhbypbQ1zRAaylQE93ukSSWXp5kMe_rA3Gq1HVhaxYAPXVT3O3E1UlNAUU7DjoBj_MLiwIGufsk_OFlXOblOrJrXIBxHPIaa9jb9teMpdCztB"/>
+</div>
+<p class="font-poetic-accent text-primary text-sm">Paris, June '22</p>
+</div>
+</div>
+</section>
+<!-- Mission Statement: Typographic Focus -->
+<section class="py-24 bg-pure-surface">
+<div class="max-w-4xl mx-auto px-margin-mobile text-center">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12">The Mission</h2>
+<div class="space-y-8">
+<blockquote class="font-poetic-accent text-4xl md:text-5xl text-muted-leaf italic leading-snug">
+                        "To bridge the gap between nostalgic heritage and contemporary minimalism, creating a sanctuary for moments that refuse to be forgotten."
+                    </blockquote>
+<p class="font-body-md text-body-md text-secondary max-w-2xl mx-auto">
+                        In an age of rapid consumption, Memories is an intentional pause. We’ve built a platform that treats your digital life with the same reverence as a physical scrapbook—where asymmetry is organic and every interaction feels like a spring-weighted touch.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Timeline: Offset Grid -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop bg-canvas-linen">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+<div class="md:col-span-4 sticky top-32">
+<h3 class="font-headline-lg text-headline-lg text-primary">The Vision Timeline</h3>
+<p class="text-muted-leaf mt-4 font-body-md">How we evolved from a small sketchbook idea to a digital sanctuary.</p>
+</div>
+<div class="md:col-span-8 space-y-24 border-l border-whisper-border pl-8 md:pl-16">
+<!-- Step 1 -->
+<div class="relative">
+<div class="absolute -left-[41px] md:-left-[73px] top-0 w-4 h-4 bg-sunlit-clementine rounded-full border-4 border-canvas-linen"></div>
+<span class="font-label-sm text-sunlit-clementine tracking-widest uppercase">Spring 2021</span>
+<h4 class="font-headline-md text-headline-md mt-2 mb-4">The Paper Prototype</h4>
+<p class="text-secondary font-body-md leading-relaxed">It began with a stack of 19th-century journals and a desire to mimic the tactile joy of turning a heavy page. We mapped out the first "organic grid" layouts that would later define our Asymmetric Minimalism.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative">
+<div class="absolute -left-[41px] md:-left-[73px] top-0 w-4 h-4 bg-muted-leaf rounded-full border-4 border-canvas-linen"></div>
+<span class="font-label-sm text-muted-leaf tracking-widest uppercase">Autumn 2022</span>
+<h4 class="font-headline-md text-headline-md mt-2 mb-4">Physics of Emotion</h4>
+<p class="text-secondary font-body-md leading-relaxed">We spent months perfecting "Spring Motion." Every click needed to feel as responsive as a physical latch, using high-stiffness curves to simulate weight and presence in a digital void.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative">
+<div class="absolute -left-[41px] md:-left-[73px] top-0 w-4 h-4 bg-primary rounded-full border-4 border-canvas-linen"></div>
+<span class="font-label-sm text-primary tracking-widest uppercase">The Future</span>
+<h4 class="font-headline-md text-headline-md mt-2 mb-4">The Eternal Archive</h4>
+<p class="text-secondary font-body-md leading-relaxed">Today, we continue to expand our curation tools, ensuring that your memories are not just stored, but celebrated. We are building the architecture for stories that last generations.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-32 px-margin-mobile relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container/10 opacity-50"></div>
+<div class="max-w-container-max mx-auto relative z-10 text-center">
+<div class="bg-pure-surface p-12 md:p-24 rounded-full max-w-5xl mx-auto shadow-2xl shadow-obsidian-ink/5">
+<h2 class="font-display-lg text-4xl md:text-6xl text-on-surface mb-8">Ready to curate your story?</h2>
+<p class="text-muted-leaf font-body-lg mb-12 max-w-xl mx-auto">Join a community of soulful archivists preserving what matters most.</p>
+<div class="flex flex-col md:flex-row gap-6 justify-center">
+<button class="bg-sunlit-clementine text-white px-10 py-5 rounded-full font-headline-md hover:scale-105 active:scale-95 transition-all">Create your Archive</button>
+<button class="border border-whisper-border bg-canvas-linen text-on-surface px-10 py-5 rounded-full font-headline-md hover:bg-white hover:scale-105 active:scale-95 transition-all">Explore Curations</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-canvas-linen border-t border-whisper-border">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-12 w-full max-w-container-max mx-auto">
+<div class="flex flex-col gap-4 mb-8 md:mb-0">
+<div class="font-poetic-accent text-headline-md text-primary">Memories</div>
+<p class="text-muted-leaf font-body-md text-body-md">© 2024 Memories Archive. Curated with intention.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-muted-leaf hover:text-sunlit-clementine font-body-md text-body-md transition-opacity hover:opacity-80" href="#">Privacy</a>
+<a class="text-muted-leaf hover:text-sunlit-clementine font-body-md text-body-md transition-opacity hover:opacity-80" href="#">Archive Ethics</a>
+<a class="text-muted-leaf hover:text-sunlit-clementine font-body-md text-body-md transition-opacity hover:opacity-80" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-full md:hidden bg-pure-surface shadow-[0_-4px_20px_rgba(24,26,26,0.05)]">
+<div class="flex justify-around items-center px-4 pb-4 pt-2">
+<a class="flex flex-col items-center justify-center text-muted-leaf p-3 scale-110 active:scale-95 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">auto_stories</span>
+<span class="font-label-sm text-label-sm">Stories</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-leaf p-3 scale-110 active:scale-95 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">collections_bookmark</span>
+<span class="font-label-sm text-label-sm">Curation</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full p-3 scale-110 active:scale-95 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">info</span>
+<span class="font-label-sm text-label-sm">About</span>
+</a>
+</div>
+</nav>
+<script>
+        // Micro-interaction for scroll reveals
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('stagger-entry');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Hover effect for the "Polaroid" floating element
+        const floatingElement = document.querySelector('.floating-accent');
+        if (floatingElement) {
+            floatingElement.addEventListener('mousemove', (e) => {
+                const rect = floatingElement.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                const dx = x - xc;
+                const dy = y - yc;
+                floatingElement.style.transform = `rotateY(${dx/10}deg) rotateX(${-dy/10}deg) translateY(-20px)`;
+            });
+            floatingElement.addEventListener('mouseleave', () => {
+                floatingElement.style.transform = `rotate(6deg) translateY(0)`;
+            });
+        }
+    </script>
+</body></html>

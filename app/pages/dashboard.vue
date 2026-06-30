@@ -1,6 +1,6 @@
 <template>
   <main
-    class="h-screen w-screen flex flex-col md:flex-row bg-background text-on-background font-body-md selection:bg-primary/30 overflow-hidden"
+    class="h-screen w-screen flex flex-col md:flex-row bg-background text-on-background font-body selection:bg-primary/30 overflow-hidden"
   >
     <!-- LEFT PANEL (Sidebar Controls) -->
     <aside
@@ -74,10 +74,10 @@
           class="reveal-item space-y-1"
           style="animation-delay: 150ms"
         >
-          <div class="font-poetic-accent text-3xl italic text-primary">
+          <div class="font-poetic text-3xl italic text-primary">
             {{ formattedDate }}
           </div>
-          <div class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/50 flex items-center gap-1">
+          <div class="font-body text-sm text-[11px] uppercase tracking-widest text-secondary/50 flex items-center gap-1">
             <span class="material-symbols-outlined !text-[12px]">location_on</span>
             Hanoi, VN // ACTIVE SESSION
           </div>
@@ -91,7 +91,7 @@
           <div class="relative">
             <input
               v-model="searchQuery"
-              class="w-full bg-background border border-border rounded-md py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-[13px] placeholder:text-on-surface-variant/40 text-on-surface"
+              class="w-full bg-background border border-border rounded-md py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body text-[13px] placeholder:text-on-surface-variant/40 text-on-surface"
               placeholder="Search memories or #tags..."
               type="text"
             />
@@ -106,12 +106,12 @@
           class="reveal-item space-y-2"
           style="animation-delay: 250ms"
         >
-          <p class="font-label-sm text-[11px] uppercase tracking-widest text-secondary/60">Filter by category</p>
+          <p class="font-body text-sm text-[11px] uppercase tracking-widest text-secondary/60">Filter by category</p>
           <div class="flex flex-wrap gap-1.5">
             <button
               v-for="tag in availableTags"
               :key="tag"
-              class="px-3 py-1 rounded-md text-[12px] font-label-md tracking-wider transition-all duration-200 cursor-pointer"
+              class="px-3 py-1 rounded-md text-[12px] font-body text-sm font-semibold tracking-wider tracking-wider transition-all duration-200 cursor-pointer"
               :class="selectedTag === tag ? 'bg-primary text-on-primary font-semibold' : 'bg-background hover:bg-border text-secondary'"
               @click="toggleTag(tag)"
             >
@@ -126,7 +126,7 @@
           style="animation-delay: 300ms"
         >
           <button
-            class="spring-btn w-full bg-primary text-on-primary py-3.5 rounded-md font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-primary/10"
+            class="spring-btn w-full bg-primary text-on-primary py-3.5 rounded-md font-body text-sm font-semibold tracking-wider text-[13px] uppercase tracking-[0.2em] font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-primary/10"
             @click="openCreateModal = true"
           >
             <span class="material-symbols-outlined !text-[18px]">add_a_photo</span>
@@ -137,7 +137,7 @@
 
       <!-- Footer Info -->
       <footer
-        class="flex justify-between items-center text-secondary/40 font-label-sm text-[10px] tracking-widest reveal-item"
+        class="flex justify-between items-center text-secondary/40 font-body text-sm text-[10px] tracking-widest reveal-item"
         style="animation-delay: 350ms"
       >
         <span>VOL. 2026 // SECURE</span>
@@ -184,17 +184,17 @@
                 class="w-full h-full object-cover grayscale-[15%] sepia-[10%] group-hover:grayscale-0 group-hover:sepia-0 transition-all duration-500"
               />
               <span
-                class="absolute top-3 right-3 bg-surface/90 text-on-surface px-2 py-0.5 rounded text-[10px] uppercase font-label-md tracking-wider border border-border"
+                class="absolute top-3 right-3 bg-surface/90 text-on-surface px-2 py-0.5 rounded text-[10px] uppercase font-body text-sm font-semibold tracking-wider tracking-wider border border-border"
               >
                 {{ item.tag }}
               </span>
             </div>
 
             <div class="pt-4 pb-2 px-1 text-left space-y-1">
-              <p class="font-poetic-accent text-2xl italic leading-none text-on-surface truncate">
+              <p class="font-poetic text-2xl italic leading-none text-on-surface truncate">
                 {{ item.title }}
               </p>
-              <div class="flex justify-between items-center text-[11px] font-label-sm text-secondary/50 tracking-wider">
+              <div class="flex justify-between items-center text-[11px] font-body text-sm text-secondary/50 tracking-wider">
                 <span>{{ item.date }}</span>
                 <span class="material-symbols-outlined !text-[14px] opacity-0 group-hover:opacity-100 transition-opacity text-primary"
                   >zoom_in</span
@@ -211,12 +211,12 @@
         class="flex-grow flex flex-col items-center justify-center py-20 text-center select-none reveal-item"
       >
         <span class="material-symbols-outlined !text-[48px] text-secondary/30 mb-4 animate-pulse">photo_library</span>
-        <h3 class="font-poetic-accent text-3xl italic text-on-background mb-1">Your archive is quiet</h3>
+        <h3 class="font-poetic text-3xl italic text-on-background mb-1">Your archive is quiet</h3>
         <p class="text-[13px] text-secondary max-w-xs leading-relaxed">
           No memories match your search query. Try capturing a new memory or clearing filters.
         </p>
         <button
-          class="spring-btn mt-6 border border-border bg-surface hover:border-primary/30 text-[12px] uppercase font-label-md tracking-widest text-secondary hover:text-primary py-2 px-6 rounded-md cursor-pointer"
+          class="spring-btn mt-6 border border-border bg-surface hover:border-primary/30 text-[12px] uppercase font-body text-sm font-semibold tracking-wider tracking-widest text-secondary hover:text-primary py-2 px-6 rounded-md cursor-pointer"
           @click="clearFilters"
         >
           Clear filters
@@ -225,7 +225,7 @@
 
       <!-- Right Footer Info -->
       <footer
-        class="shrink-0 pt-6 border-t border-border flex justify-between items-center text-secondary/30 font-label-sm text-[10px] tracking-widest"
+        class="shrink-0 pt-6 border-t border-border flex justify-between items-center text-secondary/30 font-body text-sm text-[10px] tracking-widest"
       >
         <span>MEMORIES CAPTURED: {{ memories.length }}</span>
         <span>GALLERY VIEW // ASYMMETRIC GRID</span>
@@ -243,7 +243,7 @@
       >
         <header class="mb-5 flex justify-between items-start">
           <div>
-            <h2 class="font-headline-lg text-2xl font-bold text-on-surface">Capture Memory</h2>
+            <h2 class="font-title text-2xl font-bold text-on-surface">Capture Memory</h2>
             <p class="text-[12px] text-secondary">Record a new visual artifact in your archive.</p>
           </div>
           <button
@@ -260,7 +260,7 @@
         >
           <!-- Memory Title -->
           <div class="space-y-1.5">
-            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">MEMORY TITLE</label>
+            <label class="block font-body text-sm text-[12px] uppercase tracking-widest text-secondary">MEMORY TITLE</label>
             <v-text-field
               id="m-title"
               v-model="newMemory.title"
@@ -275,14 +275,14 @@
           <!-- Tag Selection -->
           <div>
             <label
-              class="block font-label-sm text-[12px] text-secondary mb-1.5"
+              class="block font-body text-sm text-[12px] text-secondary mb-1.5"
               for="m-tag"
               >CATEGORY TAG</label
             >
             <select
               id="m-tag"
               v-model="newMemory.tag"
-              class="w-full px-4 py-2 bg-surface border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-[14px] cursor-pointer text-on-surface"
+              class="w-full px-4 py-2 bg-surface border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body text-[14px] cursor-pointer text-on-surface"
             >
               <option value="#journal">#journal</option>
               <option value="#moments">#moments</option>
@@ -293,7 +293,7 @@
 
           <!-- Visual Artifact Selection (Mock Photo grid) -->
           <div>
-            <label class="block font-label-sm text-[12px] text-secondary mb-2">SELECT VISUAL ARTIFACT</label>
+            <label class="block font-body text-sm text-[12px] text-secondary mb-2">SELECT VISUAL ARTIFACT</label>
             <div class="grid grid-cols-4 gap-2">
               <div
                 v-for="img in mockImageArtifacts"
@@ -313,7 +313,7 @@
 
           <!-- Date -->
           <div class="space-y-1.5">
-            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">DATE CAPTURED</label>
+            <label class="block font-body text-sm text-[12px] uppercase tracking-widest text-secondary">DATE CAPTURED</label>
             <v-text-field
               id="m-date"
               v-model="newMemory.date"
@@ -330,7 +330,7 @@
               type="button"
               variant="outlined"
               size="large"
-              class="flex-1 spring-btn font-label-md tracking-wider uppercase text-on-surface border-border"
+              class="flex-1 spring-btn font-body text-sm font-semibold tracking-wider tracking-wider uppercase text-on-surface border-border"
               style="font-weight: 600; border-radius: var(--radius-lg); height: 44px"
               @click="closeModal"
             >
@@ -340,7 +340,7 @@
               type="submit"
               color="primary"
               size="large"
-              class="flex-1 spring-btn font-label-md tracking-wider uppercase"
+              class="flex-1 spring-btn font-body text-sm font-semibold tracking-wider tracking-wider uppercase"
               style="font-weight: 600; border-radius: var(--radius-lg); height: 44px"
             >
               Save Archive
@@ -359,7 +359,7 @@
       <div class="relative max-w-4xl w-full flex flex-col items-center">
         <!-- Close button -->
         <button
-          class="absolute -top-12 right-0 text-on-primary hover:text-primary transition-colors flex items-center gap-2 font-label-sm text-[11px] tracking-widest cursor-pointer"
+          class="absolute -top-12 right-0 text-on-primary hover:text-primary transition-colors flex items-center gap-2 font-body text-sm text-[11px] tracking-widest cursor-pointer"
           @click="activeLightbox = null"
         >
           CLOSE <span class="material-symbols-outlined !text-[16px]">close</span>
@@ -374,8 +374,8 @@
             />
           </div>
           <div class="pt-5 pb-1 text-center space-y-2">
-            <p class="font-poetic-accent text-3xl italic text-on-surface">"{{ activeLightbox.title }}"</p>
-            <div class="flex justify-center items-center gap-3 text-[11px] font-label-sm text-secondary/50 tracking-wider">
+            <p class="font-poetic text-3xl italic text-on-surface">"{{ activeLightbox.title }}"</p>
+            <div class="flex justify-center items-center gap-3 text-[11px] font-body text-sm text-secondary/50 tracking-wider">
               <span>{{ activeLightbox.date }}</span>
               <span>•</span>
               <span class="text-primary font-bold">{{ activeLightbox.tag }}</span>
@@ -409,7 +409,7 @@
             class="h-8 w-auto mx-auto mb-4"
             alt="Memories Logo"
           />
-          <h2 class="font-headline-lg text-2xl font-bold text-on-surface">Set Up Your Profile</h2>
+          <h2 class="font-title text-2xl font-bold text-on-surface">Set Up Your Profile</h2>
           <p class="text-[12px] text-secondary mt-1">Please provide a display name and username to personalize your vault.</p>
         </header>
 
@@ -426,7 +426,7 @@
           @submit.prevent="submitProfileSetup"
         >
           <div class="space-y-1.5">
-            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">Full Name / Display Name</label>
+            <label class="block font-body text-sm text-[12px] uppercase tracking-widest text-secondary">Full Name / Display Name</label>
             <v-text-field
               id="setup-displayname"
               v-model="setupDisplayName"
@@ -440,7 +440,7 @@
           </div>
 
           <div class="space-y-1.5">
-            <label class="block font-label-sm text-[12px] uppercase tracking-widest text-secondary">Username</label>
+            <label class="block font-body text-sm text-[12px] uppercase tracking-widest text-secondary">Username</label>
             <v-text-field
               id="setup-username"
               v-model="setupUsername"
@@ -460,7 +460,7 @@
               block
               size="large"
               :loading="setupLoading"
-              class="spring-btn font-label-md tracking-wider uppercase"
+              class="spring-btn font-body text-sm font-semibold tracking-wider tracking-wider uppercase"
               style="font-weight: 600; border-radius: var(--radius-lg); height: 50px"
             >
               Save & Enter Vault
@@ -492,8 +492,10 @@
 import { ref, computed, onMounted } from 'vue'
 import { useHead } from '#imports'
 
+const { t } = useI18n()
+
 useHead({
-  title: 'Your Scrapbook',
+  title: t('nav.dashboard'),
 })
 import { LogoTextLight, LogoTextDark } from '~/assets/icons'
 import { navigateTo } from '#app'

@@ -33,6 +33,7 @@
 
   --danger-container: #ffdad6;
   --on-danger-container: #93000a;
+
 }
 
 .dark {
@@ -67,6 +68,7 @@
 
   --danger-container: #93000a;
   --on-danger-container: #ffdad6;
+
 }
 
 @theme {
@@ -105,9 +107,6 @@
   --spacing-gutter: 24px;
   --spacing-form-max-width: 440px;
   --spacing-margin-desktop: 10%;
-  --spacing-margin-mobile: clamp(2rem, 5vw, 4rem);
-  --spacing-container-max: 1440px;
-
   --font-title: 'Outfit', sans-serif;
   --font-body: 'Geist', sans-serif;
   --font-poetic: 'Instrument Serif', serif;

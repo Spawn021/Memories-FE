@@ -33,6 +33,10 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       redirectOn: 'root',
     },
+    compilation: {
+      strictMessage: false,
+      escapeHtml: false,
+    },
   },
   components: [
     {
@@ -48,7 +52,7 @@ export default defineNuxtConfig({
       },
     },
     optimizeDeps: {
-      include: ['@vue/devtools-core', '@vue/devtools-kit', 'zod'],
+      include: ['@vue/devtools-core', '@vue/devtools-kit', 'zod', 'vuetify'],
     },
   },
   app: {

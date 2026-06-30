@@ -19,7 +19,6 @@
   "E100": "Vui lòng kiểm tra lại thông tin đầu vào.",
   "DEFAULT_ERROR": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.",
   "CONNECTION_ERROR": "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối.",
-
   "V0": "Địa chỉ email không hợp lệ.",
   "V1": "Mật khẩu phải có nhất 8 ký tự.",
   "V2": "Mật khẩu phải chứa ít nhất một chữ cái thường, một chữ số và một ký tự đặc biệt.",
@@ -30,7 +29,6 @@
   "V7": "Mã OTP không được để trống.",
   "V8": "Mã OTP phải có đúng 6 chữ số.",
   "V9": "Xác nhận mật khẩu không được để trống.",
-
   "S0": "Email xác thực thành công.",
   "S1": "Đặt lại mật khẩu thành công.",
   "S2": "Đăng ký thành công! Vui lòng kiểm tra email để nhận mã xác thực.",
@@ -38,12 +36,287 @@
   "S4": "Gửi lại mã OTP xác thực thành công.",
   "S5": "Đăng xuất thành công.",
   "S6": "Đã thu hồi phiên làm việc thành công.",
-
+  "nav": {
+    "home": "Trang chủ",
+    "stories": "Câu chuyện",
+    "curation": "Tuyển tập",
+    "about": "Về chúng tôi",
+    "terms": "Điều khoản",
+    "privacy": "Bảo mật",
+    "dashboard": "Bảng điều khiển",
+    "archiveEthics": "Đạo đức lưu trữ",
+    "contact": "Liên hệ"
+  },
   "common": {
     "switchLight": "Chuyển sang Chế độ sáng",
-    "switchDark": "Chuyển sang Chế độ tối"
+    "switchDark": "Chuyển sang Chế độ tối",
+    "copyright": "© 2026 Memories Platform. Nơi lưu giữ những kỷ niệm của bạn."
   },
-
+  "home": {
+    "heroTitle": "Lưu giữ ánh sáng của bạn",
+    "heroSubtitle": "Nơi tôn nghiêm cho lịch sử của bạn. Mỗi lời thì thầm, mỗi ánh nhìn, và mỗi tia sáng bình minh dịu nhẹ, được bảo tồn trong một ngôi nhà kỹ thuật số mang cảm giác của những trang giấy cũ.",
+    "beginJourney": "Bắt đầu hành trình",
+    "exploreArchive": "Khám phá kho lưu trữ",
+    "features": {
+      "scrapbook": {
+        "title": "Sổ lưu niệm kỹ thuật số",
+        "desc": "Vượt ra ngoài những điểm ảnh và dữ liệu, chúng tôi mang đến một mái nhà cho câu chuyện của bạn. Sắp xếp ảnh, ghi âm và nhật ký vào một hệ thống lưới tự nhiên, tiến hóa phản chiếu lại cách bạn ghi nhớ.",
+        "link": "Tìm hiểu thêm"
+      },
+      "archival": {
+        "title": "Chất lượng lưu trữ",
+        "desc": "Được xây dựng trên những công nghệ ưu tiên sự vĩnh cửu. Chúng tôi đảm bảo những câu chuyện của bạn luôn có thể truy cập được qua nhiều thế hệ, được gìn giữ cẩn thận như một kỷ vật thực sự.",
+        "link": "Chi tiết bảo mật"
+      },
+      "intimate": {
+        "title": "Chia sẻ riêng tư",
+        "desc": "Không bảng tin, không lượt thích, không ồn ào. Chia sẻ bộ sưu tập đã được tuyển chọn của bạn với một nhóm người nhất định. Một không gian trưng bày riêng tư cho những người đã thực sự cùng bạn chia sẻ khoảnh khắc đó.",
+        "link": "Đạo lý riêng tư"
+      }
+    },
+    "cta": {
+      "title": "Câu chuyện của bạn đang chờ được kể.",
+      "subtitle": "Hãy tham gia cùng hơn 40.000 người kể chuyện đã tìm thấy ngôi nhà cho những kỷ niệm quý giá nhất của họ.",
+      "button": "Tạo kho lưu trữ miễn phí"
+    }
+  },
+  "stories": {
+    "heroPhotoQuote": "\"Nhịp điệu chậm rãi của tháng Tám.\"",
+    "featuredMemory": "Kỷ niệm nổi bật",
+    "heroTitle": "Đuổi theo khoảnh khắc hoàng hôn ở Tuscany.",
+    "heroDesc": "Có một sự tĩnh lặng chỉ tồn tại trong cái nóng chiều muộn. Chúng tôi đã dành hàng giờ men theo những đường nét của ngọn đồi, nơi đất trời hòa quyện trong làn sương màu hổ phách và xô thơm. Mỗi góc nhỏ đều mang cảm giác như một bí mật được cất giữ qua nhiều thế kỷ.",
+    "readFullStory": "Đọc toàn bộ câu chuyện",
+    "memoryFeedTitle": "Bảng tin kỷ niệm",
+    "memoryFeedSubtitle": "Bộ sưu tập những khoảnh khắc được lưu giữ theo thời gian.",
+    "writeNewStory": "Viết câu chuyện mới",
+    "discoverEarlier": "Khám phá những khoảnh khắc trước đó",
+    "snaps": {
+      "snap1": {
+        "date": "14 tháng 6, 2024",
+        "title": "Buổi sáng mưa ở Paris",
+        "desc": "Tìm nơi trú ẩn trong một quán cà phê nhỏ góc phố gần sông Seine khi thành phố nhòa đi trong sương xám."
+      },
+      "snap2": {
+        "date": "02 tháng 7, 2024",
+        "title": "Lửa trại lúc nửa đêm",
+        "desc": "Mùi hương của không khí mặn mòi và khói tuyết tùng. Chúng tôi nán lại cho đến khi những vì sao là nguồn sáng duy nhất còn lại."
+      },
+      "snap3": {
+        "date": "28 tháng 5, 2024",
+        "title": "Sương mù trên đỉnh núi",
+        "desc": "Lên đến đỉnh đúng lúc mây tan. Cảm giác như đang đứng trên rìa của mọi thứ."
+      },
+      "snap4": {
+        "date": "12 tháng 4, 2024",
+        "title": "Thư viện của những tiếng vọng",
+        "desc": "Những hạt bụi nhảy múa trong ánh sáng của Cánh Tây. Mỗi cuốn sách chứa đựng cả ngàn cuộc đời bên trong."
+      },
+      "snap5": {
+        "date": "05 tháng 3, 2024",
+        "title": "Những niềm vui nhỏ bé",
+        "desc": "Chỉ là một bữa sáng yên tĩnh và tiếng gió trong kẽ lá. Sự hoàn hảo trong những điều giản đơn."
+      },
+      "snap6": {
+        "date": "19 tháng 2, 2024",
+        "title": "Giai điệu Neon",
+        "desc": "Âm nhạc dường như đã kéo cả con phố lại gần nhau, dù chỉ trong vài phút ngắn ngủi."
+      }
+    }
+  },
+  "curation": {
+    "headerLabel": "Studio Tuyển chọn",
+    "heroTitle": "Sắp xếp những <br /><span class=\"italic font-poetic text-primary\">khoảnh khắc quý giá.</span>",
+    "heroDesc": "Biến một thư viện lộn xộn thành một hành trình đầy chất thơ. Sử dụng các công cụ chủ đích của chúng tôi để nhóm, phân chủ đề và trân trọng từng khung hình.",
+    "newCollectionBtn": "Bộ sưu tập mới",
+    "collections": {
+      "collection1": {
+        "title": "Mùa hè 2024",
+        "items": "42 Mục",
+        "badge": "Cá nhân",
+        "lastEdited": "Chỉnh sửa lần cuối 2 ngày trước",
+        "curateBtn": "Tuyển chọn"
+      },
+      "collection2": {
+        "title": "Sáng yên bình",
+        "items": "18 Mục",
+        "badge": "Chia sẻ",
+        "lastEdited": "Chỉnh sửa lần cuối 5 giờ trước",
+        "curateBtn": "Tuyển chọn"
+      },
+      "collection3": {
+        "title": "Nghiên cứu thực vật",
+        "items": "31 Mục",
+        "badge": "Lưu trữ",
+        "lastEdited": "Chỉnh sửa lần cuối 1 tuần trước",
+        "curateBtn": "Tuyển chọn"
+      }
+    },
+    "toolsTitle": "Công cụ Tuyển chọn",
+    "tools": {
+      "tool1": {
+        "title": "Chủ đề thông minh",
+        "desc": "Để AI gợi ý các chủ đề dựa trên sự hài hòa thị giác, địa điểm và sự đồng điệu cảm xúc. Tự động gom nhóm kỷ niệm thành các câu chuyện có ý nghĩa.",
+        "btn": "Thử Chủ đề Tự động"
+      },
+      "tool2": {
+        "title": "Siêu dữ liệu hàng loạt",
+        "desc": "Chỉnh sửa thẻ, ngày tháng và địa điểm cho toàn bộ ngăn xếp chỉ bằng một thao tác."
+      },
+      "tool3": {
+        "title": "Lưới tùy chỉnh"
+      },
+      "tool4": {
+        "title": "Thư viện trực tiếp"
+      }
+    }
+  },
+  "about": {
+    "originLabel": "Khởi nguyên",
+    "heroTitle": "Một thánh đường kỹ thuật số cho <span class=\"text-primary italic font-poetic\">người lưu trữ đầy tâm hồn.</span>",
+    "heroDesc": "Chúng tôi tin rằng những mảnh ghép quý giá nhất của cuộc sống—cách ánh sáng chiếu xuống sàn nhà, kết cấu của một bức thư, sự tĩnh lặng của một khu vườn—xứng đáng được lưu giữ hơn là một bảng tin dễ dàng trôi đi.",
+    "startBtn": "Bắt đầu lưu trữ",
+    "overlayLocation": "Paris, Tháng 6 '22",
+    "missionTitle": "Sứ mệnh",
+    "missionQuote": "\"Nhằm thu hẹp khoảng cách giữa di sản hoài cổ và chủ nghĩa tối giản đương đại, tạo ra một thánh đường cho những khoảnh khắc từ chối bị lãng quên.\"",
+    "missionDesc": "Trong kỷ nguyên tiêu thụ nhanh, Memories là một sự tạm dừng có chủ đích. Chúng tôi đã xây dựng một nền tảng đối xử với cuộc sống kỹ thuật số của bạn bằng sự tôn kính như một cuốn sổ lưu niệm vật lý—nơi sự bất đối xứng là hữu cơ và mọi tương tác đều mang lại cảm giác mượt mà chạm đến trái tim.",
+    "timelineTitle": "Dòng thời gian tầm nhìn",
+    "timelineSubtitle": "Cách chúng tôi phát triển từ một ý tưởng sổ phác thảo nhỏ bé thành một thánh đường kỹ thuật số.",
+    "timeline": {
+      "step1": {
+        "date": "Mùa xuân 2021",
+        "title": "Bản mẫu trên giấy",
+        "desc": "Mọi thứ bắt đầu với một chồng nhật ký thế kỷ 19 và mong muốn mô phỏng niềm vui xúc giác khi lật một trang giấy nặng. Chúng tôi đã phác thảo các bố cục \"lưới hữu cơ\" đầu tiên, thứ sau này sẽ định hình Chủ nghĩa tối giản bất đối xứng của chúng tôi."
+      },
+      "step2": {
+        "date": "Mùa thu 2022",
+        "title": "Vật lý của Cảm xúc",
+        "desc": "Chúng tôi đã dành nhiều tháng để hoàn thiện \"Spring Motion\". Mỗi cú nhấp chuột cần mang lại cảm giác phản hồi như một chốt vật lý, sử dụng các đường cong độ cứng cao để mô phỏng trọng lượng và sự hiện diện trong không gian kỹ thuật số."
+      },
+      "step3": {
+        "date": "Tương lai",
+        "title": "Kho lưu trữ vĩnh cửu",
+        "desc": "Hôm nay, chúng tôi tiếp tục mở rộng các công cụ tuyển chọn của mình, đảm bảo rằng những ký ức của bạn không chỉ được lưu trữ, mà còn được tôn vinh. Chúng tôi đang xây dựng kiến trúc cho những câu chuyện trường tồn qua nhiều thế hệ."
+      }
+    },
+    "cta": {
+      "title": "Sẵn sàng tuyển chọn câu chuyện của bạn?",
+      "subtitle": "Hãy tham gia cộng đồng của những người lưu trữ đầy tâm hồn, bảo tồn những điều quan trọng nhất.",
+      "createBtn": "Tạo kho lưu trữ của bạn",
+      "exploreBtn": "Khám phá Tuyển tập"
+    }
+  },
+  "terms": {
+    "title": "Điều khoản Dịch vụ",
+    "subtitle": "Khung Pháp lý",
+    "description": "Cập nhật lần cuối: 24/12/2024. Vui lòng đọc kỹ các điều khoản này trước khi bắt đầu hành trình qua các trang sử. Thánh đường này được xây dựng trên sự tin tưởng và việc bảo tồn di sản chung.",
+    "nav": {
+      "acceptance": "01. Chấp thuận",
+      "conduct": "02. Trách nhiệm Người dùng",
+      "intellectual_property": "03. Sở hữu Trí tuệ",
+      "privacy": "04. Quyền riêng tư & Dữ liệu",
+      "termination": "05. Chấm dứt"
+    },
+    "sections": {
+      "acceptance": {
+        "title": "Chấp thuận Điều khoản",
+        "p1": "Bằng việc truy cập hoặc sử dụng Nền tảng Memories, bạn xác nhận rằng bạn đã đọc, hiểu và đồng ý bị ràng buộc bởi các Điều khoản Dịch vụ này. Nếu bạn không đồng ý, vui lòng không sử dụng thánh đường lịch sử của chúng tôi.",
+        "p2": "Chúng tôi có quyền sửa đổi các điều khoản này vào bất kỳ lúc nào. Việc bạn tiếp tục sử dụng nền tảng sau khi có thay đổi đồng nghĩa với việc bạn chấp nhận những thay đổi đó. Chúng tôi sẽ thông báo cho bạn về những thay đổi quan trọng qua địa chỉ email liên kết với hồ sơ của bạn."
+      },
+      "conduct": {
+        "title": "Trách nhiệm Người dùng",
+        "p1": "Nền tảng Memories là không gian dành cho lịch sử được tinh tuyển và tự sự cá nhân. Bạn chịu trách nhiệm cho mọi hoạt động diễn ra dưới tài khoản của mình. Bạn đồng ý không:",
+        "li1": "Tải lên nội dung trái pháp luật, độc hại hoặc xâm phạm nhân phẩm người khác.",
+        "li2": "Cố gắng phá vỡ tính toàn vẹn kỹ thuật số hoặc bảo mật kiến trúc của nền tảng.",
+        "li3": "Tự động trích xuất dữ liệu (scraping) mà không có sự cho phép rõ ràng bằng văn bản."
+      },
+      "intellectual_property": {
+        "title": "Sở hữu Trí tuệ",
+        "your_content": "Nội dung của Bạn:",
+        "your_content_desc": "Bạn giữ mọi quyền sở hữu đối với các kỷ niệm, hình ảnh và câu chuyện mà bạn tải lên. Bằng việc chia sẻ chúng trên nền tảng của chúng tôi, bạn cấp cho Memories một giấy phép giới hạn, không độc quyền để lưu trữ và hiển thị nội dung của bạn theo cài đặt quyền riêng tư của bạn.",
+        "our_content": "Nội dung của Chúng tôi:",
+        "our_content_desc": "Thiết kế nền tảng, các thành phần giao diện, kiểu chữ và các câu chuyện gốc do người quản lý tuyển chọn là tài sản độc quyền của Nền tảng Memories. Chúng không được sao chép hoặc sử dụng mà không có sự đồng ý trước."
+      },
+      "privacy": {
+        "title": "Quyền riêng tư & Đạo đức Dữ liệu",
+        "p1": "Chúng tôi đối xử với lịch sử của bạn với mức độ cẩn trọng cao nhất. Các hoạt động xử lý dữ liệu của chúng tôi được điều chỉnh bởi Chính sách Quyền riêng tư, là một phần của các điều khoản này. Chúng tôi không bán câu chuyện cá nhân của bạn cho các nhà quảng cáo bên thứ ba.",
+        "p2": "Chúng tôi sử dụng mã hóa đầu cuối cho các lưu trữ riêng tư và duy trì các kiểm soát truy cập nội bộ nghiêm ngặt để đảm bảo di sản kỹ thuật số của bạn luôn an toàn và không bị can thiệp."
+      },
+      "termination": {
+        "title": "Chấm dứt Dịch vụ",
+        "p1": "Bạn có thể đóng tài khoản và xuất dữ liệu của mình bất kỳ lúc nào. Chúng tôi có quyền đình chỉ hoặc chấm dứt quyền truy cập vào các dịch vụ của mình nếu bạn vi phạm các điều khoản này hoặc nếu nền tảng ngừng hoạt động. Trong trường hợp giải thể nền tảng, người dùng sẽ có khoảng thời gian gia hạn 90 ngày để tải xuống toàn bộ kho lưu trữ của họ."
+      }
+    },
+    "cta": {
+      "title": "Cần làm rõ thêm?",
+      "description": "Hội đồng đạo đức của chúng tôi luôn sẵn sàng trả lời các câu hỏi cụ thể về các điều khoản này hoặc quyền lợi của bạn với tư cách là người lưu trữ lịch sử.",
+      "button": "Liên hệ với Archive Ethics"
+    },
+    "image_text": "lưu giữ sự phù du."
+  },
+  "privacy": {
+    "title": "Chính sách Bảo mật",
+    "heroTitle": "Kiến tạo <br />Niềm tin Số.",
+    "heroDesc": "Tại Memories, chúng tôi tin rằng lịch sử của bạn là thiêng liêng. Khung bảo mật của chúng tôi được xây dựng để trở thành một thánh đường minh bạch cho dữ liệu cá nhân và di sản kỹ thuật số của bạn.",
+    "nav": {
+      "collection": "01. Thu thập Dữ liệu",
+      "usage": "02. Giao thức Sử dụng",
+      "security": "03. Kho lưu trữ Bảo mật",
+      "cookies": "04. Cookie Kỹ thuật số",
+      "rights": "05. Quyền của Người dùng"
+    },
+    "sections": {
+      "collection": {
+        "title": "Thu thập Dữ liệu",
+        "subtitle": "Những gì chúng tôi lưu giữ",
+        "desc": "Chúng tôi chỉ thu thập những gì thiết yếu để mang lại trải nghiệm viết nhật ký liền mạch. Bao gồm thông tin tài khoản, siêu dữ liệu của kỷ niệm và các tệp đa phương tiện độ phân giải cao mà bạn chọn tải lên kho lưu trữ riêng tư của mình.",
+        "li1": "Dữ liệu Định danh Cơ bản (Tên, Email)",
+        "li2": "Siêu dữ liệu Không gian địa lý (Tùy chọn)",
+        "li3": "Nhật ký Tương tác & Thiết bị",
+        "quote": "\"Sự minh bạch là nền tảng trong kiến trúc của chúng tôi. Chúng tôi không bao giờ bán câu chuyện cá nhân của bạn cho bên thứ ba.\""
+      },
+      "usage": {
+        "title": "Giao thức Sử dụng",
+        "desc": "Dữ liệu của bạn phục vụ một mục đích duy nhất: làm phong phú trải nghiệm cá nhân của bạn. Chúng tôi sử dụng máy học (machine learning) cục bộ để giúp tuyển chọn các chủ đề, gợi ý thẻ và sắp xếp lịch sử của bạn mà không bao giờ đưa nội dung thô lên đám mây diện rộng.",
+        "feature1": {
+          "title": "Cá nhân hóa",
+          "desc": "Tinh chỉnh giao diện theo các mẫu kỷ niệm cụ thể của bạn."
+        },
+        "feature2": {
+          "title": "Tối ưu hóa",
+          "desc": "Đảm bảo phân phối tệp đa phương tiện của bạn với tốc độ cao trên mọi thiết bị."
+        },
+        "feature3": {
+          "title": "Bảo mật",
+          "desc": "Bảo vệ chống lại các truy cập và xâm nhập trái phép."
+        }
+      },
+      "security": {
+        "title": "Kho lưu trữ Bảo mật",
+        "desc": "Chúng tôi sử dụng mã hóa AES-256 bit cho dữ liệu lưu trữ và TLS 1.3 cho dữ liệu truyền tải. Kỷ niệm của bạn được lưu trữ tại các trung tâm dữ liệu phân tán theo địa lý, có độ bảo mật cao và đáp ứng các tiêu chuẩn tuân thủ nghiêm ngặt nhất thế giới.",
+        "badge1": "Tuân thủ SOC2",
+        "badge2": "Sẵn sàng Mã hóa Đầu cuối",
+        "monitor": "Trình giám sát Mã hóa Hoạt động"
+      },
+      "cookies": {
+        "title": "Cookie Kỹ thuật số",
+        "desc": "Chúng tôi sử dụng cookie \"chức năng\" để ghi nhớ phiên và tùy chọn của bạn. Chúng tôi không sử dụng pixel theo dõi cho mục đích quảng cáo hoặc giám sát chéo trang web.",
+        "essential": {
+          "title": "Cookie Thiết yếu",
+          "desc": "Bắt buộc đối với xác thực và bảo mật hệ thống.",
+          "status": "Luôn Bật"
+        },
+        "preference": {
+          "title": "Cookie Tùy chọn",
+          "desc": "Ghi nhớ các cài đặt chủ đề và lựa chọn bố cục."
+        }
+      }
+    },
+    "cta": {
+      "title": "Có câu hỏi về Bảo mật?",
+      "desc": "Nhóm đạo đức của chúng tôi luôn sẵn sàng thảo luận về quyền dữ liệu của bạn.",
+      "button": "Liên hệ Trưởng nhóm Đạo đức"
+    }
+  },
   "auth": {
     "quote": "“Chúng ta viết để trải nghiệm cuộc sống hai lần, một lần trong khoảnh khắc và một lần khi nhìn lại.”",
     "quoteAuthor": "— Anaïs Nin",
@@ -69,14 +342,25 @@
     "resending": "Đang gửi lại...",
     "resendCode": "Gửi lại mã",
     "codeSentSuccessToast": "Mã xác thực đã được gửi thành công!",
-    "continueGoogle": "Đăng nhập với Google"
+    "continueGoogle": "Đăng nhập với Google",
+    "forgotPassword": "Quên mật khẩu",
+    "forgotPasswordSubtitle": "Nhập email của bạn để nhận mã khôi phục mật khẩu.",
+    "sendResetCode": "Gửi mã khôi phục",
+    "otpSentTo": "Chúng tôi đã gửi mã xác nhận đến",
+    "verifyOtp": "Xác nhận mã",
+    "resetPassword": "Đặt lại mật khẩu",
+    "rememberPassword": "Đã nhớ mật khẩu?",
+    "otpSentSuccess": "Gửi mã khôi phục thành công!",
+    "otpResentSuccess": "Gửi lại mã khôi phục thành công!",
+    "passwordResetSuccess": "Đặt lại mật khẩu thành công!"
   },
-
   "form": {
     "labels": {
       "email": "Địa chỉ Email",
       "password": "Mật khẩu",
-      "confirmPassword": "Xác nhận mật khẩu"
+      "confirmPassword": "Xác nhận mật khẩu",
+      "otp": "Mã xác nhận",
+      "newPassword": "Mật khẩu mới"
     },
     "placeholders": {
       "email": "Ví dụ: hoang.nam{'@'}domain.com",

@@ -12,9 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useHead } from '#imports'
-
 definePageMeta({
   layout: 'auth',
   authVisual: 'register',

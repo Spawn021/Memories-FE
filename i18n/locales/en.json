@@ -19,7 +19,6 @@
   "E100": "Please correct the validation errors.",
   "DEFAULT_ERROR": "An unexpected error occurred. Please try again.",
   "CONNECTION_ERROR": "Unable to connect to server. Please check your connection.",
-
   "V0": "Invalid email address.",
   "V1": "Password must be at least 8 characters.",
   "V2": "Password must contain at least one lowercase letter, one number, and one special character.",
@@ -30,7 +29,6 @@
   "V7": "OTP is required.",
   "V8": "OTP must be exactly 6 digits.",
   "V9": "Confirm password is required.",
-
   "S0": "Email verified successfully.",
   "S1": "Password reset successful.",
   "S2": "Registration successful! Please check your email for the verification code",
@@ -38,12 +36,287 @@
   "S4": "Verification OTP has been resent successfully.",
   "S5": "Logout successful.",
   "S6": "Session revoked successfully.",
-
+  "nav": {
+    "home": "Home",
+    "stories": "Stories",
+    "curation": "Curation",
+    "about": "About",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "dashboard": "Dashboard",
+    "archiveEthics": "Archive Ethics",
+    "contact": "Contact"
+  },
   "common": {
     "switchLight": "Switch to Light Mode",
-    "switchDark": "Switch to Dark Mode"
+    "switchDark": "Switch to Dark Mode",
+    "copyright": "© 2026 Memories Platform. A sanctuary for your history."
   },
-
+  "home": {
+    "heroTitle": "Curate your light",
+    "heroSubtitle": "A sanctuary for your history. Every whisper, every glance, and every soft morning glow, preserved in a digital home that feels like old paper.",
+    "beginJourney": "Begin Journey",
+    "exploreArchive": "Explore Archive",
+    "features": {
+      "scrapbook": {
+        "title": "The Digital Scrapbook",
+        "desc": "Beyond pixels and data, we offer a home for your narrative. Organize photos, voice notes, and journals into an organic, evolving grid that mirrors the way you remember.",
+        "link": "Learn more"
+      },
+      "archival": {
+        "title": "Archival Quality",
+        "desc": "Built on technologies that prioritize permanence. We ensure your stories remain accessible across generations, preserved with the same care as a physical heirloom.",
+        "link": "Security details"
+      },
+      "intimate": {
+        "title": "Intimate Sharing",
+        "desc": "No feeds, no likes, no noise. Share your curated collections with a chosen circle. A private gallery space for the people who truly shared the moment.",
+        "link": "Privacy ethos"
+      }
+    },
+    "cta": {
+      "title": "Your story is waiting to be told.",
+      "subtitle": "Join 40,000+ storytellers who have found a home for their most precious memories.",
+      "button": "Create Your Free Archive"
+    }
+  },
+  "stories": {
+    "heroPhotoQuote": "\"The slow rhythm of August.\"",
+    "featuredMemory": "Featured Memory",
+    "heroTitle": "Chasing the golden hour in Tuscany.",
+    "heroDesc": "There was a stillness that only exists in the late afternoon heat. We spent hours tracing the lines of the hills, where the earth meets the sky in a haze of amber and sage. Every corner felt like a secret kept for centuries.",
+    "readFullStory": "Read the full story",
+    "memoryFeedTitle": "Memory Feed",
+    "memoryFeedSubtitle": "A staggered collection of moments caught in time.",
+    "writeNewStory": "Write a new story",
+    "discoverEarlier": "Discover earlier moments",
+    "snaps": {
+      "snap1": {
+        "date": "June 14, 2024",
+        "title": "Rainy mornings in Paris",
+        "desc": "Finding refuge in a small corner cafe near the Seine while the city blurred into gray."
+      },
+      "snap2": {
+        "date": "July 02, 2024",
+        "title": "Midnight Bonfires",
+        "desc": "The smell of salt air and cedar smoke. We stayed until the stars were the only light left."
+      },
+      "snap3": {
+        "date": "May 28, 2024",
+        "title": "The Summit Mist",
+        "desc": "Reaching the top just as the clouds broke. It felt like standing on the edge of everything."
+      },
+      "snap4": {
+        "date": "April 12, 2024",
+        "title": "The Library of Echoes",
+        "desc": "Dust motes dancing in the light of the West Wing. Every book has a thousand lives inside."
+      },
+      "snap5": {
+        "date": "March 05, 2024",
+        "title": "Small Joys",
+        "desc": "Just a quiet breakfast and the sound of the wind in the trees. Perfection in simplicity."
+      },
+      "snap6": {
+        "date": "February 19, 2024",
+        "title": "Neon Melodies",
+        "desc": "The music seemed to pull the street together, if only for a few fleeting minutes."
+      }
+    }
+  },
+  "curation": {
+    "headerLabel": "Curation Studio",
+    "heroTitle": "Organize your <br /><span class=\"italic font-poetic text-primary\">precious moments.</span>",
+    "heroDesc": "Transform a chaotic library into a poetic journey. Use our intentional tools to group, theme, and cherish every frame.",
+    "newCollectionBtn": "New Collection",
+    "collections": {
+      "collection1": {
+        "title": "Summer 2024",
+        "items": "42 Items",
+        "badge": "Personal",
+        "lastEdited": "Last edited 2 days ago",
+        "curateBtn": "Curate Collection"
+      },
+      "collection2": {
+        "title": "Quiet Mornings",
+        "items": "18 Items",
+        "badge": "Shared",
+        "lastEdited": "Last edited 5 hours ago",
+        "curateBtn": "Curate Collection"
+      },
+      "collection3": {
+        "title": "Botanical Study",
+        "items": "31 Items",
+        "badge": "Archives",
+        "lastEdited": "Last edited 1 week ago",
+        "curateBtn": "Curate Collection"
+      }
+    },
+    "toolsTitle": "Curation Tools",
+    "tools": {
+      "tool1": {
+        "title": "Intelligent Theming",
+        "desc": "Let our AI engine suggest themes based on visual harmony, location, and emotional resonance. It clusters your memories into meaningful narratives automatically.",
+        "btn": "Try Auto-Theme"
+      },
+      "tool2": {
+        "title": "Bulk Metadata",
+        "desc": "Edit tags, dates, and locations for entire stacks in a single motion."
+      },
+      "tool3": {
+        "title": "Custom Grids"
+      },
+      "tool4": {
+        "title": "Live Gallery"
+      }
+    }
+  },
+  "about": {
+    "originLabel": "Our Origin",
+    "heroTitle": "A digital sanctuary for the <span class=\"text-primary italic font-poetic\">soulful archivist.</span>",
+    "heroDesc": "We believe that life’s most precious fragments—the way the light hit the floor, the texture of a letter, the silence of a garden—deserve more than a disappearing feed.",
+    "startBtn": "Start Archiving",
+    "overlayLocation": "Paris, June '22",
+    "missionTitle": "The Mission",
+    "missionQuote": "\"To bridge the gap between nostalgic heritage and contemporary minimalism, creating a sanctuary for moments that refuse to be forgotten.\"",
+    "missionDesc": "In an age of rapid consumption, Memories is an intentional pause. We’ve built a platform that treats your digital life with the same reverence as a physical scrapbook—where asymmetry is organic and every interaction feels like a spring-weighted touch.",
+    "timelineTitle": "The Vision Timeline",
+    "timelineSubtitle": "How we evolved from a small sketchbook idea to a digital sanctuary.",
+    "timeline": {
+      "step1": {
+        "date": "Spring 2021",
+        "title": "The Paper Prototype",
+        "desc": "It began with a stack of 19th-century journals and a desire to mimic the tactile joy of turning a heavy page. We mapped out the first \"organic grid\" layouts that would later define our Asymmetric Minimalism."
+      },
+      "step2": {
+        "date": "Autumn 2022",
+        "title": "Physics of Emotion",
+        "desc": "We spent months perfecting \"Spring Motion.\" Every click needed to feel as responsive as a physical latch, using high-stiffness curves to simulate weight and presence in a digital void."
+      },
+      "step3": {
+        "date": "The Future",
+        "title": "The Eternal Archive",
+        "desc": "Today, we continue to expand our curation tools, ensuring that your memories are not just stored, but celebrated. We are building the architecture for stories that last generations."
+      }
+    },
+    "cta": {
+      "title": "Ready to curate your story?",
+      "subtitle": "Join a community of soulful archivists preserving what matters most.",
+      "createBtn": "Create your Archive",
+      "exploreBtn": "Explore Curations"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "subtitle": "Legal Framework",
+    "description": "Last updated December 24, 2024. Please read these terms carefully before embarking on your journey through history. This sanctuary is built on trust and the preservation of shared heritage.",
+    "nav": {
+      "acceptance": "01. Acceptance",
+      "conduct": "02. User Conduct",
+      "intellectual_property": "03. Intellectual Property",
+      "privacy": "04. Privacy & Data",
+      "termination": "05. Termination"
+    },
+    "sections": {
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "p1": "By accessing or using the Memories Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, you must refrain from using our sanctuary for history.",
+        "p2": "We reserve the right to modify these terms at any time. Your continued use of the platform following the posting of changes constitutes your acceptance of such changes. We will notify you of any significant shifts via the email address associated with your profile."
+      },
+      "conduct": {
+        "title": "User Conduct & Responsibility",
+        "p1": "The Memories Platform is a space for curated history and personal narrative. You are responsible for all activity that occurs under your account. You agree not to:",
+        "li1": "Upload content that is unlawful, harmful, or infringes upon the dignity of others.",
+        "li2": "Attempt to breach the digital integrity or architectural security of the platform.",
+        "li3": "Automate the extraction of data (scraping) without explicit written permission."
+      },
+      "intellectual_property": {
+        "title": "Intellectual Property",
+        "your_content": "Your Content:",
+        "your_content_desc": "You retain all ownership rights to the memories, images, and stories you upload. By sharing them on our platform, you grant Memories a limited, non-exclusive license to host, store, and display your content according to your privacy settings.",
+        "our_content": "Our Content:",
+        "our_content_desc": "The platform design, interface elements, typography, and original curator-led stories are the exclusive property of Memories Platform. They may not be reproduced or used without prior consent."
+      },
+      "privacy": {
+        "title": "Privacy & Data Ethics",
+        "p1": "We treat your history with the highest level of care. Our data practices are governed by our Privacy Policy, which is incorporated into these terms. We do not sell your personal narratives to third-party advertisers.",
+        "p2": "We use end-to-end encryption for private archives and maintain strict internal access controls to ensure your digital legacy remains secure and untampered."
+      },
+      "termination": {
+        "title": "Termination of Service",
+        "p1": "You may close your account and export your data at any time. We reserve the right to suspend or terminate access to our services for violations of these terms, or if the platform ceases operations. In the event of platform dissolution, users will be given a 90-day grace period to download their entire archive."
+      }
+    },
+    "cta": {
+      "title": "Need clarification?",
+      "description": "Our ethics board is available to answer specific questions regarding these terms or your rights as a curator of history.",
+      "button": "Reach out to Archive Ethics"
+    },
+    "image_text": "preserving the ephemeral."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "heroTitle": "Architecting <br />Digital Trust.",
+    "heroDesc": "At Memories, we believe your history is sacred. Our privacy framework is built to be a transparent sanctuary for your personal data and digital legacy.",
+    "nav": {
+      "collection": "01. Data Collection",
+      "usage": "02. Usage Protocols",
+      "security": "03. Security Vault",
+      "cookies": "04. Digital Cookies",
+      "rights": "05. User Rights"
+    },
+    "sections": {
+      "collection": {
+        "title": "Data Collection",
+        "subtitle": "What we curate",
+        "desc": "We collect only what is essential to provide a seamless journaling experience. This includes account information, memory metadata, and high-resolution media you choose to upload to your private archive.",
+        "li1": "Primary Identity Data (Name, Email)",
+        "li2": "Geospatial Metadata (Optional)",
+        "li3": "Device & Interaction Logs",
+        "quote": "\"Transparency is the foundation of our architecture. We never sell your personal narrative to third parties.\""
+      },
+      "usage": {
+        "title": "Usage Protocols",
+        "desc": "Your data serves one purpose: enriching your personal experience. We use machine learning locally to help curate themes, suggest tags, and organize your history without ever exposing the raw content to the wider cloud.",
+        "feature1": {
+          "title": "Personalization",
+          "desc": "Tailoring the interface to your specific memory patterns."
+        },
+        "feature2": {
+          "title": "Optimization",
+          "desc": "Ensuring high-speed delivery of your media across devices."
+        },
+        "feature3": {
+          "title": "Security",
+          "desc": "Protecting against unauthorized access and intrusions."
+        }
+      },
+      "security": {
+        "title": "Security Vault",
+        "desc": "We employ AES-256 bit encryption at rest and TLS 1.3 in transit. Your memories are stored in geographically distributed, highly secure data centers that meet the world's most stringent compliance standards.",
+        "badge1": "SOC2 Compliant",
+        "badge2": "End-to-End Ready",
+        "monitor": "Active Encryption Monitor"
+      },
+      "cookies": {
+        "title": "Digital Cookies",
+        "desc": "We use \"functional\" cookies to remember your session and preferences. We do not use tracking pixels for advertising or cross-site surveillance.",
+        "essential": {
+          "title": "Essential Cookies",
+          "desc": "Required for authentication and system security.",
+          "status": "Always On"
+        },
+        "preference": {
+          "title": "Preference Cookies",
+          "desc": "Remembering theme settings and layout choices."
+        }
+      }
+    },
+    "cta": {
+      "title": "Questions on Privacy?",
+      "desc": "Our ethics team is available to discuss your data rights.",
+      "button": "Contact Ethics Lead"
+    }
+  },
   "auth": {
     "quote": "“We write to taste life twice, in the moment and in retrospect.”",
     "quoteAuthor": "— Anaïs Nin",
@@ -69,14 +342,25 @@
     "resending": "Resending...",
     "resendCode": "Resend Code",
     "codeSentSuccessToast": "Verification code sent successfully!",
-    "continueGoogle": "Continue with Google"
+    "continueGoogle": "Continue with Google",
+    "forgotPassword": "Forgot Password",
+    "forgotPasswordSubtitle": "Enter your email to receive a password reset code.",
+    "sendResetCode": "Send Reset Code",
+    "otpSentTo": "We have sent a verification code to",
+    "verifyOtp": "Verify Code",
+    "resetPassword": "Reset Password",
+    "rememberPassword": "Remember your password?",
+    "otpSentSuccess": "Reset code sent successfully!",
+    "otpResentSuccess": "Reset code resent successfully!",
+    "passwordResetSuccess": "Password reset successfully!"
   },
-
   "form": {
     "labels": {
       "email": "Email Address",
       "password": "Password",
-      "confirmPassword": "Confirm Password"
+      "confirmPassword": "Confirm Password",
+      "otp": "Verification Code",
+      "newPassword": "New Password"
     },
     "placeholders": {
       "email": "e.g. hoang.nam{'@'}domain.com",

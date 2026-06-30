@@ -6,39 +6,34 @@
   },
   "screens": [
     {
-      "id": "6914732680121120484",
-      "title": "Login - Memories Platform",
-      "deviceType": "DESKTOP",
-      "htmlPath": ".stitch/designs/login.html",
-      "screenshotPath": ".stitch/designs/login.png"
+      "id": "projects/10763385929411448868/screens/91bda78c7c034e74816d0a5cdc6b0b6a",
+      "title": "Landing Page - Modern Sunlit Garden Style",
+      "path": ".stitch/designs/landing-page.html"
     },
     {
-      "id": "11333567992207988707",
-      "title": "Registration - Memories Platform",
-      "deviceType": "DESKTOP",
-      "htmlPath": ".stitch/designs/register.html",
-      "screenshotPath": ".stitch/designs/register.png"
+      "id": "projects/10763385929411448868/screens/f0e264d6a38f42dea7f55f66fa6508bc",
+      "title": "Stories - Memories Platform",
+      "path": ".stitch/designs/stories.html"
     },
     {
-      "id": "17419761231252669917",
-      "title": "Forgot Password - Memories Platform",
-      "deviceType": "DESKTOP",
-      "htmlPath": ".stitch/designs/forgot-password.html",
-      "screenshotPath": ".stitch/designs/forgot-password.png"
+      "id": "projects/10763385929411448868/screens/bfb64275f1524477a38f3e7f1e5754ab",
+      "title": "Curation - Memories Platform",
+      "path": ".stitch/designs/curation.html"
     },
     {
-      "id": "9254513709725058335",
-      "title": "OTP Verification - Memories Platform",
-      "deviceType": "DESKTOP",
-      "htmlPath": ".stitch/designs/verify-otp.html",
-      "screenshotPath": ".stitch/designs/verify-otp.png"
+      "id": "projects/10763385929411448868/screens/009d0352cfe048659d9703e34f77b1b9",
+      "title": "About - Memories Platform",
+      "path": ".stitch/designs/about.html"
     },
     {
-      "id": "17462132699410219553",
-      "title": "Reset Password - Memories Platform",
-      "deviceType": "DESKTOP",
-      "htmlPath": ".stitch/designs/reset-password.html",
-      "screenshotPath": ".stitch/designs/reset-password.png"
+      "id": "projects/10763385929411448868/screens/127e3807d98f4d5aa0b2fa3f1b3f0fb1",
+      "title": "Terms of Service - Memories Platform",
+      "path": ".stitch/designs/terms-of-service.html"
+    },
+    {
+      "id": "projects/10763385929411448868/screens/9597924542734839ba8ce28d277d79af",
+      "title": "Privacy Policy - Memories Platform",
+      "path": ".stitch/designs/privacy-policy.html"
     }
   ]
 }

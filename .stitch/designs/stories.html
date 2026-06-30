@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stories | Memories Archive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Outfit:wght@300;400;600;700&amp;family=Geist:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#8b716b",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb3b0",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d9dad8",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f9faf8",
+                    "primary-fixed": "#ffdbd1",
+                    "surface-container": "#edeeec",
+                    "on-secondary-fixed-variant": "#3a4b3e",
+                    "on-secondary-fixed": "#0f1f14",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#f9faf8",
+                    "sunlit-clementine": "#E26A4A",
+                    "on-secondary-container": "#57695b",
+                    "primary": "#a13a1e",
+                    "on-primary-fixed-variant": "#84250b",
+                    "on-tertiary-fixed": "#410006",
+                    "secondary-fixed-dim": "#b8cbbb",
+                    "inverse-on-surface": "#f0f1ef",
+                    "canvas-linen": "#F7F8F6",
+                    "surface-container-low": "#f3f4f2",
+                    "outline-variant": "#dec0b9",
+                    "secondary-container": "#d4e8d6",
+                    "background": "#f9faf8",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#516355",
+                    "surface-variant": "#e2e3e1",
+                    "secondary-fixed": "#d4e8d6",
+                    "obsidian-ink": "#181A1A",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#ffb4a1",
+                    "on-surface-variant": "#57423c",
+                    "tertiary-fixed": "#ffdad8",
+                    "tertiary-container": "#c34e4f",
+                    "primary-container": "#c15234",
+                    "on-surface": "#191c1b",
+                    "surface-tint": "#a43c20",
+                    "inverse-surface": "#2e3130",
+                    "surface-container-high": "#e7e8e6",
+                    "terracotta-rose": "#D65C5C",
+                    "on-tertiary-container": "#fffbff",
+                    "surface-container-highest": "#e2e3e1",
+                    "on-background": "#191c1b",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#3c0800",
+                    "on-primary-container": "#fffbff",
+                    "inverse-primary": "#ffb4a1",
+                    "on-error": "#ffffff",
+                    "pure-surface": "#FFFFFF",
+                    "on-tertiary-fixed-variant": "#862025",
+                    "whisper-border": "rgba(24, 26, 26, 0.05)",
+                    "tertiary": "#a33638",
+                    "muted-leaf": "#5C6E60"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-desktop": "10%",
+                    "margin-mobile": "clamp(2rem, 5vw, 4rem)",
+                    "container-max": "1440px",
+                    "form-max-width": "440px"
+            },
+            "fontFamily": {
+                    "poetic-accent": ["Instrument Serif"],
+                    "headline-md": ["Outfit"],
+                    "display-lg": ["Outfit"],
+                    "body-md": ["Geist"],
+                    "label-sm": ["Geist"],
+                    "headline-lg": ["Outfit"],
+                    "body-lg": ["Geist"],
+                    "error-text": ["Geist"]
+            },
+            "fontSize": {
+                    "poetic-accent": ["20px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["13px", {"lineHeight": "1", "fontWeight": "500"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "error-text": ["12px", {"lineHeight": "1", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #F7F8F6; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .polaroid-frame {
+            box-shadow: 0 10px 30px -10px rgba(24, 26, 26, 0.12);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .polaroid-frame:hover {
+            transform: scale(1.02) rotate(-1deg);
+        }
+        .masonry-item:nth-child(even) { margin-top: 3rem; }
+        .masonry-item:nth-child(odd) { margin-top: 0rem; }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-sunlit-clementine/20">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-canvas-linen/80 dark:bg-obsidian-ink/80 backdrop-blur-md">
+<nav class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto">
+<div class="font-poetic-accent text-headline-lg text-primary dark:text-primary-fixed">Memories</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-primary dark:text-primary-fixed-dim font-semibold border-b-2 border-sunlit-clementine font-body-md text-body-md transition-all hover:scale-105" href="#">Stories</a>
+<a class="text-muted-leaf dark:text-secondary-fixed-dim hover:text-primary font-body-md text-body-md transition-all hover:scale-105" href="#">Curation</a>
+<a class="text-muted-leaf dark:text-secondary-fixed-dim hover:text-primary font-body-md text-body-md transition-all hover:scale-105" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-primary hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="max-w-container-max mx-auto px-margin-desktop py-12 md:py-20">
+<!-- Hero Section: Featured Story -->
+<section class="mb-24 fade-in-up">
+<div class="flex flex-col md:flex-row gap-12 items-center lg:items-start">
+<div class="w-full md:w-1/2 relative">
+<div class="polaroid-frame bg-pure-surface p-6 pb-16 rotate-2 transform-gpu">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover" data-alt="A nostalgic, high-end editorial photo of a vintage bicycle leaning against a weathered stone wall in a sun-drenched Italian village. The lighting is soft and golden, characteristic of a bright summer morning. The composition is asymmetrical, capturing a sense of quiet heritage and poetic simplicity in a modern scrapbook style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCuvpfRcnV6vMIUh5DCtMIs_X0yaXOwZxPIW1p5SZpU5GmQW_3s4Y_-fToXxcnl-YE6vSeJnPrz_7yBHMajy78bb4ez881QAGM5zHdQwbwYUOerSSrNRKMRl5thyOF2DpxEMoT7viRgrjXBqqs2phPRifzoNkFTdC2xr3YsWUOSCPzN-iC2qI0AG7EZMRPkw6c-OKtq20oXU5P-wwrTnThIAbrMlsuF2uYyM45m8Rl0CFAjOmmc_iDM0RV_trv1crthd6TJPR3E-uu"/>
+</div>
+<p class="font-poetic-accent text-headline-md text-muted-leaf text-center italic">"The slow rhythm of August."</p>
+</div>
+</div>
+<div class="w-full md:w-1/2 flex flex-col justify-center pt-8 md:pt-16">
+<div class="flex items-center gap-3 mb-6">
+<span class="w-12 h-px bg-sunlit-clementine"></span>
+<span class="font-label-sm text-label-sm text-sunlit-clementine uppercase tracking-widest">Featured Memory</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary mb-8 leading-tight">Chasing the golden hour in Tuscany.</h1>
+<p class="font-body-lg text-body-lg text-secondary mb-10 max-w-lg leading-relaxed">
+                        There was a stillness that only exists in the late afternoon heat. We spent hours tracing the lines of the hills, where the earth meets the sky in a haze of amber and sage. Every corner felt like a secret kept for centuries.
+                    </p>
+<div>
+<button class="bg-sunlit-clementine text-on-primary px-8 py-4 rounded-full font-headline-md text-body-md shadow-lg shadow-sunlit-clementine/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-3">
+                            Read the full story
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Divider & Action Row -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 fade-in-up stagger-1">
+<div class="max-w-md">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Memory Feed</h2>
+<p class="font-body-md text-body-md text-muted-leaf italic">A staggered collection of moments caught in time.</p>
+</div>
+<button class="group flex items-center gap-3 bg-pure-surface border border-whisper-border px-6 py-3 rounded-full hover:bg-canvas-linen transition-all hover:scale-[1.02] active:scale-[0.98]">
+<span class="material-symbols-outlined text-sunlit-clementine group-hover:rotate-12 transition-transform">edit_note</span>
+<span class="font-headline-md text-body-md text-primary">Write a new story</span>
+</button>
+</div>
+<!-- Masonry Grid of Snaps -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 lg:gap-y-0 items-start">
+<!-- Snap 1 -->
+<div class="masonry-item fade-in-up stagger-2 group">
+<div class="bg-pure-surface p-4 pb-12 shadow-sm border border-whisper-border -rotate-1 group-hover:rotate-0 transition-transform duration-500">
+<div class="aspect-square bg-surface-container overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A close-up, high-fashion editorial shot of a steaming cup of artisan coffee on a rustic wooden table, with soft morning light filtering through a nearby window. The scene is calm and minimalist, featuring a warm palette of tans, creams, and earthy greens. The mood is cozy and reflective, embodying a contemporary heritage aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTI2zr0CEEC_gqI8qXiGn4x9a4lOB9kx516DIr5wPpSflWp-yVPCTnf7VBMjVOOxA3NfOdZV7z1SRkAVXfloE3GqbKJ0k67SrLUJXptzC_baWtGhGwP0i4eFO66SijG9Ahr4sW9X4k1dJisgZPurXTanZBP6Ju9iHoOYRhXQnLXC6uO7jVxApDnkd2I2vLiEd_b2g1lncrtMwTaMMBG9xqNWMyrp4NTFxUzs4iSEwPzpjY2yiT_VdiN1iHHheMWhij9wCkZSVOX7U-"/>
+</div>
+<span class="font-poetic-accent text-body-md text-sunlit-clementine block mb-1">June 14, 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Rainy mornings in Paris</h3>
+<p class="font-body-md text-body-md text-secondary line-clamp-2">Finding refuge in a small corner cafe near the Seine while the city blurred into gray.</p>
+</div>
+</div>
+<!-- Snap 2 -->
+<div class="masonry-item fade-in-up stagger-3 group">
+<div class="bg-pure-surface p-4 pb-12 shadow-sm border border-whisper-border rotate-2 group-hover:rotate-0 transition-transform duration-500">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An atmospheric digital photograph of two friends laughing together at a beach bonfire during twilight. The glowing embers of the fire provide a warm, orange contrast to the deep blue of the evening sky and sea. The lighting is low-key and intimate, capturing a candid moment of youthful energy and deep connection in a modern scrapbook style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwZVc0tBgrV7CBx7_AYmxe--kDGaxvyQAZIpir1B29My7bFDBhxHeKtPdW0x6KSFptku45SYBe6U6kAmTytGqm2CVggWrsiHEMVcb-LHg4flhyMj3RCb3883dM5DQv5YV6enVLSYIwr6nUJXMwLGqZR2F3ja8gnx9JKke8ttsVAMk0yHwjW-L5rJdCDBB5F6dBsy3Hja3_Xww9qvgOoQ_1Oa13rOFHwWsW1Q5lOVb3COgkLRaO8hf1jzv91AVBZXsdGYeaZaAzhmeP"/>
+</div>
+<span class="font-poetic-accent text-body-md text-sunlit-clementine block mb-1">July 02, 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Midnight Bonfires</h3>
+<p class="font-body-md text-body-md text-secondary line-clamp-2">The smell of salt air and cedar smoke. We stayed until the stars were the only light left.</p>
+</div>
+</div>
+<!-- Snap 3 -->
+<div class="masonry-item fade-in-up stagger-4 group">
+<div class="bg-pure-surface p-4 pb-12 shadow-sm border border-whisper-border -rotate-3 group-hover:rotate-0 transition-transform duration-500">
+<div class="aspect-video bg-surface-container overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A stunning, wide-angle landscape photograph of a rugged mountain peak at dawn, shrouded in ethereal morning mist. The colors are muted and serene, with shades of cool blue, charcoal, and soft white. The composition uses asymmetrical minimalism to emphasize the vastness and breathable quality of the sanctuary-like environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy8BjYCRpktieB8tvFiLs7aBZgvErrYhNoQYvSltam8dNbe_7qQbMhWQEC1FyD_YZJJaSh_c7A0-B1w_IFZKcHrh8_SQVtj9CiNZjiX8ZE897BGDWLAWDTbnn-AWy_Nxy5HQmnErG4SH45remUhUw0gznDBuqZKWyb9wXNdPFqiLISzLf7utG6OD85LStExuck2efCLhnJocQUJyS0YmiqSs-X3jpM2ENhCbCs1HdVtDSz5mTTUTNw9mKbgvrr8qCUxw_4ZtG_itOC"/>
+</div>
+<span class="font-poetic-accent text-body-md text-sunlit-clementine block mb-1">May 28, 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">The Summit Mist</h3>
+<p class="font-body-md text-body-md text-secondary line-clamp-2">Reaching the top just as the clouds broke. It felt like standing on the edge of everything.</p>
+</div>
+</div>
+<!-- Snap 4 -->
+<div class="masonry-item fade-in-up stagger-2 group lg:mt-[-8rem]">
+<div class="bg-pure-surface p-4 pb-12 shadow-sm border border-whisper-border rotate-1 group-hover:rotate-0 transition-transform duration-500">
+<div class="aspect-[4/5] bg-surface-container overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An artistic, high-contrast photograph of architectural details of an old library, showing rows of leather-bound books and a shaft of sunlight hitting the dust motes in the air. The aesthetic is sophisticated and intellectual, with a rich palette of mahogany, cream, and deep amber. The mood is quiet, contemplative, and steeped in heritage." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd-f31f-xptdtsHfW0O-ubrHpeoQrvU1bdTg8ijC8epzmeVUPhjwhXOXQzwiLdvsbxZsEP189PjjHSLkZgZWMzEMnKTORuruMYtVu_Y1bS16_KXdIrcWInpMHo02Oq6wSRjD_zvMmHlcUiMEGYVUQUJfslgi4tEsish9-u35dRsb5iAJRHj9Vn4SpVy4Rg9tvLvgwhUnhpatFTx4ro49qkQYOPBygZ2FeWa1qZH4Vr_mG0nfpxN0gDFf-mCsVPZcaallF4NP6HJD5j"/>
+</div>
+<span class="font-poetic-accent text-body-md text-sunlit-clementine block mb-1">April 12, 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">The Library of Echoes</h3>
+<p class="font-body-md text-body-md text-secondary line-clamp-2">Dust motes dancing in the light of the West Wing. Every book has a thousand lives inside.</p>
+</div>
+</div>
+<!-- Snap 5 -->
+<div class="masonry-item fade-in-up stagger-3 group lg:mt-8">
+<div class="bg-pure-surface p-4 pb-12 shadow-sm border border-whisper-border -rotate-2 group-hover:rotate-0 transition-transform duration-500">
+<div class="aspect-square bg-surface-container overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A minimalist and bright top-down photo of a simple breakfast setup: fresh berries in a white ceramic bowl, a handwritten note on linen paper, and a sprig of dried lavender. The lighting is soft and airy, creating a clean, modern aesthetic with a touch of nostalgic warmth. The scene feels like a curated entry in a personal travel diary." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZBKQHqcTGF5KHITHy-6FHf5RQ3yzysFGirEYd9k2fLQXg1fbJXdqZtVt_wriVJlsYT28viOGMDFumKTXDcGk460jsCLCn2Km57mhSzK_VwUbFiF5ltWMmkKLQhbBLyL-SAV40TubceLq7DzVRhh0r3N_qhmYna1RcA7IjTRP09PqIdvWv3nS8z7J8XIGRJWOeJ2FLjIOvH-Q7nn2pvDikYWuJJfotG71iSyXMabro_FwGzAo2E7m5IV1n0h4svBSzNjlGpH-0GnS-"/>
+</div>
+<span class="font-poetic-accent text-body-md text-sunlit-clementine block mb-1">March 05, 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Small Joys</h3>
+<p class="font-body-md text-body-md text-secondary line-clamp-2">Just a quiet breakfast and the sound of the wind in the trees. Perfection in simplicity.</p>
+</div>
+</div>
+<!-- Snap 6 -->
+<div class="masonry-item fade-in-up stagger-4 group lg:mt-[-4rem]">
+<div class="bg-pure-surface p-4 pb-12 shadow-sm border border-whisper-border rotate-3 group-hover:rotate-0 transition-transform duration-500">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A vibrant and energetic photograph of a street performer playing a violin in a bustling metropolitan square during the blue hour. The surrounding city lights create a bokeh effect of soft, colorful circles in the background. The style is contemporary and rhythmic, capturing the high-end editorial clarity of a lively urban moment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy16PlgKV_Iuw-lAE9ghtDCpE_k-jhkBYAmLmlHxqCUzwjVOQJ23jCHLNfFfatlxR-SdhI2Q-IokGQyUrN1-jjxEakJ3gyLpsAqRbTDU0oC3eMMpbUNEh9rEKMLTS-Sapp8MMXcBl-XUSJTJdRUemOCA-LE-KBpreVSMSFmTC6TeqR4G9iuZaHVEzqjG_g6imI3TtNnI-rPRqa0jLCt2a9cDJotwIRWAhoFowbq1uvkSQQO8KJvIImAT-0PIyuEq-s94QfXKEfrwc-"/>
+</div>
+<span class="font-poetic-accent text-body-md text-sunlit-clementine block mb-1">February 19, 2024</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Neon Melodies</h3>
+<p class="font-body-md text-body-md text-secondary line-clamp-2">The music seemed to pull the street together, if only for a few fleeting minutes.</p>
+</div>
+</div>
+</div>
+<!-- Load More / Footer Call to Action -->
+<div class="mt-20 text-center py-12 border-t border-whisper-border fade-in-up">
+<button class="font-headline-md text-body-md text-muted-leaf hover:text-sunlit-clementine transition-colors flex items-center gap-2 mx-auto">
+                Discover earlier moments
+                <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-canvas-linen dark:bg-obsidian-ink border-t border-whisper-border">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-12 w-full max-w-container-max mx-auto">
+<div class="mb-6 md:mb-0">
+<div class="font-poetic-accent text-headline-md text-primary mb-2">Memories Archive</div>
+<p class="text-muted-leaf dark:text-secondary-fixed-dim font-body-md text-body-md">© 2024 Memories Archive. Curated with intention.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-muted-leaf hover:text-sunlit-clementine transition-opacity font-body-md text-body-md" href="#">Privacy</a>
+<a class="text-muted-leaf hover:text-sunlit-clementine transition-opacity font-body-md text-body-md" href="#">Archive Ethics</a>
+<a class="text-muted-leaf hover:text-sunlit-clementine transition-opacity font-body-md text-body-md" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-4 pt-2 bg-pure-surface dark:bg-inverse-surface shadow-lg z-50 rounded-t-full md:hidden">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container rounded-full p-3 transition-all scale-110 active:scale-95 duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-sm text-label-sm">Stories</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-leaf dark:text-secondary-fixed-dim p-3 transition-all active:bg-surface-container-high active:scale-95 duration-300" href="#">
+<span class="material-symbols-outlined">collections_bookmark</span>
+<span class="font-label-sm text-label-sm">Curation</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-leaf dark:text-secondary-fixed-dim p-3 transition-all active:bg-surface-container-high active:scale-95 duration-300" href="#">
+<span class="material-symbols-outlined">info</span>
+<span class="font-label-sm text-label-sm">About</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction: Slow pulse glow for the primary action button
+        const fab = document.querySelector('button.group');
+        if (fab) {
+            let active = false;
+            setInterval(() => {
+                active = !active;
+                fab.style.boxShadow = active ? '0 0 15px rgba(226, 106, 74, 0.2)' : 'none';
+            }, 3000);
+        }
+
+        // Intersection Observer for fade-in effects
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.classList.add('fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.masonry-item').forEach(item => {
+            item.style.opacity = '0';
+            observer.observe(item);
+        });
+    </script>
+</body></html>

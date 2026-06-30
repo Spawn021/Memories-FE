@@ -24,6 +24,8 @@
           density="compact"
           hide-details="auto"
           :error-messages="validationErrors.email"
+          @focus="clearFieldError('email')"
+          @blur="validateFieldOnBlur('email')"
         />
       </div>
 
@@ -48,6 +50,8 @@
           density="compact"
           hide-details="auto"
           :error-messages="validationErrors.password"
+          @focus="clearFieldError('password')"
+          @blur="validateFieldOnBlur('password')"
         >
           <template #append-inner>
             <button
@@ -76,19 +80,19 @@
         </template>
       </v-checkbox>
 
-      <div class="space-y-4 pt-2">
+      <div class="space-y-4 pt-2 animate-waterfall delay-400">
         <v-btn
           type="submit"
           color="primary"
           block
           size="large"
           :loading="loading"
-          class="reveal-item spring-btn font-body tracking-wider uppercase font-semibold! rounded-lg! h-12.5! delay-350"
+          class="spring-btn font-body tracking-wider uppercase font-semibold! rounded-lg! h-12.5!"
         >
           {{ t('auth.signIn') }}
         </v-btn>
 
-        <div class="flex items-center gap-4 py-1.5 reveal-item delay-400">
+        <div class="flex items-center gap-4 py-1.5">
           <div class="grow h-px bg-border"></div>
           <span class="text-[13px] text-secondary/50 font-body italic lowercase">{{ t('auth.or') }}</span>
           <div class="grow h-px bg-border"></div>
@@ -99,7 +103,7 @@
           variant="outlined"
           block
           size="large"
-          class="reveal-item spring-btn font-body tracking-wider uppercase text-on-surface border-border delay-450 font-semibold h-12.5! rounded-lg!"
+          class="spring-btn font-body tracking-wider uppercase text-on-surface border-border delay-450 font-semibold h-12.5! rounded-lg!"
           @click="handleGoogleLogin"
         >
           <template #prepend>
@@ -128,7 +132,7 @@ const routes = useRoutes()
 const { t } = useI18n()
 
 const { login, loginWithGoogle, loading } = useAuth()
-const { validationErrors, error, validate, handleApiError } = useForm(loginSchema)
+const { validationErrors, error, validate, handleApiError, clearFieldError, validateFieldOnBlur } = useForm(loginSchema)
 
 const email = ref('')
 const password = ref('')

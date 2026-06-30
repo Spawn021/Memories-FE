@@ -8,6 +8,9 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/forgot-password',
 
   // Public routes (guests and logged-in users)
+  STORIES: '/stories',
+  CURATION: '/curation',
+  ABOUT: '/about',
   TERMS: '/terms',
   PRIVACY: '/privacy',
   PROFILE: '/profile',
@@ -17,5 +20,13 @@ export const ROUTES = {
 } as const
 
 export const guestRoutes: string[] = [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.FORGOT_PASSWORD]
-export const publicRoutes: string[] = [ROUTES.HOME, ROUTES.TERMS, ROUTES.PRIVACY]
+export const publicRoutes: string[] = [
+  ROUTES.HOME,
+  ROUTES.TERMS,
+  ROUTES.PRIVACY,
+  ROUTES.STORIES,
+  ROUTES.CURATION,
+  ROUTES.ABOUT,
+  ROUTES.PROFILE,
+]
 export const noAuthRoutes: string[] = [...guestRoutes, ...publicRoutes]

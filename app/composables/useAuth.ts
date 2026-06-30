@@ -49,6 +49,33 @@ export const useAuth = () => {
     }
   }
 
+  const forgotPassword = async (email: string) => {
+    authStore.loading = true
+    try {
+      return await authRepo.forgotPassword(email)
+    } finally {
+      authStore.loading = false
+    }
+  }
+
+  const verifyResetOtp = async (email: string, otp: string) => {
+    authStore.loading = true
+    try {
+      return await authRepo.verifyResetOtp(email, otp)
+    } finally {
+      authStore.loading = false
+    }
+  }
+
+  const resetPassword = async (newPassword: string) => {
+    authStore.loading = true
+    try {
+      return await authRepo.resetPassword(newPassword)
+    } finally {
+      authStore.loading = false
+    }
+  }
+
   const updateProfile = async (displayName: string, username: string) => {
     authStore.loading = true
     try {
@@ -96,6 +123,9 @@ export const useAuth = () => {
     register,
     verifyEmail,
     resendVerificationCode,
+    forgotPassword,
+    verifyResetOtp,
+    resetPassword,
     updateProfile,
     logout,
     initAuth,

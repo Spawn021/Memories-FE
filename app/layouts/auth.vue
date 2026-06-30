@@ -51,6 +51,12 @@
         :move-y="moveY"
         :is-animated="isAnimated"
       />
+      <AuthForgotPasswordVisual
+        v-else-if="visualType === 'forgotPassword'"
+        :move-x="moveX"
+        :move-y="moveY"
+        :is-animated="isAnimated"
+      />
 
       <div class="mt-16 text-center max-w-sm z-10 poetic-ink-reveal delay-1100">
         <p class="font-poetic italic text-on-surface-variant mb-4 text-xl">

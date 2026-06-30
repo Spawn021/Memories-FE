@@ -17,5 +17,8 @@ export const useRoutes = () => {
     forgotPassword: (query?: Record<string, any>) => resolve(ROUTES.FORGOT_PASSWORD, query),
     terms: (query?: Record<string, any>) => resolve(ROUTES.TERMS, query),
     privacy: (query?: Record<string, any>) => resolve(ROUTES.PRIVACY, query),
+    stories: (query?: Record<string, any>) => resolve(ROUTES.STORIES, query),
+    curation: (query?: Record<string, any>) => resolve(ROUTES.CURATION, query),
+    about: (query?: Record<string, any>) => resolve(ROUTES.ABOUT, query),
   }
 }

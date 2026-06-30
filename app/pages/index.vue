@@ -1,395 +1,287 @@
 <template>
-  <main
-    class="min-h-screen bg-background text-on-background font-body-md selection:bg-primary/30 overflow-x-hidden relative"
-    @mousemove="onMouseMove"
-  >
-    <!-- STICKY HEADER -->
-    <header
-      class="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border px-6 py-4 flex justify-between items-center transition-all select-none"
-    >
-      <NuxtLink
-        :to="localePath('/')"
-        class="spring-btn"
-      >
-        <img
-          :src="isDark ? LogoTextDark : LogoTextLight"
-          class="h-6 w-auto"
-          alt="Memories Logo"
-        />
-      </NuxtLink>
-
-      <!-- Center Nav Links -->
-      <nav class="hidden md:flex items-center gap-8 text-[12px] uppercase font-label-md tracking-widest text-secondary/80">
-        <a
-          href="#philosophy"
-          class="hover:text-primary transition-colors"
-          >Philosophy</a
-        >
-        <a
-          href="#features"
-          class="hover:text-primary transition-colors"
-          >Features</a
-        >
-        <NuxtLink
-          :to="localePath('/terms')"
-          class="hover:text-primary transition-colors"
-          >Terms</NuxtLink
-        >
-        <NuxtLink
-          :to="localePath('/privacy')"
-          class="hover:text-primary transition-colors"
-          >Privacy</NuxtLink
-        >
-      </nav>
-
-      <!-- Right CTAs -->
-      <div class="flex items-center gap-4">
-        <!-- Language Switcher -->
-        <LanguageSwitcher />
-
-        <!-- Theme Toggle Button -->
-        <button
-          class="spring-btn p-2 rounded-full border border-border text-secondary hover:text-primary hover:border-primary/20 bg-surface flex items-center justify-center cursor-pointer select-none"
-          :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
-          @click="toggleTheme"
-        >
-          <span class="material-symbols-outlined !text-[20px]">
-            {{ isDark ? 'light_mode' : 'dark_mode' }}
+  <main ref="mainContainer">
+    <!-- Hero Section -->
+    <section class="relative min-h-230.25 flex items-center px-margin-desktop py-20 overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full max-w-container-max mx-auto">
+        <!-- Left Content -->
+        <div class="z-10 flex flex-col items-start gap-8 gsap-hero-stagger">
+          <h1 class="font-title text-5xl md:text-6xl hero-title text-on-background max-w-lg leading-[0.95]">{{ t('home.heroTitle') }}</h1>
+          <p class="font-poetic text-xl text-secondary max-w-md italic leading-relaxed">
+            {{ t('home.heroSubtitle') }}
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
+            <button
+              class="bg-primary text-white px-8 py-4 rounded-full font-title text-xl md:text-2xl hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl shadow-primary/10 font-semibold!"
+            >
+              {{ t('home.beginJourney') }}
+            </button>
+            <button
+              class="flex items-center gap-2 px-8 py-4 rounded-full border border-border bg-surface hover:bg-background transition-colors font-title text-xl md:text-2xl group font-semibold!"
+            >
+              {{ t('home.exploreArchive') }}
+              <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+        <!-- Right Visual Anchor: Collage -->
+        <div class="relative h-150 w-full hidden lg:block">
+          <!-- Overlapping Frames based on user image style -->
+          <div class="absolute top-0 right-10 w-64 polaroid-frame z-10 rotate-[-4deg] gsap-hero-image">
+            <div class="aspect-3/4 bg-surface overflow-hidden">
+              <img
+                class="w-full h-full object-cover grayscale-[0.2] sepia-[0.1]"
+                data-alt="A macro photograph of a vintage leather-bound journal sitting on a sun-drenched wooden desk next to a classic fountain pen. Soft, warm sunlight filters through a linen curtain, creating a nostalgic and intellectual atmosphere. The color palette is rich with earth tones, deep sienna, and warm creams, emphasizing a timeless, analog aesthetic."
+                src="~/assets/images/hero-1.jpg"
+              />
+            </div>
+          </div>
+          <div class="absolute bottom-10 right-48 w-72 polaroid-frame z-20 rotate-2 gsap-hero-image">
+            <div class="aspect-3/4 bg-surface overflow-hidden">
+              <img
+                class="w-full h-full object-cover"
+                data-alt="A delicate, dried single flower held by a graceful hand against a minimalist beige wall. The lighting is soft and diffused, reminiscent of a quiet afternoon in a sunlit garden. The style is editorial and clean, featuring soft focus and a muted color palette of sand, pale terracotta, and olive greens."
+                src="~/assets/images/hero-2.jpg"
+              />
+            </div>
+          </div>
+          <div class="absolute top-20 right-87.5 w-56 polaroid-frame z-0 rotate-[-8deg] opacity-80 gsap-hero-image">
+            <div class="aspect-3/4 bg-surface overflow-hidden">
+              <img
+                class="w-full h-full object-cover"
+                data-alt="A wide, atmospheric landscape shot of rolling misty hills at dawn. The morning light creates a soft golden glow over the landscape, evoking a sense of peace and retrospective beauty. The image has a painterly quality with subtle grain and a high-end scrapbook aesthetic."
+                src="~/assets/images/hero-3.jpg"
+              />
+            </div>
+          </div>
+          <!-- Atmospheric Abstract Shader -->
+          <div class="absolute inset-0 -z-10 opacity-20 pointer-events-none">
+            <div
+              class="w-full h-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Quote Section -->
+    <section class="py-24 md:py-32 px-margin-desktop bg-surface border-y border-border">
+      <div class="max-w-3xl mx-auto text-center">
+        <blockquote class="relative gsap-quote-section">
+          <span
+            class="material-symbols-outlined text-6xl text-primary opacity-20 absolute -top-12 left-1/2 -translate-x-1/2 gsap-quote-icon"
+            style="font-variation-settings: 'FILL' 1"
+          >
+            format_quote
           </span>
-        </button>
-
-        <template v-if="isAuthenticated">
-          <NuxtLink
-            :to="localePath('/dashboard')"
-            class="spring-btn bg-primary text-on-primary text-[12px] uppercase font-label-md font-semibold tracking-wider px-5 py-2.5 rounded-md shadow-md shadow-primary/10"
-          >
-            Dashboard
-          </NuxtLink>
-        </template>
-        <template v-else>
-          <NuxtLink
-            :to="localePath('/login')"
-            class="text-[12px] uppercase font-label-md font-semibold tracking-wider text-secondary hover:text-primary transition-colors px-3"
-          >
-            Sign In
-          </NuxtLink>
-          <NuxtLink
-            :to="localePath('/register')"
-            class="spring-btn bg-primary text-on-primary text-[12px] uppercase font-label-md font-semibold tracking-wider px-5 py-2.5 rounded-md shadow-md shadow-primary/10"
-          >
-            Create Space
-          </NuxtLink>
-        </template>
-      </div>
-    </header>
-
-    <!-- HERO SECTION -->
-    <section class="min-h-screen relative flex flex-col justify-center items-center py-32 px-6 md:px-12 overflow-hidden select-none">
-      <!-- Ambient Lights background -->
-      <div class="absolute top-1/3 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-      <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
-
-      <!-- Floating Polaroid 1 (Top Right) -->
-      <div
-        class="hidden md:block absolute top-[22%] right-[15%] w-48 bg-surface p-3 shadow-lg border border-border transition-transform duration-300 pointer-events-none z-10"
-        :style="polaroid1Style"
-      >
-        <div class="aspect-[4/3] bg-background overflow-hidden">
-          <img
-            src="../assets/images/polaroid_2.png"
-            class="w-full h-full object-cover grayscale-[10%]"
-          />
-        </div>
-        <p class="font-poetic-accent text-lg italic text-center text-on-surface pt-3 pb-1">Traces of Summer</p>
-      </div>
-
-      <!-- Floating Polaroid 2 (Bottom Left) -->
-      <div
-        class="hidden md:block absolute bottom-[20%] left-[12%] w-52 bg-surface p-3.5 shadow-xl border border-border transition-transform duration-300 pointer-events-none z-10"
-        :style="polaroid2Style"
-      >
-        <div class="aspect-[4/3] bg-background overflow-hidden">
-          <img
-            src="../assets/images/polaroid_1.png"
-            class="w-full h-full object-cover grayscale-[10%]"
-          />
-        </div>
-        <p class="font-poetic-accent text-lg italic text-center text-on-surface pt-3 pb-1">Quiet Afternoons</p>
-      </div>
-
-      <!-- Floating Polaroid 3 (Bottom Right) -->
-      <div
-        class="hidden md:block absolute bottom-[18%] right-[10%] w-44 bg-surface p-3 shadow-md border border-border transition-transform duration-300 pointer-events-none z-10"
-        :style="polaroid3Style"
-      >
-        <div class="aspect-[4/3] bg-background overflow-hidden">
-          <img
-            src="../assets/images/polaroid_4.png"
-            class="w-full h-full object-cover grayscale-[10%]"
-          />
-        </div>
-        <p class="font-poetic-accent text-md italic text-center text-on-surface pt-2 pb-0.5">Fragments of Light</p>
-      </div>
-
-      <!-- Main Typographic Hero Header -->
-      <div class="relative text-center max-w-4xl z-20 space-y-6">
-        <div
-          class="reveal-item"
-          style="animation-delay: 100ms"
-        >
-          <span class="font-label-sm text-[11px] uppercase tracking-[0.4em] text-secondary">Introducing Memories</span>
-        </div>
-
-        <h1
-          class="font-poetic-accent text-[80px] sm:text-[120px] md:text-[160px] leading-none italic font-normal tracking-tighter text-on-background select-none reveal-item"
-          style="animation-delay: 200ms"
-        >
-          memories
-        </h1>
-
-        <p
-          class="font-body-lg text-lg md:text-xl text-secondary max-w-lg mx-auto leading-relaxed reveal-item"
-          style="animation-delay: 300ms"
-        >
-          An intimate, completely private digital vault for your journals, photographs, and personal reflections. Free from feeds and noise.
-        </p>
-
-        <div
-          class="pt-6 reveal-item"
-          style="animation-delay: 400ms"
-        >
-          <NuxtLink
-            :to="isAuthenticated ? localePath('/dashboard') : localePath('/register')"
-            class="spring-btn inline-block bg-primary text-on-primary font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold py-4 px-10 rounded-md shadow-lg shadow-primary/10 cursor-pointer"
-          >
-            {{ isAuthenticated ? 'Go to Dashboard' : 'Open Your Vault' }}
-          </NuxtLink>
-        </div>
-      </div>
-
-      <!-- Scroll Down Indicator -->
-      <div
-        class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-secondary/40 font-label-sm text-[10px] tracking-widest reveal-item animate-pulse"
-        style="animation-delay: 600ms"
-      >
-        <span>SCROLL TO REFLECT</span>
-        <span class="material-symbols-outlined !text-[16px]">arrow_downward</span>
-      </div>
-    </section>
-
-    <!-- PHILOSOPHY SECTION -->
-    <section
-      id="philosophy"
-      class="bg-surface py-28 px-6 border-t border-b border-border scroll-mt-20"
-    >
-      <div class="max-w-3xl mx-auto text-center space-y-12">
-        <div class="space-y-4">
-          <span class="font-label-sm text-[11px] uppercase tracking-[0.4em] text-primary">Our Philosophy</span>
-          <h2 class="font-headline-lg text-3xl md:text-4xl font-bold tracking-tight text-on-background">
-            A quiet sanctuary for your thoughts
-          </h2>
-        </div>
-
-        <blockquote class="font-poetic-accent text-3xl md:text-4xl italic leading-relaxed text-on-background/90 max-w-2xl mx-auto py-4">
-          "We write to taste life twice, in the moment and in retrospect."
+          <p class="font-poetic text-5xl italic text-on-background leading-tight font-semibold gsap-quote-text">
+            {{ t('auth.quote') }}
+          </p>
+          <cite class="font-body text-sm font-semibold tracking-wider uppercase text-secondary not-italic mt-4 block gsap-quote-author">
+            {{ t('auth.quoteAuthor') }}
+          </cite>
         </blockquote>
-        <cite class="font-label-sm text-[11px] uppercase tracking-widest text-secondary not-italic block -mt-6"> — Anaïs Nin </cite>
-
-        <p class="font-body-lg text-[16px] md:text-lg text-secondary leading-relaxed max-w-xl mx-auto">
-          Social networks demand your attention, monetize your attention, and broadcast your life. Memories is built on a different logic:
-          **silence, reflection, and ownership**. Your archive belongs solely to you—secure, local, and completely unmonitored.
-        </p>
       </div>
     </section>
-
-    <!-- FEATURES BENTO (Asymmetrical) -->
-    <section
-      id="features"
-      class="py-28 px-6 max-w-5xl mx-auto scroll-mt-20"
-    >
-      <div class="text-center mb-16 space-y-4">
-        <span class="font-label-sm text-[11px] uppercase tracking-[0.4em] text-secondary">Core Features</span>
-        <h2 class="font-headline-lg text-3xl md:text-4xl font-bold text-on-background">Designed for reflection</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-        <!-- Feature 1: Privacy (Wide) -->
+    <!-- Features Grid -->
+    <section class="py-32 px-margin-desktop max-w-container-max mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
         <div
-          class="col-span-1 md:col-span-8 bg-surface p-8 md:p-10 border border-border shadow-sm flex flex-col justify-between space-y-8 hover:shadow-md transition-shadow"
+          class="glass-card p-10 rounded-xl flex flex-col gap-6 md:mt-12 transition-transform hover:-translate-y-2 duration-500 gsap-feature-card"
         >
-          <div class="space-y-4">
-            <span class="material-symbols-outlined !text-[36px] text-primary">shield_lock</span>
-            <h3 class="font-headline-lg text-2xl font-bold text-on-surface">Absolute Security Vault</h3>
-            <p class="font-body-md text-[14px] text-on-surface-variant leading-relaxed">
-              We employ strict encryption protocols and database isolation methods on our NestJS backend. Your credentials are fully secure
-              and your personal archive remains accessible only from authenticated sessions.
-            </p>
+          <div class="w-14 h-14 rounded-full flex items-center justify-center text-primary bg-danger-container">
+            <span class="material-symbols-outlined text-3xl">auto_stories</span>
           </div>
-          <div class="text-[11px] font-label-sm text-on-surface-variant/40 tracking-wider">END-TO-END JWT AUTHENTICATION // HASHPASS</div>
+          <h3 class="font-title text-2xl md:text-3xl text-on-background">{{ t('home.features.scrapbook.title') }}</h3>
+          <p class="text-secondary leading-relaxed">
+            {{ t('home.features.scrapbook.desc') }}
+          </p>
+          <a
+            class="text-primary font-bold inline-flex items-center gap-2 group"
+            href="#"
+          >
+            {{ t('home.features.scrapbook.link') }}
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+          </a>
         </div>
-
-        <!-- Feature 2: Physical Layout (Tall) -->
+        <!-- Card 2 -->
         <div
-          class="col-span-1 md:col-span-4 bg-surface p-8 border border-border shadow-sm flex flex-col justify-between space-y-8 hover:shadow-md transition-shadow"
+          class="glass-card p-10 rounded-xl flex flex-col gap-6 transition-transform hover:-translate-y-2 duration-500 gsap-feature-card"
         >
-          <div class="space-y-4">
-            <span class="material-symbols-outlined !text-[36px] text-primary">photo_album</span>
-            <h3 class="font-headline-lg text-xl font-bold text-on-surface">Scrapbook Aesthetic</h3>
-            <p class="font-body-md text-[13px] text-on-surface-variant leading-relaxed">
-              A dashboard styled like a physical photo album. Tilted polaroid frames, elegant serif typography, linen-like colors, and
-              subtle micro-motions mimic the texture of paper and ink.
-            </p>
+          <div class="w-14 h-14 rounded-full flex items-center justify-center text-secondary bg-secondary/30">
+            <span class="material-symbols-outlined text-3xl">verified</span>
           </div>
-          <div class="text-[11px] font-label-sm text-on-surface-variant/40 tracking-wider">POLAROID LAYOUTS // ROTATION OFFSETS</div>
+          <h3 class="font-title text-2xl md:text-3xl text-on-background">{{ t('home.features.archival.title') }}</h3>
+          <p class="text-secondary leading-relaxed">
+            {{ t('home.features.archival.desc') }}
+          </p>
+          <a
+            class="text-primary font-bold inline-flex items-center gap-2 group"
+            href="#"
+          >
+            {{ t('home.features.archival.link') }}
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+          </a>
         </div>
-
-        <!-- Feature 3: Performance (Tall) -->
+        <!-- Card 3 -->
         <div
-          class="col-span-1 md:col-span-4 bg-surface p-8 border border-border shadow-sm flex flex-col justify-between space-y-8 hover:shadow-md transition-shadow"
+          class="glass-card p-10 rounded-xl flex flex-col gap-6 md:mt-24 transition-transform hover:-translate-y-2 duration-500 gsap-feature-card"
         >
-          <div class="space-y-4">
-            <span class="material-symbols-outlined !text-[36px] text-primary">history_toggle_off</span>
-            <h3 class="font-headline-lg text-xl font-bold text-on-surface">Zero Noise Filters</h3>
-            <p class="font-body-md text-[13px] text-on-surface-variant leading-relaxed">
-              No notifications, no comment sections, and no metrics. Filter your archive by text search or tags. Look back at quiet
-              afternoons, summer days, or specific dates with total clarity.
-            </p>
+          <div class="w-14 h-14 rounded-full bg-danger-container flex items-center justify-center text-tertiary">
+            <span class="material-symbols-outlined text-3xl">group_work</span>
           </div>
-          <div class="text-[11px] font-label-sm text-on-surface-variant/40 tracking-wider">FILTER BY #JOURNAL, #MOMENTS, #LIGHT</div>
-        </div>
-
-        <!-- Feature 4: Custom additions (Wide) -->
-        <div
-          class="col-span-1 md:col-span-8 bg-surface p-8 md:p-10 border border-border shadow-sm flex flex-col justify-between space-y-8 hover:shadow-md transition-shadow"
-        >
-          <div class="space-y-4">
-            <span class="material-symbols-outlined !text-[36px] text-primary">add_to_photos</span>
-            <h3 class="font-headline-lg text-2xl font-bold text-on-surface">Capture Instantly</h3>
-            <p class="font-body-md text-[14px] text-on-surface-variant leading-relaxed">
-              Add new records, thoughts, or snapshots in seconds. The custom creation workflow uses responsive input elements and renders
-              added polaroids instantly in your scrapbook with gorgeous spring entrance states.
-            </p>
-          </div>
-          <div class="text-[11px] font-label-sm text-on-surface-variant/40 tracking-wider">RESPONSIVE MODALS // DYNAMIC REACTIVE ARRAY</div>
+          <h3 class="font-title text-2xl md:text-3xl text-on-background">{{ t('home.features.intimate.title') }}</h3>
+          <p class="text-secondary leading-relaxed">
+            {{ t('home.features.intimate.desc') }}
+          </p>
+          <a
+            class="text-primary font-bold inline-flex items-center gap-2 group"
+            href="#"
+          >
+            {{ t('home.features.intimate.link') }}
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+          </a>
         </div>
       </div>
     </section>
-
-    <!-- CALL TO ACTION (CTA) -->
-    <section class="bg-surface py-28 px-6 text-center border-t border-border relative overflow-hidden select-none">
-      <!-- Small background elements -->
-      <div class="absolute -bottom-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
-
-      <div class="max-w-2xl mx-auto space-y-8 relative z-10">
-        <span class="font-label-sm text-[11px] uppercase tracking-[0.4em] text-primary">Start Your Gallery</span>
-        <h2 class="font-poetic-accent text-5xl md:text-6xl italic text-on-surface font-normal leading-tight">
-          Begin your personal history today.
-        </h2>
-        <p class="font-body-md text-[15px] text-secondary max-w-sm mx-auto leading-relaxed">
-          Create your space in less than a minute. Your memories are waiting to be preserved.
-        </p>
-        <div class="pt-4">
-          <NuxtLink
-            :to="isAuthenticated ? localePath('/dashboard') : localePath('/register')"
-            class="spring-btn inline-block bg-primary text-on-primary font-label-md text-[13px] uppercase tracking-[0.2em] font-semibold py-4 px-10 rounded-md shadow-lg shadow-primary/10 cursor-pointer"
+    <!-- CTA Section -->
+    <section class="mb-32 px-margin-desktop">
+      <div
+        class="max-w-container-max mx-auto bg-on-background rounded-4xl p-12 md:p-24 relative overflow-hidden text-center text-background gsap-cta-box"
+      >
+        <div class="relative z-10 flex flex-col items-center gap-8">
+          <h2 class="font-title text-5xl md:text-6xl max-w-2xl leading-tight">{{ t('home.cta.title') }}</h2>
+          <p class="font-body text-lg text-surface-variant max-w-lg">
+            {{ t('home.cta.subtitle') }}
+          </p>
+          <button
+            class="bg-primary text-white px-12 py-5 rounded-full font-title text-xl md:text-2xl hover:scale-105 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/40"
           >
-            {{ isAuthenticated ? 'Go to Dashboard' : 'Create Space Vault' }}
-          </NuxtLink>
+            {{ t('home.cta.button') }}
+          </button>
         </div>
+        <!-- Decorative element -->
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary opacity-20 blur-[100px] rounded-full"></div>
+        <div class="absolute -top-24 -left-24 w-64 h-64 bg-primary opacity-10 blur-[80px] rounded-full"></div>
       </div>
     </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-background border-t border-border py-12 px-8 text-center md:text-left">
-      <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="flex items-center gap-3">
-          <img
-            :src="isDark ? LogoTextDark : LogoTextLight"
-            class="h-6 w-auto"
-            alt="Memories Logo"
-          />
-        </div>
-
-        <div class="flex flex-wrap justify-center gap-6 text-[12px] font-label-md tracking-wider text-secondary/60">
-          <NuxtLink
-            :to="localePath('/terms')"
-            class="hover:text-primary transition-colors"
-            >Terms of Service</NuxtLink
-          >
-          <NuxtLink
-            :to="localePath('/privacy')"
-            class="hover:text-primary transition-colors"
-            >Privacy Policy</NuxtLink
-          >
-          <span>© 2026 MEMORIES ARCHIVE</span>
-        </div>
-      </div>
-    </footer>
   </main>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-const localePath = useLocalePath()
-import { LogoTextLight, LogoTextDark } from '~/assets/icons'
-import { useHead } from '#imports'
-import { useTheme } from '~/composables/useTheme'
+<script setup>
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const { isDark, toggleTheme } = useTheme()
+const { t } = useI18n()
 
-// Setup SEO headers
 useHead({
-  title: 'memories — your intimate digital archive',
-  titleTemplate: null,
-  meta: [
-    {
-      name: 'description',
-      content: 'A secure, beautiful, completely private vault for your memories, journals, and reflections. Zero noise, zero algorithms.',
-    },
-  ],
+  title: t('nav.home'),
 })
 
-const { isAuthenticated } = useAuth()
-
-// Interactive mouse parallax state
-const moveX = ref(0)
-const moveY = ref(0)
-
-const onMouseMove = (e: MouseEvent) => {
-  if (process.client && window.innerWidth >= 768) {
-    moveX.value = (e.clientX - window.innerWidth / 2) * 0.015
-    moveY.value = (e.clientY - window.innerHeight / 2) * 0.015
-  }
-}
-
-// Compute dynamic CSS transforms for parallax effect
-const polaroid1Style = computed(() => {
-  const x = moveX.value * 1.2
-  const y = moveY.value * 1.2
-  return {
-    transform: `translate(${x}px, ${y}px) rotate(3deg)`,
-  }
+definePageMeta({
+  layout: 'marketing',
 })
 
-const polaroid2Style = computed(() => {
-  const x = moveX.value * -1.5
-  const y = moveY.value * -1.5
-  return {
-    transform: `translate(${x}px, ${y}px) rotate(-4deg)`,
-  }
+const mainContainer = ref(null)
+let ctx
+
+onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger)
+
+  if (!mainContainer.value) return
+
+  ctx = gsap.context(() => {
+    // Hero Elements
+    gsap.from('.gsap-hero-stagger > *', {
+      y: 30,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: 'power3.out',
+      delay: 0.2,
+    })
+
+    // Images
+    gsap.from('.gsap-hero-image', {
+      y: 50,
+      opacity: 0,
+      duration: 1.2,
+      stagger: 0.2,
+      ease: 'power2.out',
+      delay: 0.4,
+    })
+
+    // Quote Section
+    gsap.from('.gsap-quote-icon', {
+      scrollTrigger: {
+        trigger: '.gsap-quote-section',
+        start: 'top 80%',
+      },
+      scale: 0,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'back.out(1.5)',
+    })
+
+    gsap.from('.gsap-quote-text, .gsap-quote-author', {
+      scrollTrigger: {
+        trigger: '.gsap-quote-section',
+        start: 'top 80%',
+      },
+      y: 20,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power2.out',
+    })
+
+    // Feature Cards
+    gsap.from('.gsap-feature-card', {
+      scrollTrigger: {
+        trigger: '.gsap-feature-card',
+        start: 'top 85%',
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power2.out',
+    })
+
+    // CTA
+    gsap.from('.gsap-cta-box', {
+      scrollTrigger: {
+        trigger: '.gsap-cta-box',
+        start: 'top 85%',
+      },
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out',
+    })
+  }, mainContainer.value)
 })
 
-const polaroid3Style = computed(() => {
-  const x = moveX.value * -0.8
-  const y = moveY.value * 0.8
-  return {
-    transform: `translate(${x}px, ${y}px) rotate(1deg)`,
-  }
+onUnmounted(() => {
+  ctx?.revert()
 })
 </script>
 
 <style scoped>
-html {
-  scroll-behavior: smooth;
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(24, 26, 26, 0.05);
+}
+.polaroid-frame {
+  background: #ffffff;
+  padding: 12px 12px 48px 12px;
+  box-shadow: 0 10px 30px -10px rgba(24, 26, 26, 0.08);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.polaroid-frame:hover {
+  transform: scale(1.05) rotate(1deg);
+}
+.hero-title {
+  letter-spacing: -0.04em;
 }
 </style>

@@ -35,6 +35,27 @@ export const createAuthRepository = (api: ReturnType<typeof $fetch.create>) => (
     })
   },
 
+  async forgotPassword(email: string): Promise<ApiSuccessMessage> {
+    return api('/auth/forgot-password', {
+      method: 'POST',
+      body: { email },
+    })
+  },
+
+  async verifyResetOtp(email: string, otp: string): Promise<ApiSuccessMessage> {
+    return api('/auth/verify-reset-otp', {
+      method: 'POST',
+      body: { email, otp },
+    })
+  },
+
+  async resetPassword(newPassword: string): Promise<ApiSuccessMessage> {
+    return api('/auth/reset-password', {
+      method: 'POST',
+      body: { newPassword },
+    })
+  },
+
   async getMe(): Promise<User> {
     return api<User>('/users/me', {
       method: 'GET',

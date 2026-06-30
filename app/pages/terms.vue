@@ -1,142 +1,295 @@
 <template>
   <main
-    class="h-screen w-screen bg-background text-on-background p-margin-mobile md:p-margin-desktop flex flex-col justify-between overflow-hidden selection:bg-primary/30"
+    ref="mainContainer"
+    class="pt-20 pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto"
   >
-    <!-- Top Decorative Header -->
-    <header
-      class="flex justify-between items-center text-secondary/40 font-body text-[11px] tracking-widest reveal-item"
-      style="animation-delay: 50ms"
-    >
-      <span>MEMORIES ARCHIVE // LEGAL</span>
-      <span>SECURE END-TO-END</span>
-    </header>
-
-    <!-- Center Document Card -->
-    <div class="my-auto mx-auto w-full max-w-[640px] z-10 px-2">
-      <div
-        class="reveal-item"
-        style="animation-delay: 150ms"
-      >
-        <div
-          class="bg-surface border border-border p-6 md:p-10 shadow-2xl relative rotate-[-0.5deg] max-h-[72vh] flex flex-col transition-all duration-300 hover:rotate-0"
-        >
-          <!-- Back Link & Header -->
-          <div class="shrink-0 mb-6">
-            <button
-              class="spring-btn flex items-center gap-2 font-body text-[11px] uppercase tracking-widest text-secondary hover:text-primary transition-colors cursor-pointer"
-              @click="goBack"
-            >
-              <span class="material-symbols-outlined !text-[14px]">arrow_back</span>
-              Back to space creator
-            </button>
-
-            <h1 class="font-poetic text-4xl md:text-5xl italic font-normal text-on-background mb-2 mt-5">Terms of Service</h1>
-            <p class="font-body text-[11px] uppercase tracking-widest text-secondary/50 border-b border-border pb-4">
-              Last Updated: June 08, 2026 // Vol. 2026
-            </p>
-          </div>
-
-          <!-- Scrollable Content -->
-          <div class="flex-1 overflow-y-auto pr-3 space-y-6 text-[14px] leading-relaxed font-body text-on-background/80 custom-scroll">
-            <section class="space-y-2">
-              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">01 // Archive Purpose</h2>
-              <p>
-                Welcome to Memories. This application is designed as a secure, personal digital journal and gallery. By creating a space,
-                you register an intimate vault dedicated to collecting, cataloging, and reflecting on your personal history.
-              </p>
-            </section>
-
-            <section class="space-y-2">
-              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">02 // User Space & Security</h2>
-              <p>
-                You are solely responsible for maintaining the confidentiality of your credentials. Any activity originating from your space
-                is your sole responsibility. We employ industry-standard encryption practices to protect your archive, but encourage the use
-                of unique, complex passwords.
-              </p>
-            </section>
-
-            <section class="space-y-2">
-              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">03 // Acceptable Content</h2>
-              <p>
-                This space is yours. You may upload texts, photographs, and records for your private archive. However, any content violating
-                intellectual property rights or engaging in malicious activities targeting the platform infrastructure is strictly
-                prohibited and subject to immediate space deletion.
-              </p>
-            </section>
-
-            <section class="space-y-2">
-              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">04 // Limitation of Liability</h2>
-              <p>
-                The platform is provided "as is" and "as available". We do not warrant that the services will be completely uninterrupted or
-                error-free. Memories is not liable for accidental data loss; we advise maintaining offline backups of critical personal
-                artifacts.
-              </p>
-            </section>
-
-            <section class="space-y-2">
-              <h2 class="font-title font-bold text-[12px] uppercase tracking-wider text-primary">05 // Modifications</h2>
-              <p>
-                We reserve the right to refine these terms at any time. Your continued use of the platform constitutes agreement to the
-                updated framework. Significant updates will be communicated directly within your space dashboard.
-              </p>
-            </section>
-          </div>
-
-          <!-- Card Footer Seal -->
-          <div
-            class="shrink-0 pt-4 mt-4 border-t border-border flex justify-between items-center text-secondary/40 font-body text-[10px] tracking-widest"
+    <!-- Header Section -->
+    <section class="mb-32 max-w-4xl animate-reveal">
+      <span class="font-body text-sm font-semibold text-primary tracking-widest uppercase mb-4 block">{{ t('terms.subtitle') }}</span>
+      <h1 class="font-title text-5xl md:text-6xl text-on-surface mb-8">{{ t('terms.title') }}</h1>
+      <p class="font-body text-lg text-secondary max-w-2xl">
+        {{ t('terms.description') }}
+      </p>
+    </section>
+    <!-- Content Grid (Architectural Editorial) -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-24 items-start">
+      <!-- Sticky Navigation/Index -->
+      <aside class="md:col-span-3 sticky top-32 hidden md:block animate-reveal reveal-delay-1">
+        <nav class="flex flex-col gap-6">
+          <a
+            class="nav-link group flex items-center gap-4 font-body text-sm font-semibold text-secondary hover:text-primary transition-colors"
+            href="#acceptance"
           >
-            <span>MEMORIES INC. // OFFICE OF PRIVACY</span>
-            <span class="italic">Authorized Archive</span>
+            <span class="nav-indicator w-8 h-px bg-border group-hover:bg-primary transition-all"></span>
+            {{ t('terms.nav.acceptance') }}
+          </a>
+          <a
+            class="nav-link group flex items-center gap-4 font-body text-sm font-semibold text-secondary hover:text-primary transition-colors"
+            href="#conduct"
+          >
+            <span class="nav-indicator w-8 h-px bg-border group-hover:bg-primary transition-all"></span>
+            {{ t('terms.nav.conduct') }}
+          </a>
+          <a
+            class="nav-link group flex items-center gap-4 font-body text-sm font-semibold text-secondary hover:text-primary transition-colors"
+            href="#intellectual-property"
+          >
+            <span class="nav-indicator w-8 h-px bg-border group-hover:bg-primary transition-all"></span>
+            {{ t('terms.nav.intellectual_property') }}
+          </a>
+          <a
+            class="nav-link group flex items-center gap-4 font-body text-sm font-semibold text-secondary hover:text-primary transition-colors"
+            href="#privacy"
+          >
+            <span class="nav-indicator w-8 h-px bg-border group-hover:bg-primary transition-all"></span>
+            {{ t('terms.nav.privacy') }}
+          </a>
+          <a
+            class="nav-link group flex items-center gap-4 font-body text-sm font-semibold text-secondary hover:text-primary transition-colors"
+            href="#termination"
+          >
+            <span class="nav-indicator w-8 h-px bg-border group-hover:bg-primary transition-all"></span>
+            {{ t('terms.nav.termination') }}
+          </a>
+        </nav>
+      </aside>
+      <!-- Main Text Sections -->
+      <div class="md:col-span-9 flex flex-col gap-32">
+        <!-- Section 01: Acceptance -->
+        <section
+          id="acceptance"
+          class="max-w-3xl gsap-fade-up"
+        >
+          <h2 class="font-title text-4xl md:text-5xl text-on-surface mb-8 flex items-baseline gap-4">
+            <span class="font-poetic text-primary italic text-3xl">01</span>
+            {{ t('terms.sections.acceptance.title') }}
+          </h2>
+          <div class="space-y-6 text-body-lg text-secondary leading-relaxed">
+            <p>{{ t('terms.sections.acceptance.p1') }}</p>
+            <p>{{ t('terms.sections.acceptance.p2') }}</p>
+          </div>
+        </section>
+        <!-- Visual Break (Asymmetric Image/Graphic) -->
+        <div class="relative w-full aspect-21/9 overflow-hidden rounded-xl bg-surface-container-high group gsap-fade-up">
+          <img
+            alt="Architectural memory space"
+            class="w-full h-full object-cover grayscale opacity-40 group-hover:scale-105 transition-transform duration-[2s]"
+            :src="heroImage"
+          />
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="px-8 py-4 bg-surface/10 backdrop-blur-sm border border-white/20 rounded-full">
+              <span class="text-white font-poetic italic text-xl">{{ t('terms.image_text') }}</span>
+            </div>
           </div>
         </div>
+        <!-- Section 02: User Conduct -->
+        <section
+          id="conduct"
+          class="max-w-3xl ml-auto gsap-fade-up"
+        >
+          <h2 class="font-title text-4xl md:text-5xl text-on-surface mb-8 flex items-baseline gap-4">
+            <span class="font-poetic text-primary italic text-3xl">02</span>
+            {{ t('terms.sections.conduct.title') }}
+          </h2>
+          <div class="space-y-6 text-body-lg text-secondary leading-relaxed">
+            <p>{{ t('terms.sections.conduct.p1') }}</p>
+            <ul class="space-y-4 list-none pl-0">
+              <li class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-primary shrink-0 mt-1">check_circle</span>
+                <span>{{ t('terms.sections.conduct.li1') }}</span>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-primary shrink-0 mt-1">check_circle</span>
+                <span>{{ t('terms.sections.conduct.li2') }}</span>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-primary shrink-0 mt-1">check_circle</span>
+                <span>{{ t('terms.sections.conduct.li3') }}</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <!-- Section 03: Intellectual Property -->
+        <section
+          id="intellectual-property"
+          class="max-w-3xl gsap-fade-up"
+        >
+          <h2 class="font-title text-4xl md:text-5xl text-on-surface mb-8 flex items-baseline gap-4">
+            <span class="font-poetic text-primary italic text-3xl">03</span>
+            {{ t('terms.sections.intellectual_property.title') }}
+          </h2>
+          <div class="space-y-6 text-body-lg text-secondary leading-relaxed">
+            <p>
+              <strong>{{ t('terms.sections.intellectual_property.your_content') }}</strong>
+              {{ t('terms.sections.intellectual_property.your_content_desc') }}
+            </p>
+            <p>
+              <strong>{{ t('terms.sections.intellectual_property.our_content') }}</strong>
+              {{ t('terms.sections.intellectual_property.our_content_desc') }}
+            </p>
+          </div>
+        </section>
+        <!-- Section 04: Privacy -->
+        <section
+          id="privacy"
+          class="max-w-3xl p-12 bg-surface border border-border rounded-xl gsap-fade-up"
+        >
+          <h2 class="font-title text-4xl md:text-5xl text-on-surface mb-8 flex items-baseline gap-4">
+            <span class="font-poetic text-primary italic text-3xl">04</span>
+            {{ t('terms.sections.privacy.title') }}
+          </h2>
+          <div class="space-y-6 text-body-lg text-secondary leading-relaxed">
+            <p>{{ t('terms.sections.privacy.p1') }}</p>
+            <p>{{ t('terms.sections.privacy.p2') }}</p>
+          </div>
+        </section>
+        <!-- Section 05: Termination -->
+        <section
+          id="termination"
+          class="max-w-3xl gsap-fade-up"
+        >
+          <h2 class="font-title text-4xl md:text-5xl text-on-surface mb-8 flex items-baseline gap-4">
+            <span class="font-poetic text-primary italic text-3xl">05</span>
+            {{ t('terms.sections.termination.title') }}
+          </h2>
+          <div class="space-y-6 text-body-lg text-secondary leading-relaxed">
+            <p>{{ t('terms.sections.termination.p1') }}</p>
+          </div>
+        </section>
+        <!-- Contact CTA -->
+        <section class="mt-16 flex flex-col items-start gap-8 border-t border-border pt-16 gsap-fade-up">
+          <h3 class="font-title text-2xl md:text-3xl text-on-surface">{{ t('terms.cta.title') }}</h3>
+          <p class="text-body-md text-secondary max-w-lg">
+            {{ t('terms.cta.description') }}
+          </p>
+          <a
+            class="group flex items-center gap-2 text-primary font-medium"
+            href="mailto:legal@memories.io"
+          >
+            {{ t('terms.cta.button') }}
+            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </a>
+        </section>
       </div>
     </div>
-
-    <!-- Bottom Footer -->
-    <footer
-      class="flex justify-between items-center text-secondary/30 font-body text-[11px] tracking-widest reveal-item"
-      style="animation-delay: 250ms"
-    >
-      <span>© 2026 MEMORIES</span>
-      <span>ALL RIGHTS PRESERVED</span>
-    </footer>
   </main>
 </template>
 
 <script setup lang="ts">
-import { useHead } from '#imports'
-import { navigateTo } from '#app'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import heroImage from '~/assets/images/hero.jpg'
+
+const { t } = useI18n()
 
 useHead({
   title: 'Terms of Service',
 })
-import { useRouter } from 'vue-router'
 
-const localePath = useLocalePath()
-const router = useRouter()
+definePageMeta({
+  layout: 'marketing',
+})
 
-const goBack = () => {
-  if (window.history.length > 1) {
-    router.back()
-  } else {
-    navigateTo(localePath('/register'))
-  }
-}
+const mainContainer = ref(null)
+let ctx: gsap.Context
+
+onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger)
+  if (!mainContainer.value) return
+
+  ctx = gsap.context(() => {
+    // Fade up animations for sections
+    const fadeUpElements = gsap.utils.toArray('.gsap-fade-up')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fadeUpElements.forEach((el: any) => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      })
+    })
+
+    // Scrollspy for navigation
+    const sections = gsap.utils.toArray('section[id]')
+    const navLinks = gsap.utils.toArray('.nav-link')
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sections.forEach((section: any) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 50%',
+        end: 'bottom 50%',
+        onToggle: self => {
+          if (self.isActive) {
+            const id = section.getAttribute('id')
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            navLinks.forEach((link: any) => {
+              const indicator = link.querySelector('.nav-indicator')
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('text-primary')
+                link.classList.remove('text-secondary')
+                if (indicator) {
+                  indicator.classList.add('bg-primary', 'w-12')
+                  indicator.classList.remove('bg-border', 'w-8')
+                }
+              } else {
+                link.classList.remove('text-primary')
+                link.classList.add('text-secondary')
+                if (indicator) {
+                  indicator.classList.remove('bg-primary', 'w-12')
+                  indicator.classList.add('bg-border', 'w-8')
+                }
+              }
+            })
+          }
+        },
+      })
+    })
+  }, mainContainer.value)
+})
+
+onUnmounted(() => {
+  ctx?.revert()
+})
 </script>
 
 <style scoped>
-.custom-scroll::-webkit-scrollbar {
-  width: 3px;
+.reveal-delay-1 {
+  animation-delay: 100ms;
 }
-.custom-scroll::-webkit-scrollbar-track {
+.reveal-delay-2 {
+  animation-delay: 200ms;
+}
+.reveal-delay-3 {
+  animation-delay: 300ms;
+}
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-reveal {
+  animation: fadeInSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
   background: transparent;
 }
-.custom-scroll::-webkit-scrollbar-thumb {
-  background-color: var(--border-strong);
-  border-radius: 9px;
-}
-.custom-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary);
+::-webkit-scrollbar-thumb {
+  background: #e26a4a;
+  border-radius: 10px;
 }
 </style>

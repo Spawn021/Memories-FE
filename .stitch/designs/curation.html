@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Curation — Memories</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Outfit:wght@300;400;600;700&amp;family=Geist:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#8b716b",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb3b0",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9dad8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f9faf8",
+                        "primary-fixed": "#ffdbd1",
+                        "surface-container": "#edeeec",
+                        "on-secondary-fixed-variant": "#3a4b3e",
+                        "on-secondary-fixed": "#0f1f14",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f9faf8",
+                        "sunlit-clementine": "#E26A4A",
+                        "on-secondary-container": "#57695b",
+                        "primary": "#a13a1e",
+                        "on-primary-fixed-variant": "#84250b",
+                        "on-tertiary-fixed": "#410006",
+                        "secondary-fixed-dim": "#b8cbbb",
+                        "inverse-on-surface": "#f0f1ef",
+                        "canvas-linen": "#F7F8F6",
+                        "surface-container-low": "#f3f4f2",
+                        "outline-variant": "#dec0b9",
+                        "secondary-container": "#d4e8d6",
+                        "background": "#f9faf8",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#516355",
+                        "surface-variant": "#e2e3e1",
+                        "secondary-fixed": "#d4e8d6",
+                        "obsidian-ink": "#181A1A",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#ffb4a1",
+                        "on-surface-variant": "#57423c",
+                        "tertiary-fixed": "#ffdad8",
+                        "tertiary-container": "#c34e4f",
+                        "primary-container": "#c15234",
+                        "on-surface": "#191c1b",
+                        "surface-tint": "#a43c20",
+                        "inverse-surface": "#2e3130",
+                        "surface-container-high": "#e7e8e6",
+                        "terracotta-rose": "#D65C5C",
+                        "on-tertiary-container": "#fffbff",
+                        "surface-container-highest": "#e2e3e1",
+                        "on-background": "#191c1b",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#3c0800",
+                        "on-primary-container": "#fffbff",
+                        "inverse-primary": "#ffb4a1",
+                        "on-error": "#ffffff",
+                        "pure-surface": "#FFFFFF",
+                        "on-tertiary-fixed-variant": "#862025",
+                        "whisper-border": "rgba(24, 26, 26, 0.05)",
+                        "tertiary": "#a33638",
+                        "muted-leaf": "#5C6E60"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "10%",
+                        "margin-mobile": "clamp(2rem, 5vw, 4rem)",
+                        "container-max": "1440px",
+                        "form-max-width": "440px"
+                    },
+                    "fontFamily": {
+                        "poetic-accent": ["Instrument Serif"],
+                        "headline-md": ["Outfit"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Outfit"],
+                        "body-lg": ["Geist"],
+                        "error-text": ["Geist"]
+                    },
+                    "fontSize": {
+                        "poetic-accent": ["20px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["13px", {"lineHeight": "1", "fontWeight": "500"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "error-text": ["12px", {"lineHeight": "1", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .polaroid-stack:hover .polaroid-1 { transform: rotate(-6deg) translateX(-10px) translateY(-5px); }
+        .polaroid-stack:hover .polaroid-2 { transform: rotate(4deg) translateX(10px) translateY(-8px); }
+        .polaroid-stack:hover .polaroid-3 { transform: rotate(-2deg) translateY(-12px); }
+        
+        .transition-spring {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .frosted-glass {
+            backdrop-filter: blur(12px);
+            background: rgba(247, 248, 246, 0.6);
+        }
+
+        .whisper-shadow {
+            box-shadow: 0 20px 40px -15px rgba(24, 26, 26, 0.08);
+        }
+
+        .active-nav-indicator::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #E26A4A;
+        }
+    </style>
+</head>
+<body class="bg-canvas-linen text-on-surface font-body-md selection:bg-sunlit-clementine selection:text-white">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-canvas-linen/80 dark:bg-obsidian-ink/80 backdrop-blur-md">
+<div class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto">
+<a class="font-poetic-accent text-headline-lg text-primary dark:text-primary-fixed" href="#">Memories</a>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-muted-leaf dark:text-secondary-fixed-dim hover:text-primary hover:scale-105 transition-transform duration-300 ease-out font-body-md text-body-md" href="#">Stories</a>
+<a class="text-primary dark:text-primary-fixed-dim font-semibold border-b-2 border-sunlit-clementine hover:scale-105 transition-transform duration-300 ease-out font-body-md text-body-md" href="#">Curation</a>
+<a class="text-muted-leaf dark:text-secondary-fixed-dim hover:text-primary hover:scale-105 transition-transform duration-300 ease-out font-body-md text-body-md" href="#">About</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-muted-leaf hover:scale-105 active:scale-95 transition-all">search</button>
+<button class="material-symbols-outlined text-muted-leaf hover:scale-105 active:scale-95 transition-all">account_circle</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-desktop py-12 md:py-20">
+<!-- Hero Section -->
+<header class="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="max-w-2xl">
+<span class="font-label-sm text-label-sm text-sunlit-clementine uppercase tracking-widest block mb-4">Curation Studio</span>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-6 leading-none">Organize your <br/><span class="italic font-poetic-accent text-primary">precious moments.</span></h1>
+<p class="font-body-lg text-body-lg text-muted-leaf max-w-lg">Transform a chaotic library into a poetic journey. Use our intentional tools to group, theme, and cherish every frame.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-3 bg-sunlit-clementine text-white rounded-full font-headline-md text-body-md hover:scale-105 active:scale-95 transition-spring shadow-lg">New Collection</button>
+</div>
+</header>
+<!-- Collections Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-16">
+<!-- Collection Stack 1 -->
+<div class="group relative">
+<div class="polaroid-stack relative h-80 w-full mb-12">
+<!-- Bottom Card -->
+<div class="polaroid-1 absolute inset-0 bg-pure-surface p-4 pb-12 rotate-[-3deg] whisper-shadow transition-spring">
+<div class="w-full h-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover grayscale opacity-30" data-alt="A warm, sun-drenched outdoor table setting at a Mediterranean villa, with soft golden hour light hitting linen napkins and wine glasses. The aesthetic is clean, minimalist, and editorial, with a palette of cream, sun-bleached wood, and soft Terracotta Rose accents. High-end lifestyle photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIsJtX_u3iVPPIIHWLb9UYu6rAAoCAeRQ9P5q4XQZLx-Ro7FIVowbxpUDIcA1w2s6duntsoMngzDToX1N1kq-bwJ-K403nA4KoZY6yoSVh9sPB9c2ZQbdYIDWCdBL56k06Oc-KY6I7EuMHHk01PtvHrtnMqNWAeILswytj9n4qxduJKsLuwEjnzaMP6MOzquWDp6GVCD1BjoZlj4P_6dkp4xk6FDJZof9TI605WQ7BWejJt3y8GPRgTKN5hHVSvimKNrwCfLdDz1yb"/>
+</div>
+</div>
+<!-- Middle Card -->
+<div class="polaroid-2 absolute inset-0 bg-pure-surface p-4 pb-12 rotate-[2deg] whisper-shadow transition-spring">
+<div class="w-full h-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover opacity-60" data-alt="Close up of a vintage film camera lying on a rustic wooden surface next to a dried wildflower. The lighting is soft and diffused, creating a nostalgic, airy atmosphere. Colors are muted greens and warm linens, consistent with a modern scrapbook aesthetic. Shot from a high-angle artistic perspective." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACZkW2I_J9G9zRgQZNcAjc75Jta2YWX52MEniAtg_vP9zRB2YGjSeM1JBlqPcfb14OKBO6oPNhjqs34yOc5MBUcgBLapfYUxTUk153J8a_RARzM-RzaL4zjT4sAJRgoesEdDiK2ggMBBPmwReGmrFt5Wsjiv4-X2cDxAq96khC1sseUMq1iw2dsb3D89px771ejiqW_s33EEmKuAu70bDh9VSlzC7pCAOMXC7PrxXKpwKrIDt7PBfCRa8bHQfhMOGOPL7fNoY4zFFj"/>
+</div>
+</div>
+<!-- Top Card -->
+<div class="polaroid-3 absolute inset-0 bg-pure-surface p-4 pb-12 whisper-shadow transition-spring">
+<div class="w-full h-full overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover" data-alt="A candid, joyful shot of a family laughing together at a summer garden party. The scene is bathed in natural, bright daylight. The composition is slightly asymmetrical and organic. The color palette features Sunlit Clementine and Muted Leaf, feeling energetic yet sophisticated and high-end." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQXrXorESGtK15419XK8mVDmsAItSNT7SlK9QeLLu-ZxBfYLStCj4ZtCtixVurmPCjJGuBpE_51cGcUMEXw2pHdjs9USAiQhFOzxBNKYwAL6DhdkeZIlRmdRRsDVyDgKF8b-Omx5HMwuGPMgDJS4iGyNBqEx5LEx0mTifOGWrXtCrSfIs46uid8kxZa10BL1UgKIchHxc_PquB1zkKbI_3nou59O84pEn1tMWMOA39XFChrYPlhWDt6zh6MyN-cSsfTSp-sX0oiAKW"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<span class="font-poetic-accent text-body-lg text-on-surface">Summer 2024</span>
+<span class="font-label-sm text-label-sm text-muted-leaf">42 Items</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-tighter">Personal</span>
+<span class="text-muted-leaf text-label-sm">• Last edited 2 days ago</span>
+</div>
+<button class="w-full py-4 border border-whisper-border bg-pure-surface text-sunlit-clementine font-headline-md text-body-md hover:bg-sunlit-clementine hover:text-white hover:scale-[1.02] active:scale-95 transition-spring rounded-xl flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">auto_stories</span>
+                        Curate Collection
+                    </button>
+</div>
+</div>
+<!-- Collection Stack 2 -->
+<div class="group relative lg:mt-12">
+<div class="polaroid-stack relative h-80 w-full mb-12">
+<div class="polaroid-1 absolute inset-0 bg-pure-surface p-4 pb-12 rotate-[-5deg] whisper-shadow transition-spring">
+<div class="w-full h-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover grayscale opacity-40" data-alt="A minimalist architectural detail of a clean white building against a clear blue sky. The composition is stark and modern, emphasizing geometric lines and shadows. The light is bright and crisp, fitting the modern minimalist visual style. No people are present, focusing on form and texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNW8l4Z3CNhchNOIhL2xbdKH-ZjR1Ie7EKONHaLrkhEOVW6tFWan_5w57HDqN41sQWlebglfFBBeH6LtNYgR2HNdeRdkGfHAuvDLNGoEi-FbFDj9UzcQ1aJsZ8wFjW98L252imjVsNftUvwHgK5fYWoqkxXABD4oVRjBdZT9Jm0KA1cpZZYOLBW5KyOr9tGIAjxGA2RV8sDdXPSNT6tyNSO3QHosYiiy1pwtftWOvvzkjUrs2RYa8CcWD76gEROsz84fLC6QXYyLcK"/>
+</div>
+</div>
+<div class="polaroid-3 absolute inset-0 bg-pure-surface p-4 pb-12 whisper-shadow transition-spring">
+<div class="w-full h-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A cozy interior scene featuring a stacks of old books, a ceramic mug, and a soft wool blanket near a window. The morning light is cool and serene. The color palette is dominated by Canvas Linen and Muted Leaf, creating a calm and sanctuary-like atmosphere. High-end interior editorial photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyC3ZdJ-f8ezfqCT6MTjpSdkgV_pvgNvkHLSGnzTVfqh7Z39TqgzwY_4JkUEJ2leQeXU7uB1aSf_po-CLOR4izOmLwFPl4hxte4O3tK4BB9ec_gb3T3HFaNq0R5YNjxXCNX4gRGufTqkrp7B0orlHDscgjMKXLuCOmAw4FzhrqZyXPExS6yEY7F1fxZ98a7nyVxDx9y57Ku6he3SCR85Ha7qz92mPXsigFgXE-jaLSzqu8BqraBM31BzUEfA4Vk-yMSfhjrbRqDgn-"/>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<span class="font-poetic-accent text-body-lg text-on-surface">Quiet Mornings</span>
+<span class="font-label-sm text-label-sm text-muted-leaf">18 Items</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-tighter">Shared</span>
+<span class="text-muted-leaf text-label-sm">• Last edited 5 hours ago</span>
+</div>
+<button class="w-full py-4 border border-whisper-border bg-pure-surface text-sunlit-clementine font-headline-md text-body-md hover:bg-sunlit-clementine hover:text-white hover:scale-[1.02] active:scale-95 transition-spring rounded-xl flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">auto_stories</span>
+                        Curate Collection
+                    </button>
+</div>
+</div>
+<!-- Collection Stack 3 -->
+<div class="group relative lg:-mt-6">
+<div class="polaroid-stack relative h-80 w-full mb-12">
+<div class="polaroid-2 absolute inset-0 bg-pure-surface p-4 pb-12 rotate-[4deg] whisper-shadow transition-spring">
+<div class="w-full h-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover opacity-50" data-alt="A breathtaking view of a mountain range at sunrise, with mist clinging to the valleys. The light is soft and purple-toned. The style is expansive and epic, utilizing high contrast and wide-angle perspective. The mood is serene and awe-inspiring, echoing the nostalgic heritage of travel diaries." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMPDrMYCzbMJ6CfHAz0PrqcIh0WVWXP9oKlo5zx0dUKFBqn9BFWdwsRGfNCTvr6XhERFdpo0kPSuffgCSeYNiW5pAXCQl3jckw0cuRj3YLqGL04cn9gIbPJ2GXsMCwI3enHv_qGvWS_-sLeZquNgQJLi30uv4TnHTyEJ-ArA4oQUNTJsztZ63huBioYhhg0X1MF8vONueY-UcEFw2veaZHEV3gfpys6fHCN-9N-PqQIUSIfsJ0h4z6_9u5uH-cCybEWAc5RxR6G3lF"/>
+</div>
+</div>
+<div class="polaroid-3 absolute inset-0 bg-pure-surface p-4 pb-12 whisper-shadow transition-spring">
+<div class="w-full h-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Macro photography of a delicate blooming flower in a field, with a soft-focus background of greenery. The lighting is high-key and airy. The color palette uses vibrant Sunlit Clementine and soft Ivory. The aesthetic is youthful and energetic, focused on small, beautiful details of nature." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBxuYzfVpzGvek4jG0OqaB_dAf88VfFsaLzZTIYrBzqBb8jkihfLVNYpkE8i1WwpetMyMq0tGfIyi9MZvE2fHcM01vLyyBsb_va2baFR_sMEBiScZa79ZAoeqhYnkLW2UGiqf1poEFKGYBBhDvOD92RacIfy2GklJcOLQuuDkSUCUbRowNwzibkRAQKc16ZY_e42Jdfm4oLEvzTNqpkWMKWPFV0dtYWscQ_CCx6GNuSOazqtRiGAHyXnFwz0rZwY5hjC1-Xhgtt3Pb"/>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<span class="font-poetic-accent text-body-lg text-on-surface">Botanical Study</span>
+<span class="font-label-sm text-label-sm text-muted-leaf">31 Items</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-tighter">Archives</span>
+<span class="text-muted-leaf text-label-sm">• Last edited 1 week ago</span>
+</div>
+<button class="w-full py-4 border border-whisper-border bg-pure-surface text-sunlit-clementine font-headline-md text-body-md hover:bg-sunlit-clementine hover:text-white hover:scale-[1.02] active:scale-95 transition-spring rounded-xl flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">auto_stories</span>
+                        Curate Collection
+                    </button>
+</div>
+</div>
+</div>
+<!-- Tool Bento Section -->
+<section class="mt-40 mb-20">
+<h2 class="font-headline-lg text-headline-lg mb-12 text-on-surface">Curation Tools</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[500px]">
+<div class="md:col-span-2 md:row-span-2 bg-pure-surface p-10 rounded-2xl border border-whisper-border flex flex-col justify-between whisper-shadow group">
+<div>
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-spring">
+<span class="material-symbols-outlined text-primary">auto_fix_high</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4">Intelligent Theming</h3>
+<p class="text-muted-leaf font-body-md leading-relaxed">Let our AI engine suggest themes based on visual harmony, location, and emotional resonance. It clusters your memories into meaningful narratives automatically.</p>
+</div>
+<button class="text-primary font-semibold flex items-center gap-2 hover:translate-x-2 transition-transform">
+                        Try Auto-Theme <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="md:col-span-2 bg-secondary-container/30 p-8 rounded-2xl border border-whisper-border flex items-center gap-8">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md mb-2">Bulk Metadata</h3>
+<p class="text-muted-leaf text-label-sm">Edit tags, dates, and locations for entire stacks in a single motion.</p>
+</div>
+<span class="material-symbols-outlined text-4xl text-secondary">label_important</span>
+</div>
+<div class="md:col-span-1 bg-tertiary-container/10 p-8 rounded-2xl border border-whisper-border flex flex-col justify-center text-center">
+<span class="material-symbols-outlined text-3xl text-tertiary mb-3">grid_view</span>
+<h4 class="font-semibold text-on-surface">Custom Grids</h4>
+</div>
+<div class="md:col-span-1 bg-sunlit-clementine/5 p-8 rounded-2xl border border-whisper-border flex flex-col justify-center text-center">
+<span class="material-symbols-outlined text-3xl text-sunlit-clementine mb-3">share</span>
+<h4 class="font-semibold text-on-surface">Live Gallery</h4>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-canvas-linen dark:bg-obsidian-ink border-t border-whisper-border">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-12 w-full max-w-container-max mx-auto">
+<div class="flex flex-col items-center md:items-start gap-4 mb-8 md:mb-0">
+<span class="font-poetic-accent text-headline-md text-primary">Memories</span>
+<p class="text-muted-leaf dark:text-secondary-fixed-dim font-body-md text-body-md text-center md:text-left max-w-xs">© 2024 Memories Archive. Curated with intention.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-muted-leaf hover:text-sunlit-clementine transition-opacity font-body-md text-body-md" href="#">Privacy</a>
+<a class="text-muted-leaf hover:text-sunlit-clementine transition-opacity font-body-md text-body-md" href="#">Archive Ethics</a>
+<a class="text-muted-leaf hover:text-sunlit-clementine transition-opacity font-body-md text-body-md" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-full md:hidden bg-pure-surface dark:bg-inverse-surface shadow-[0_-4px_20px_rgba(24,26,26,0.05)]">
+<div class="flex justify-around items-center px-4 pb-4 pt-2">
+<a class="flex flex-col items-center justify-center text-muted-leaf dark:text-secondary-fixed-dim p-3" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-sm text-label-sm">Stories</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container rounded-full p-3 scale-110 shadow-lg" href="#">
+<span class="material-symbols-outlined">collections_bookmark</span>
+<span class="font-label-sm text-label-sm">Curation</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-leaf dark:text-secondary-fixed-dim p-3" href="#">
+<span class="material-symbols-outlined">info</span>
+<span class="font-label-sm text-label-sm">About</span>
+</a>
+</div>
+</nav>
+<!-- FAB -->
+<button class="fixed bottom-24 right-8 w-14 h-14 bg-sunlit-clementine text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-spring z-40 md:bottom-12">
+<span class="material-symbols-outlined">add</span>
+</button>
+<script>
+        // Simple Micro-interactions for Curation items
+        document.querySelectorAll('.polaroid-stack').forEach(stack => {
+            stack.addEventListener('mouseenter', () => {
+                const badge = stack.parentElement.querySelector('.badge-anim');
+                if(badge) badge.classList.add('scale-110');
+            });
+            stack.addEventListener('mouseleave', () => {
+                const badge = stack.parentElement.querySelector('.badge-anim');
+                if(badge) badge.classList.remove('scale-110');
+            });
+        });
+    </script>
+</body></html>

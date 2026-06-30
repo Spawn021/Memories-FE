@@ -45,10 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useHead } from '#imports'
-import { useRoute } from '#app'
-
 const { t } = useI18n()
 const routes = useRoutes()
 
