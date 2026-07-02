@@ -109,7 +109,14 @@ export const useAuth = () => {
     }
   }
 
-  const loginWithGoogle = () => {
+  const loginWithGoogle = (redirectPath?: string) => {
+    if (typeof window !== 'undefined') {
+      if (redirectPath) {
+        localStorage.setItem('auth_redirect', redirectPath)
+      } else {
+        localStorage.removeItem('auth_redirect')
+      }
+    }
     const apiBase = config.public.apiBase
     const googleLoginUrl = `${apiBase}/auth/google`
     window.location.href = googleLoginUrl

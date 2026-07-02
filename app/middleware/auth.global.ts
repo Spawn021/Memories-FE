@@ -4,8 +4,18 @@ import { guestRoutes, noAuthRoutes, ROUTES } from '~/constants'
 export default defineNuxtRouteMiddleware(to => {
   const authStore = useAuthStore()
   const localePath = useLocalePath()
-
   const cleanPath = to.path.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
+
+  if (process.client && authStore.isAuthenticated) {
+    const authRedirect = localStorage.getItem('auth_redirect')
+    if (authRedirect && authRedirect.startsWith('/')) {
+      localStorage.removeItem('auth_redirect')
+      const cleanRedirect = authRedirect.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
+      if (cleanPath !== cleanRedirect) {
+        return navigateTo(localePath(authRedirect))
+      }
+    }
+  }
 
   const isGuestRoute = guestRoutes.includes(cleanPath)
   const isNoAuthRoute = noAuthRoutes.includes(cleanPath)

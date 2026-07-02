@@ -162,6 +162,7 @@ const handleLogin = async () => {
 }
 
 const handleGoogleLogin = () => {
-  loginWithGoogle()
+  const redirectPath = route.query.redirect as string | undefined
+  loginWithGoogle(redirectPath)
 }
 </script>

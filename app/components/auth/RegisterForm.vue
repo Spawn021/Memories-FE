@@ -180,6 +180,7 @@ import { useForm } from '~/composables/useForm'
 import { registerSchema } from '~/schema/auth/register.schema'
 import { useToast } from '~/composables/useToast'
 
+const route = useRoute()
 const { t } = useI18n()
 const routes = useRoutes()
 
@@ -216,6 +217,7 @@ const handleRegister = async () => {
 }
 
 const handleGoogleLogin = () => {
-  loginWithGoogle()
+  const redirectPath = route.query.redirect as string | undefined
+  loginWithGoogle(redirectPath)
 }
 </script>
