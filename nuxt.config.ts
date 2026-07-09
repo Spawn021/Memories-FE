@@ -9,6 +9,9 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
+  imports: {
+    dirs: ['composables/**'],
+  },
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/i18n',

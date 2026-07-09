@@ -1,4 +1,3 @@
-import { useRuntimeConfig, navigateTo, useRoute } from '#app'
 import { ERROR_STATUS_CODE, noAuthRoutes, ROUTES } from '~/constants'
 import { useAuthStore } from '~/stores/auth'
 import { ApiError, type ApiErrorResponse } from '~/types'

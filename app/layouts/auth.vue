@@ -69,10 +69,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
 import { LogoTextLight, LogoTextDark } from '~/assets/icons'
-import { useTheme } from '~/composables/useTheme'
-import { useRoute } from '#app'
+import AuthForgotPasswordVisual from '~/features/auth/components/AuthForgotPasswordVisual.vue'
+import AuthLoginVisual from '~/features/auth/components/AuthLoginVisual.vue'
+import AuthRegisterVisual from '~/features/auth/components/AuthRegisterVisual.vue'
 
 const routes = useRoutes()
 const { isDark, toggleTheme } = useTheme()

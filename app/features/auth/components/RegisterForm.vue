@@ -174,11 +174,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
 import { GoogleIcon } from '~/assets/icons'
-import { useForm } from '~/composables/useForm'
-import { registerSchema } from '~/schema/auth/register.schema'
-import { useToast } from '~/composables/useToast'
+import { registerSchema } from '~/features/auth/schemas/register.schema'
+import { useAuth } from '../auth.queries'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -188,7 +186,8 @@ const emit = defineEmits<{
   (e: 'success', data: { email: string; password?: string }): void
 }>()
 
-const { register, loginWithGoogle, loading } = useAuth()
+const { useRegister, loginWithGoogle } = useAuth()
+const { execute: register, loading, error: apiError, data: registerResult } = useRegister()
 const toast = useToast()
 
 const form = reactive({
@@ -207,13 +206,16 @@ const handleRegister = async () => {
   const isValid = validate()
   if (!isValid) return
 
-  try {
-    const result = await register(form.email, form.password)
-    toast.success(t(result.message))
-    emit('success', { email: form.email, password: form.password })
-  } catch (err) {
-    handleApiError(err)
+  await register(form.email, form.password)
+  if (apiError.value) {
+    handleApiError(apiError.value)
+    return
   }
+
+  if (registerResult.value) {
+    toast.success(t(registerResult.value.message))
+  }
+  emit('success', { email: form.email, password: form.password })
 }
 
 const handleGoogleLogin = () => {

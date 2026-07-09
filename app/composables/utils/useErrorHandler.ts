@@ -1,4 +1,3 @@
-import { useToast } from '~/composables/useToast'
 import { ApiError } from '~/types'
 
 export const useErrorHandler = () => {

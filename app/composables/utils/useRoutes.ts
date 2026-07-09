@@ -12,7 +12,6 @@ export const useRoutes = () => {
     home: (query?: Record<string, any>) => resolve(ROUTES.HOME, query),
     login: (query?: Record<string, any>) => resolve(ROUTES.LOGIN, query),
     profile: (query?: Record<string, any>) => resolve(ROUTES.PROFILE, query),
-    dashboard: (query?: Record<string, any>) => resolve(ROUTES.DASHBOARD, query),
     register: (query?: Record<string, any>) => resolve(ROUTES.REGISTER, query),
     forgotPassword: (query?: Record<string, any>) => resolve(ROUTES.FORGOT_PASSWORD, query),
     terms: (query?: Record<string, any>) => resolve(ROUTES.TERMS, query),
@@ -20,5 +19,8 @@ export const useRoutes = () => {
     stories: (query?: Record<string, any>) => resolve(ROUTES.STORIES, query),
     curation: (query?: Record<string, any>) => resolve(ROUTES.CURATION, query),
     about: (query?: Record<string, any>) => resolve(ROUTES.ABOUT, query),
+    spaces: (query?: Record<string, any>) => resolve(ROUTES.SPACES, query),
+    settings: (query?: Record<string, any>) => resolve(ROUTES.SETTINGS, query),
+    spaceDetail: (slug: string, query?: Record<string, any>) => resolve(ROUTES.SPACE_DETAIL.replace('[slug]', slug), query),
   }
 }

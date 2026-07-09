@@ -71,7 +71,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { EnglishIcon, JapaneseIcon, VietnameseIcon } from '~/assets/icons'
 
 const { locale, setLocale } = useI18n()

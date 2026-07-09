@@ -126,7 +126,11 @@
                   @click="handleResendOtp"
                 >
                   {{
-                    resendCooldown > 0 ? t('auth.resendIn', { seconds: resendCooldown }) : resending ? t('auth.resending') : t('auth.resendCode')
+                    resendCooldown > 0
+                      ? t('auth.resendIn', { seconds: resendCooldown })
+                      : resending
+                        ? t('auth.resending')
+                        : t('auth.resendCode')
                   }}
                 </button>
               </div>
@@ -231,19 +235,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onUnmounted } from 'vue'
-import { useForm } from '~/composables/useForm'
-import { emailSchema, newPasswordSchema } from '~/schema/auth/forgot-password.schema'
-import { useToast } from '~/composables/useToast'
-import { useErrorHandler } from '~/composables/useErrorHandler'
-import { navigateTo } from '#app'
+import { emailSchema, newPasswordSchema } from '~/features/auth/schemas/forgot-password.schema'
 import { TIME_RESEND_OTP } from '~/constants'
+import { useAuth } from '../auth.queries'
 
 const { t } = useI18n()
 const routes = useRoutes()
 
 const { handleError } = useErrorHandler()
-const { forgotPassword, verifyResetOtp, resetPassword, loading } = useAuth()
+const { useForgotPassword, useVerifyResetOtp, useResetPassword } = useAuth()
+const { execute: forgotPassword, loading: forgotLoading, error: forgotError, data: forgotResult } = useForgotPassword()
+const { execute: verifyResetOtp, loading: verifyLoading, error: verifyError } = useVerifyResetOtp()
+const { execute: resetPassword, loading: resetLoading, error: resetError, data: resetResult } = useResetPassword()
+
+const loading = computed(() => forgotLoading.value || verifyLoading.value || resetLoading.value)
 const toast = useToast()
 
 const step = ref(1)
@@ -301,54 +306,62 @@ const handleEmailSubmit = async () => {
   emailError.value = ''
   if (!validateEmail()) return
 
-  try {
-    const result = await forgotPassword(emailForm.email)
-    toast.success(t(result.message))
-    step.value = 2
-    resendCooldown.value = TIME_RESEND_OTP
-    startCooldownTimer()
-  } catch (err) {
-    handleApiErrorEmail(err)
+  await forgotPassword(emailForm.email)
+  if (forgotError.value) {
+    handleApiErrorEmail(forgotError.value)
+    return
   }
+
+  if (forgotResult.value) {
+    toast.success(t(forgotResult.value.message))
+  }
+  step.value = 2
+  resendCooldown.value = TIME_RESEND_OTP
+  startCooldownTimer()
 }
 
 const handleResendOtp = async () => {
   if (resendCooldown.value > 0 || resending.value) return
   resending.value = true
-  try {
-    const result = await forgotPassword(emailForm.email)
-    toast.success(t(result.message))
-    resendCooldown.value = TIME_RESEND_OTP
-    startCooldownTimer()
-  } catch (err) {
-    handleError(err)
-  } finally {
-    resending.value = false
+  await forgotPassword(emailForm.email)
+  resending.value = false
+  if (forgotError.value) {
+    handleError(forgotError.value)
+    return
   }
+
+  if (forgotResult.value) {
+    toast.success(t(forgotResult.value.message))
+  }
+  resendCooldown.value = TIME_RESEND_OTP
+  startCooldownTimer()
 }
 
 const handleOtpSubmit = async () => {
   if (otp.value.length !== 6) return
 
-  try {
-    await verifyResetOtp(emailForm.email, otp.value)
-    step.value = 3
-  } catch (err) {
-    handleError(err)
+  await verifyResetOtp(emailForm.email, otp.value)
+  if (verifyError.value) {
+    handleError(verifyError.value)
+    return
   }
+  step.value = 3
 }
 
 const handlePasswordSubmit = async () => {
   passwordError.value = ''
   if (!validatePassword()) return
 
-  try {
-    const result = await resetPassword(passwordForm.password)
-    toast.success(t(result.message))
-    await navigateTo(routes.login())
-  } catch (err) {
-    handleApiErrorPassword(err)
+  await resetPassword(passwordForm.password)
+  if (resetError.value) {
+    handleApiErrorPassword(resetError.value)
+    return
   }
+
+  if (resetResult.value) {
+    toast.success(t(resetResult.value.message))
+  }
+  await navigateTo(routes.login())
 }
 </script>
 

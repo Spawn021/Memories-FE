@@ -5,6 +5,8 @@
 </template>
 
 <script setup lang="ts">
+import ForgotPasswordForm from '~/features/auth/components/ForgotPasswordForm.vue'
+
 const { t } = useI18n()
 
 definePageMeta({

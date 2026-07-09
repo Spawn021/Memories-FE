@@ -1,5 +1,4 @@
 import { useTheme as useVuetifyTheme } from 'vuetify'
-import { ref, watch } from 'vue'
 
 const isDark = ref(false)
 

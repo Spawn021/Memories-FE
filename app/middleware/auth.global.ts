@@ -27,6 +27,6 @@ export default defineNuxtRouteMiddleware(to => {
 
   // If logged in and trying to access a guest-only page -> redirect to dashboard
   if (authStore.isAuthenticated && isGuestRoute) {
-    return navigateTo(localePath(ROUTES.DASHBOARD))
+    return navigateTo(localePath(ROUTES.SPACES))
   }
 })

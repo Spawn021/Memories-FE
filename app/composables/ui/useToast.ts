@@ -1,5 +1,3 @@
-import { ref } from 'vue'
-
 export interface Toast {
   id: string
   message: string

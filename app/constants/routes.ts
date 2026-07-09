@@ -16,7 +16,9 @@ export const ROUTES = {
   PROFILE: '/profile',
 
   // Authenticated routes
-  DASHBOARD: '/dashboard',
+  SETTINGS: '/settings',
+  SPACES: '/spaces',
+  SPACE_DETAIL: '/spaces/[slug]',
 } as const
 
 export const guestRoutes: string[] = [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.FORGOT_PASSWORD]

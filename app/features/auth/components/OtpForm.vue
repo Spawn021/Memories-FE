@@ -56,15 +56,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue'
-import { navigateTo } from '#app'
 import { TIME_RESEND_OTP } from '~/constants'
+import { useAuth } from '../auth.queries'
 
 const props = defineProps<{
   email: string
 }>()
 
-const { verifyEmail, resendVerificationCode, loading } = useAuth()
+const { useVerifyEmail, useResendVerification } = useAuth()
+const { execute: verifyEmail, loading, error: verifyError, data: verifyResult } = useVerifyEmail()
+const { execute: resendVerification, error: resendError, data: resendResult } = useResendVerification()
 const toast = useToast()
 const { t } = useI18n()
 const { handleError } = useErrorHandler()
@@ -95,27 +96,30 @@ onUnmounted(() => {
 
 const handleVerifyOtp = async () => {
   if (otp.value.length !== 6) return
-  try {
-    const result = await verifyEmail(props.email, otp.value)
-    toast.success(t(result.message))
-    navigateTo(routes.login({ verified: 'true' }))
-  } catch (err) {
-    handleError(err)
+  await verifyEmail(props.email, otp.value)
+  if (verifyError.value) {
+    handleError(verifyError.value)
+    return
   }
+  if (verifyResult.value) {
+    toast.success(t(verifyResult.value.message))
+  }
+  navigateTo(routes.login({ verified: 'true' }))
 }
 
 const handleResend = async () => {
   if (resendCooldown.value > 0 || resending.value) return
   resending.value = true
-  try {
-    const result = await resendVerificationCode(props.email)
-    toast.success(t(result.message))
-    resendCooldown.value = TIME_RESEND_OTP
-    startCooldownTimer()
-  } catch (err) {
-    handleError(err)
-  } finally {
-    resending.value = false
+  await resendVerification(props.email)
+  resending.value = false
+  if (resendError.value) {
+    handleError(resendError.value)
+    return
   }
+  if (resendResult.value) {
+    toast.success(t(resendResult.value.message))
+  }
+  resendCooldown.value = TIME_RESEND_OTP
+  startCooldownTimer()
 }
 </script>

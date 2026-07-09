@@ -12,6 +12,9 @@
 </template>
 
 <script setup lang="ts">
+import OtpForm from '~/features/auth/components/OtpForm.vue'
+import RegisterForm from '~/features/auth/components/RegisterForm.vue'
+
 definePageMeta({
   layout: 'auth',
   authVisual: 'register',

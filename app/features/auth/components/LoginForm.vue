@@ -121,17 +121,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { GoogleIcon } from '~/assets/icons'
-import { useForm } from '~/composables/useForm'
-import { navigateTo, useRoute } from '#app'
-import { loginSchema } from '~/schema/auth/login.schema'
+import { loginSchema } from '~/features/auth/schemas/login.schema'
+import { useAuth } from '../auth.queries'
 
 const route = useRoute()
 const routes = useRoutes()
 const { t } = useI18n()
 
-const { login, loginWithGoogle, loading } = useAuth()
+const { useLogin, loginWithGoogle } = useAuth()
+const { execute: login, loading, error: apiError } = useLogin()
 const { validationErrors, error, validate, handleApiError, clearFieldError, validateFieldOnBlur } = useForm(loginSchema)
 
 const email = ref('')
@@ -148,16 +147,17 @@ const handleLogin = async () => {
 
   if (!isValid) return
 
-  try {
-    await login(email.value, password.value, rememberMe.value)
-    const redirectPath = route.query.redirect as string | undefined
-    if (redirectPath && redirectPath.startsWith('/')) {
-      await navigateTo(redirectPath)
-    } else {
-      await navigateTo(routes.home())
-    }
-  } catch (err) {
-    handleApiError(err)
+  await login(email.value, password.value, rememberMe.value)
+  if (apiError.value) {
+    handleApiError(apiError.value)
+    return
+  }
+
+  const redirectPath = route.query.redirect as string | undefined
+  if (redirectPath && redirectPath.startsWith('/')) {
+    await navigateTo(redirectPath)
+  } else {
+    await navigateTo(routes.home())
   }
 }
 

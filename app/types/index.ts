@@ -2,6 +2,7 @@ export interface User {
   id: string
   uuid: string
   email: string
+  username: string
   globalRole: string
   displayName: string | null
   avatarUrl: string | null
@@ -37,4 +38,27 @@ export class ApiError extends Error {
     this.errors = errors
     this.name = 'ApiError'
   }
+}
+
+export interface PaginationMeta {
+  total: number
+  page: number
+  limit: number
+  totalPages: number
+}
+
+export interface PaginatedResult<T> {
+  items: T[]
+  meta: PaginationMeta
+}
+export interface PaginationQuery {
+  page?: number
+  limit?: number
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+}
+
+export type PaginationSort = {
+  sortBy: string
+  sortOrder: 'asc' | 'desc'
 }
