@@ -13,11 +13,17 @@
           @click="$emit('create')"
         >
           <!-- Blueprint / Draft cover area -->
-          <div class="aspect-[4/3] w-full bg-background relative border border-dashed border-border-strong/50 flex items-center justify-center overflow-hidden transition-colors duration-300 group-hover:bg-primary/5">
+          <div
+            class="aspect-[4/3] w-full bg-background relative border border-dashed border-border-strong/50 flex items-center justify-center overflow-hidden transition-colors duration-300 group-hover:bg-primary/5"
+          >
             <!-- Grid pattern -->
-            <div class="absolute inset-0 opacity-[0.07] bg-[radial-gradient(var(--on-surface)_1px,transparent_1px)] [background-size:12px_12px]"></div>
+            <div
+              class="absolute inset-0 opacity-[0.07] bg-[radial-gradient(var(--on-surface)_1px,transparent_1px)] [background-size:12px_12px]"
+            ></div>
 
-            <div class="w-12 h-12 rounded-full border border-dashed border-secondary/30 flex items-center justify-center text-secondary/40 group-hover:border-primary/50 group-hover:text-primary transition-all duration-300 relative z-10 bg-surface/50">
+            <div
+              class="w-12 h-12 rounded-full border border-dashed border-secondary/30 flex items-center justify-center text-secondary/40 group-hover:border-primary/50 group-hover:text-primary transition-all duration-300 relative z-10 bg-surface/50"
+            >
               <span class="material-symbols-outlined !text-[24px]">add</span>
             </div>
           </div>
@@ -33,7 +39,9 @@
           </div>
 
           <!-- Dotted line to match members list area -->
-          <div class="flex items-center justify-center pt-2 border-t border-dashed border-border/40 px-1 text-[10px] text-secondary/35 uppercase tracking-widest font-bold pb-1">
+          <div
+            class="flex items-center justify-center pt-2 border-t border-dashed border-border/40 px-1 text-[10px] text-secondary/35 uppercase tracking-widest font-bold pb-1"
+          >
             Create Empty Draft
           </div>
         </div>
@@ -124,8 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
-import type { Space } from '~/types/space'
+import type { Space } from '~/features/spaces/spaces.type'
 
 const props = defineProps<{
   spaces: Space[]
@@ -145,12 +152,15 @@ let observer: IntersectionObserver | null = null
 
 const setupObserver = () => {
   if (process.client && !observer) {
-    observer = new IntersectionObserver((entries) => {
-      const entry = entries[0]
-      if (entry.isIntersecting && props.hasMore && !props.loading) {
-        emit('load-more')
-      }
-    }, { threshold: 0.1 })
+    observer = new IntersectionObserver(
+      entries => {
+        const entry = entries[0]
+        if (entry?.isIntersecting && props.hasMore && !props.loading) {
+          emit('load-more')
+        }
+      },
+      { threshold: 0.1 },
+    )
   }
 
   if (observer && infiniteScrollTrigger.value) {
@@ -172,7 +182,7 @@ onUnmounted(() => {
   destroyObserver()
 })
 
-watch(infiniteScrollTrigger, (newEl) => {
+watch(infiniteScrollTrigger, newEl => {
   if (observer) {
     observer.disconnect()
     if (newEl) {

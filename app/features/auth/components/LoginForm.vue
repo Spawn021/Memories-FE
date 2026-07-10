@@ -130,7 +130,7 @@ const routes = useRoutes()
 const { t } = useI18n()
 
 const { useLogin, loginWithGoogle } = useAuth()
-const { execute: login, loading, error: apiError } = useLogin()
+const { mutateAsync: login, isPending: loading, error: apiError } = useLogin()
 const { validationErrors, error, validate, handleApiError, clearFieldError, validateFieldOnBlur } = useForm(loginSchema)
 
 const email = ref('')
@@ -147,7 +147,7 @@ const handleLogin = async () => {
 
   if (!isValid) return
 
-  await login(email.value, password.value, rememberMe.value)
+  await login({ email: email.value, password: password.value, rememberMe: rememberMe.value })
   if (apiError.value) {
     handleApiError(apiError.value)
     return

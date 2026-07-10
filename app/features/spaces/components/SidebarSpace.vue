@@ -179,13 +179,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { useRoute, navigateTo, useState } from '#imports'
-import { useSpaces } from '~/queries/spaces'
+import { useSpaces } from '~/features/spaces/spaces.queries'
 import { useAuthStore } from '~/stores/auth'
-import { useLocalePath } from '#imports'
-import type { SpaceRole, Space } from '~/types/space'
-import MemberSettingsModal from '~/components/spaces/MemberSettingsModal.vue'
+import type { SpaceRole, Space } from '~/features/spaces/spaces.type'
+import MemberSettingsModal from '~/features/spaces/components/MemberSettingsModal.vue'
 
 const localePath = useLocalePath()
 const route = useRoute()
@@ -198,15 +195,15 @@ const isOpenSpaceDropdown = ref(false)
 const showSettingsModal = ref(false)
 
 const { useDetails, useList } = useSpaces()
-const { data: spaceDetails, refresh: refreshSpaceDetails } = useDetails(slug)
-const activeSpace = computed(() => spaceDetails.value)
+const { data: spaceDetails, refetch: refreshSpaceDetails } = useDetails(slug)
+const activeSpace = computed<Space>(() => spaceDetails.value as Space)
 
 // Load other spaces list for dropdown switching
 const spacesQuery = ref({ limit: 100 })
 const { data: spacesData } = useList(spacesQuery)
-const spaces = computed(() => spacesData.value?.items || [])
+const spaces = computed<Space[]>(() => spacesData.value?.items || [])
 
-const otherSpaces = computed(() => {
+const otherSpaces = computed<Space[]>(() => {
   return spaces.value.filter(s => s.uuid !== activeSpace.value?.uuid)
 })
 

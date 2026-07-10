@@ -7,76 +7,80 @@ export const useAuth = () => {
   const config = useRuntimeConfig()
 
   const useLogin = () => {
-    const mutation = useMutation(authRepo.login)
-    const execute = async (email: string, password: string, rememberMe?: boolean) => {
-      await mutation.execute(email, password, rememberMe)
-      if (!mutation.error.value && mutation.data.value) {
-        authStore.setUser(mutation.data.value)
-      }
-    }
-    return { ...mutation, execute }
-  }
-
-  const useRegister = () => {
-    const mutation = useMutation(authRepo.register)
-    const execute = async (email: string, password: string) => {
-      await mutation.execute('', email, '', password)
-    }
-    return { ...mutation, execute }
-  }
-
-  const useVerifyEmail = () => {
-    return useMutation(authRepo.verifyEmail)
-  }
-
-  const useResendVerification = () => {
-    return useMutation(authRepo.resendVerification)
-  }
-
-  const useForgotPassword = () => {
-    return useMutation(authRepo.forgotPassword)
-  }
-
-  const useVerifyResetOtp = () => {
-    return useMutation(authRepo.verifyResetOtp)
-  }
-
-  const useResetPassword = () => {
-    return useMutation(authRepo.resetPassword)
-  }
-
-  const useUpdateProfile = () => {
-    const mutation = useMutation(authRepo.updateMe)
-    const execute = async (displayName: string, username: string) => {
-      await mutation.execute(displayName, username)
-      if (!mutation.error.value && mutation.data.value) {
-        authStore.setUser(mutation.data.value)
-      }
-    }
-    return { ...mutation, execute }
-  }
-
-  const useLogout = () => {
-    const mutation = useMutation(authRepo.logout)
-    const execute = async () => {
-      await mutation.execute()
-      authStore.clearUser()
-    }
-    return { ...mutation, execute }
-  }
-
-  const useGetMe = () => {
-    return useQuery('auth-me', authRepo.getMe, {
-      immediate: false,
+    return useMutation({
+      mutationFn: ({ email, password, rememberMe }: { email: string; password: string; rememberMe?: boolean }) =>
+        authRepo.login(email, password, rememberMe),
+      onSuccess: (user) => authStore.setUser(user),
     })
   }
 
+  const useRegister = () => {
+    return useMutation({
+      mutationFn: ({ email, password }: { email: string; password: string }) =>
+        authRepo.register('', email, '', password),
+    })
+  }
+
+  const useVerifyEmail = () => {
+    return useMutation({
+      mutationFn: ({ email, otp }: { email: string; otp: string }) =>
+        authRepo.verifyEmail(email, otp),
+    })
+  }
+
+  const useResendVerification = () => {
+    return useMutation({
+      mutationFn: ({ email }: { email: string }) =>
+        authRepo.resendVerification(email),
+    })
+  }
+
+  const useForgotPassword = () => {
+    return useMutation({
+      mutationFn: ({ email }: { email: string }) =>
+        authRepo.forgotPassword(email),
+    })
+  }
+
+  const useVerifyResetOtp = () => {
+    return useMutation({
+      mutationFn: ({ email, otp }: { email: string; otp: string }) =>
+        authRepo.verifyResetOtp(email, otp),
+    })
+  }
+
+  const useResetPassword = () => {
+    return useMutation({
+      mutationFn: ({ newPassword }: { newPassword: string }) =>
+        authRepo.resetPassword(newPassword),
+    })
+  }
+
+  const useUpdateProfile = () => {
+    return useMutation({
+      mutationFn: ({ displayName, username }: { displayName: string; username: string }) =>
+        authRepo.updateMe(displayName, username),
+      onSuccess: (user) => authStore.setUser(user),
+    })
+  }
+
+  const useLogout = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+      mutationFn: () => authRepo.logout(),
+      onSuccess: () => {
+        queryClient.clear()
+        authStore.clearUser()
+      },
+    })
+  }
+
+  // initAuth is a one-time boot call — no cache needed
   const initAuth = async () => {
-    const getMeQuery = useGetMe()
     try {
-      await getMeQuery.refresh()
-      if (getMeQuery.data.value) {
-        authStore.setUser(getMeQuery.data.value)
+      const user = await authRepo.getMe()
+      if (user) {
+        authStore.setUser(user)
       } else {
         authStore.clearUser()
       }
@@ -93,9 +97,7 @@ export const useAuth = () => {
         localStorage.removeItem('auth_redirect')
       }
     }
-    const apiBase = config.public.apiBase
-    const googleLoginUrl = `${apiBase}/auth/google`
-    window.location.href = googleLoginUrl
+    window.location.href = `${config.public.apiBase}/auth/google`
   }
 
   return {
@@ -108,9 +110,6 @@ export const useAuth = () => {
     useResetPassword,
     useUpdateProfile,
     useLogout,
-    useGetMe,
-    user: computed(() => authStore.user),
-    isAuthenticated: computed(() => authStore.isAuthenticated),
     initAuth,
     loginWithGoogle,
   }

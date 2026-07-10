@@ -50,7 +50,7 @@
         </span>
       </button>
 
-      <template v-if="isAuthenticated">
+      <template v-if="authStore.isAuthenticated">
         <v-menu
           v-model="isOpenUserDropdown"
           :close-on-content-click="false"
@@ -166,12 +166,10 @@ import { LogoTextLight, LogoTextDark } from '~/assets/icons'
 import { useAuth } from '~/features/auth/auth.queries'
 import { useSpaces } from '~/features/spaces/spaces.queries'
 import { useAuthStore } from '~/stores/auth'
-import type { Space, GetSpacesQuery } from '~/types/space'
+import type { Space, GetSpacesQuery } from '~/features/spaces/spaces.type'
 
 const { isDark, toggleTheme } = useTheme()
 const { t } = useI18n()
-
-const { isAuthenticated } = useAuth()
 const route = useRoute()
 const routes = useRoutes()
 
@@ -207,7 +205,7 @@ const openProfileModal = () => {
 const handleLogout = async () => {
   isOpenUserDropdown.value = false
   const { useLogout } = useAuth()
-  const { execute: logout } = useLogout()
+  const { mutateAsync: logout } = useLogout()
   await logout()
   navigateTo(routes.login())
 }

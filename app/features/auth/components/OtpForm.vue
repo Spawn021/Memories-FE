@@ -64,8 +64,8 @@ const props = defineProps<{
 }>()
 
 const { useVerifyEmail, useResendVerification } = useAuth()
-const { execute: verifyEmail, loading, error: verifyError, data: verifyResult } = useVerifyEmail()
-const { execute: resendVerification, error: resendError, data: resendResult } = useResendVerification()
+const { mutateAsync: verifyEmail, isPending: loading, error: verifyError, data: verifyResult } = useVerifyEmail()
+const { mutateAsync: resendVerification, error: resendError, data: resendResult } = useResendVerification()
 const toast = useToast()
 const { t } = useI18n()
 const { handleError } = useErrorHandler()
@@ -96,7 +96,7 @@ onUnmounted(() => {
 
 const handleVerifyOtp = async () => {
   if (otp.value.length !== 6) return
-  await verifyEmail(props.email, otp.value)
+  await verifyEmail({ email: props.email, otp: otp.value })
   if (verifyError.value) {
     handleError(verifyError.value)
     return
@@ -110,7 +110,7 @@ const handleVerifyOtp = async () => {
 const handleResend = async () => {
   if (resendCooldown.value > 0 || resending.value) return
   resending.value = true
-  await resendVerification(props.email)
+  await resendVerification({ email: props.email })
   resending.value = false
   if (resendError.value) {
     handleError(resendError.value)

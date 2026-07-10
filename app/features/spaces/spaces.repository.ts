@@ -7,7 +7,7 @@ import type {
   UpdateMemberRoleDto,
   RemoveMemberDto,
   CreateInviteDto,
-} from '~/types/space'
+} from '~/features/spaces/spaces.type'
 import type { PaginatedResult, ApiSuccessMessage } from '~/types'
 
 export const spacesRepository = () => {
@@ -78,5 +78,32 @@ export const spacesRepository = () => {
         body: { role: params.role, expiresInHours: params.expiresInHours },
       })
     },
+
+    async search(q: string): Promise<Space[]> {
+      return api<Space[]>('/spaces/search', {
+        method: 'GET',
+        query: { q },
+      })
+    },
+
+    async requestToJoin(uuid: string, message?: string): Promise<ApiSuccessMessage> {
+      return api<ApiSuccessMessage>(`/spaces/${uuid}/join-request`, {
+        method: 'POST',
+        body: { message },
+      })
+    },
+
+    async approveMember(uuid: string, memberUserId: number): Promise<ApiSuccessMessage> {
+      return api<ApiSuccessMessage>(`/spaces/${uuid}/members/${memberUserId}/approve`, {
+        method: 'POST',
+      })
+    },
+
+    async rejectMember(uuid: string, memberUserId: number): Promise<ApiSuccessMessage> {
+      return api<ApiSuccessMessage>(`/spaces/${uuid}/members/${memberUserId}/reject`, {
+        method: 'POST',
+      })
+    },
   }
 }
+

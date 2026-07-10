@@ -146,8 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import type { SpaceType, SpaceVisibility } from '~/types/space'
-import { refreshNuxtData } from '#app'
+import type { SpaceType, SpaceVisibility } from '~/features/spaces/spaces.type'
 import { useSpaces } from '../spaces.queries'
 
 const emit = defineEmits(['close', 'success'])
@@ -172,7 +171,7 @@ const form = ref({
 })
 
 // Setup reactive create space query
-const { data: newSpace, loading: submitting, error, execute: submitCreate } = useCreate()
+const { data: newSpace, isPending: submitting, error, mutateAsync: submitCreate } = useCreate()
 
 const handleSubmit = async () => {
   if (!form.value.name.trim()) {

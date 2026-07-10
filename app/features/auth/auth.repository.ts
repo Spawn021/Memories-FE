@@ -1,4 +1,5 @@
-import type { ApiSuccessMessage, User } from '~/types'
+import type { ApiSuccessMessage } from '~/types'
+import type { User } from './auth.type'
 
 export const authRepository = () => {
   const api = useApi()

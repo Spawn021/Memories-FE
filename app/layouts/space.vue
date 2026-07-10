@@ -166,7 +166,7 @@ const userInitial = computed(() => {
 const handleLogout = async (e: MouseEvent) => {
   e.stopPropagation()
   const { useLogout } = useAuth()
-  const { execute: logout } = useLogout()
+  const { mutateAsync: logout } = useLogout()
   await logout()
   await navigateTo(routes.login())
 }

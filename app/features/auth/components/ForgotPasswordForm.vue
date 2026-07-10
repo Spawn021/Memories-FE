@@ -244,9 +244,9 @@ const routes = useRoutes()
 
 const { handleError } = useErrorHandler()
 const { useForgotPassword, useVerifyResetOtp, useResetPassword } = useAuth()
-const { execute: forgotPassword, loading: forgotLoading, error: forgotError, data: forgotResult } = useForgotPassword()
-const { execute: verifyResetOtp, loading: verifyLoading, error: verifyError } = useVerifyResetOtp()
-const { execute: resetPassword, loading: resetLoading, error: resetError, data: resetResult } = useResetPassword()
+const { mutateAsync: forgotPassword, isPending: forgotLoading, error: forgotError, data: forgotResult } = useForgotPassword()
+const { mutateAsync: verifyResetOtp, isPending: verifyLoading, error: verifyError } = useVerifyResetOtp()
+const { mutateAsync: resetPassword, isPending: resetLoading, error: resetError, data: resetResult } = useResetPassword()
 
 const loading = computed(() => forgotLoading.value || verifyLoading.value || resetLoading.value)
 const toast = useToast()
@@ -306,7 +306,7 @@ const handleEmailSubmit = async () => {
   emailError.value = ''
   if (!validateEmail()) return
 
-  await forgotPassword(emailForm.email)
+  await forgotPassword({ email: emailForm.email })
   if (forgotError.value) {
     handleApiErrorEmail(forgotError.value)
     return
@@ -323,7 +323,7 @@ const handleEmailSubmit = async () => {
 const handleResendOtp = async () => {
   if (resendCooldown.value > 0 || resending.value) return
   resending.value = true
-  await forgotPassword(emailForm.email)
+  await forgotPassword({ email: emailForm.email })
   resending.value = false
   if (forgotError.value) {
     handleError(forgotError.value)
@@ -340,7 +340,7 @@ const handleResendOtp = async () => {
 const handleOtpSubmit = async () => {
   if (otp.value.length !== 6) return
 
-  await verifyResetOtp(emailForm.email, otp.value)
+  await verifyResetOtp({ email: emailForm.email, otp: otp.value })
   if (verifyError.value) {
     handleError(verifyError.value)
     return
@@ -352,7 +352,7 @@ const handlePasswordSubmit = async () => {
   passwordError.value = ''
   if (!validatePassword()) return
 
-  await resetPassword(passwordForm.password)
+  await resetPassword({ newPassword: passwordForm.password })
   if (resetError.value) {
     handleApiErrorPassword(resetError.value)
     return

@@ -1,9 +1,13 @@
-import type { User, PaginationQuery } from '~/types'
+import type { PaginationQuery } from '~/types'
+import type { User } from '../auth/auth.type'
+import { ACTIVE_TAB, VIEW_MODE } from './spaces.constant'
 
 export type SpaceType = 'PERSONAL' | 'COUPLE' | 'FAMILY' | 'FRIENDS'
 export type SpaceVisibility = 'PRIVATE' | 'PUBLIC'
 export type SpaceRole = 'OWNER' | 'ADMIN' | 'CONTRIBUTOR' | 'VIEWER'
 export type SpaceMemberStatus = 'PENDING' | 'ACTIVE' | 'REJECTED'
+export type ViewMode = (typeof VIEW_MODE)[keyof typeof VIEW_MODE]
+export type ActiveTab = (typeof ACTIVE_TAB)[keyof typeof ACTIVE_TAB]
 
 export interface SpaceMember {
   id: number

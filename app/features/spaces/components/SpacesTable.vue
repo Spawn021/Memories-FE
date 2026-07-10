@@ -15,36 +15,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Special draft card row in table view -->
-        <tr
-          class="hover:bg-primary/5 transition-colors cursor-pointer group/row"
-          @click="$emit('create')"
-        >
-          <td class="py-3 px-6 flex items-center gap-3.5 border-none h-full">
-            <div class="w-10 h-7 rounded border border-dashed border-primary/30 flex items-center justify-center bg-background/50 group-hover/row:border-primary transition-colors shrink-0">
-              <span class="material-symbols-outlined !text-[16px] text-primary/60 group-hover/row:text-primary">add</span>
-            </div>
-            <div>
-              <p class="font-title text-sm font-bold text-primary group-hover/row:text-primary-hover">New Sanctuary</p>
-              <p class="text-[10px] text-secondary/40 font-poetic italic leading-tight mt-0.5">Draft a new memory vault</p>
-            </div>
-          </td>
-          <td>
-            <span class="bg-surface/50 border border-dashed border-primary/20 text-secondary/50 text-[9px] font-bold px-2 py-0.5 rounded uppercase">DRAFT</span>
-          </td>
-          <td class="text-[12px] text-secondary/30 italic font-poetic">
-            --
-          </td>
-          <td class="text-[12px] text-secondary/30 italic">
-            --
-          </td>
-          <td class="text-right">
-            <div class="inline-flex justify-end w-full pr-2">
-              <span class="material-symbols-outlined !text-[16px] text-secondary/30 group-hover/row:text-primary transition-colors">add</span>
-            </div>
-          </td>
-        </tr>
-
         <!-- Actual Spaces rows -->
         <tr
           v-for="space in spaces"
@@ -62,12 +32,17 @@
                   class="w-full h-full object-cover grayscale-[15%] sepia-[10%] group-hover/row:grayscale-0 group-hover/row:sepia-0 transition-all duration-300"
                   alt="Cover"
                 />
-                <div v-else class="w-full h-full bg-gradient-to-tr from-secondary/10 via-primary/5 to-primary/10 flex items-center justify-center">
+                <div
+                  v-else
+                  class="w-full h-full bg-gradient-to-tr from-secondary/10 via-primary/5 to-primary/10 flex items-center justify-center"
+                >
                   <span class="material-symbols-outlined !text-[12px] text-secondary/30">photo_album</span>
                 </div>
               </div>
               <div class="overflow-hidden">
-                <p class="font-title text-sm font-bold text-on-surface truncate group-hover/row:text-primary transition-colors">{{ space.name }}</p>
+                <p class="font-title text-sm font-bold text-on-surface truncate group-hover/row:text-primary transition-colors">
+                  {{ space.name }}
+                </p>
               </div>
             </div>
           </td>
@@ -96,14 +71,14 @@
                   +{{ space.members.length - 3 }}
                 </div>
               </div>
-              <span class="text-[11px] text-secondary/60">
-                {{ space.members?.length || 0 }} Active
-              </span>
+              <span class="text-[11px] text-secondary/60"> {{ space.members?.length || 0 }} Active </span>
             </div>
           </td>
           <td class="text-right">
             <div class="inline-flex justify-end w-full pr-2">
-              <button class="w-8 h-8 rounded-full border border-border hover:border-primary/30 flex items-center justify-center text-secondary hover:text-primary hover:bg-background transition-colors">
+              <button
+                class="w-8 h-8 rounded-full border border-border hover:border-primary/30 flex items-center justify-center text-secondary hover:text-primary hover:bg-background transition-colors"
+              >
                 <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
               </button>
             </div>
@@ -112,19 +87,46 @@
       </tbody>
     </v-table>
 
-    <!-- Pagination bar using Vuetify V-Pagination -->
+    <!-- Pagination bar using Vuetify V-Pagination + Items per page selector -->
     <div
-      v-if="meta.totalPages > 1"
-      class="pt-6"
+      v-if="meta.totalPages > 1 || meta.total > 0"
+      class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 select-none"
     >
+      <!-- Items per page selector & range details -->
+      <div class="flex items-center gap-4 text-[12px] text-secondary/60 w-full sm:w-auto justify-between sm:justify-start">
+        <div class="flex items-center gap-2">
+          <span>Items per page:</span>
+          <div class="relative inline-block">
+            <select
+              :value="meta.limit"
+              class="bg-surface border border-border rounded px-3 py-1 text-[12px] font-bold text-on-surface hover:border-primary/50 focus:border-primary focus:outline-none transition-colors cursor-pointer appearance-none pr-8 min-w-[70px]"
+              @change="goToLimit(Number(($event.target as HTMLSelectElement).value))"
+            >
+              <option :value="1">1</option>
+              <option :value="2">2</option>
+              <option :value="5">5</option>
+            </select>
+            <!-- Custom Chevron Icon for select -->
+            <span
+              class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 !text-[14px] pointer-events-none text-secondary/50"
+            >
+              keyboard_arrow_down
+            </span>
+          </div>
+        </div>
+        <span>Showing {{ startItem }} - {{ endItem }} of {{ meta.total }}</span>
+      </div>
+
+      <!-- Pagination using Vuetify V-Pagination -->
       <v-pagination
+        v-if="meta.totalPages >= 1"
         :model-value="meta.page"
         :length="meta.totalPages"
         :total-visible="5"
         active-color="primary"
         density="comfortable"
         variant="flat"
-        class="custom-v-pagination"
+        class="custom-v-pagination w-full sm:w-auto"
         @update:model-value="goToPage"
       />
     </div>
@@ -132,10 +134,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Space } from '~/types/space'
+import type { Space } from '~/features/spaces/spaces.type'
 import type { PaginationMeta } from '~/types'
 
-defineProps<{
+const props = defineProps<{
   spaces: Space[]
   meta: PaginationMeta
   loading: boolean
@@ -145,11 +147,25 @@ const emit = defineEmits<{
   (e: 'create'): void
   (e: 'enter', space: Space): void
   (e: 'change-page', page: number): void
+  (e: 'change-limit', limit: number): void
 }>()
 
 const goToPage = (page: number) => {
   emit('change-page', page)
 }
+
+const goToLimit = (limit: number) => {
+  emit('change-limit', limit)
+}
+
+const startItem = computed(() => {
+  if (props.meta.total === 0) return 0
+  return (props.meta.page - 1) * props.meta.limit + 1
+})
+
+const endItem = computed(() => {
+  return Math.min(props.meta.page * props.meta.limit, props.meta.total)
+})
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return ''

@@ -27,7 +27,15 @@
           :class="activeTab === 'members' ? 'border-primary text-primary' : 'border-transparent text-secondary/60'"
           @click="activeTab = 'members'"
         >
-          Members ({{ space?.members.length }})
+          Members ({{ activeMembers.length }})
+        </button>
+        <button
+          v-if="activeRole === 'OWNER' || activeRole === 'ADMIN'"
+          class="flex-1 pb-3 text-[13px] uppercase tracking-widest font-title font-bold transition-all border-b-2 cursor-pointer"
+          :class="activeTab === 'requests' ? 'border-primary text-primary' : 'border-transparent text-secondary/60'"
+          @click="activeTab = 'requests'"
+        >
+          Requests ({{ pendingMembers.length }})
         </button>
         <button
           class="flex-1 pb-3 text-[13px] uppercase tracking-widest font-title font-bold transition-all border-b-2 cursor-pointer"
@@ -38,14 +46,13 @@
         </button>
       </div>
 
-
       <!-- Tab Content: Manage Members -->
       <div
         v-if="activeTab === 'members'"
         class="space-y-4 flex-grow overflow-y-auto custom-scroll max-h-[40vh] pr-1"
       >
         <div
-          v-for="member in space?.members"
+          v-for="member in activeMembers"
           :key="member.id"
           class="flex items-center justify-between p-3 bg-background rounded-md border border-border"
         >
@@ -100,9 +107,72 @@
         </div>
       </div>
 
+      <!-- Tab Content: Join Requests -->
+      <div
+        v-else-if="activeTab === 'requests'"
+        class="space-y-4 flex-grow overflow-y-auto custom-scroll max-h-[40vh] pr-1"
+      >
+        <div
+          v-if="pendingMembers.length === 0"
+          class="py-8 text-center text-secondary/60 text-[13px] font-body"
+        >
+          No pending requests to join.
+        </div>
+        <div
+          v-else
+          v-for="member in pendingMembers"
+          :key="member.id"
+          class="p-4 bg-background rounded-md border border-border space-y-3"
+        >
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3 overflow-hidden">
+              <div
+                class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs uppercase shrink-0 shadow-sm"
+              >
+                {{ member.user.displayName?.charAt(0).toUpperCase() || 'M' }}
+              </div>
+              <div class="overflow-hidden">
+                <p class="font-bold text-[13px] leading-tight text-on-surface truncate">
+                  {{ member.user.displayName || 'Member' }}
+                </p>
+                <p class="text-[11px] text-secondary truncate">
+                  {{ member.user.email }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Approve/Reject buttons -->
+            <div class="flex gap-2">
+              <button
+                class="spring-btn px-3 py-1 bg-success/10 hover:bg-success/20 text-success text-[11px] font-bold uppercase tracking-wider rounded transition-all cursor-pointer flex items-center gap-0.5"
+                @click="handleApprove(member.userId)"
+              >
+                <span class="material-symbols-outlined !text-[14px]">done</span>
+                Approve
+              </button>
+              <button
+                class="spring-btn px-3 py-1 bg-error/10 hover:bg-error/20 text-error text-[11px] font-bold uppercase tracking-wider rounded transition-all cursor-pointer flex items-center gap-0.5"
+                @click="handleReject(member.userId)"
+              >
+                <span class="material-symbols-outlined !text-[14px]">close</span>
+                Reject
+              </button>
+            </div>
+          </div>
+          <!-- Request message if any -->
+          <div
+            v-if="member.joinRequestMessage"
+            class="p-2.5 bg-surface border border-border/50 rounded text-[12px] text-secondary/80 leading-relaxed font-body"
+          >
+            <span class="font-semibold block text-[10px] text-secondary/60 uppercase tracking-widest mb-0.5">Message:</span>
+            "{{ member.joinRequestMessage }}"
+          </div>
+        </div>
+      </div>
+
       <!-- Tab Content: Generate Invite Link -->
       <div
-        v-else
+        v-else-if="activeTab === 'invite'"
         class="space-y-5"
       >
         <!-- Invite Role -->
@@ -190,9 +260,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useSpaces } from '~/queries/spaces'
+import { useSpaces } from '~/features/spaces/spaces.queries'
 import { useAuthStore } from '~/stores/auth'
-import type { Space, SpaceRole, SpaceMember } from '~/types/space'
+import type { Space, SpaceRole, SpaceMember } from '~/features/spaces/spaces.type'
 
 const props = defineProps<{
   space: Space
@@ -200,16 +270,26 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
-const { useUpdateMemberRole, useRemoveMember, useCreateInvite } = useSpaces()
+const { useUpdateMemberRole, useRemoveMember, useCreateInvite, useApproveMember, useRejectMember } = useSpaces()
 const authStore = useAuthStore()
 
-const activeTab = ref<'members' | 'invite'>('members')
+const activeTab = ref<'members' | 'requests' | 'invite'>('members')
 
-const { execute: submitUpdateRole, error: updateError, loading: updateLoading } = useUpdateMemberRole()
-const { execute: submitRemoveMember, error: removeError, loading: removeLoading } = useRemoveMember()
-const { data: inviteData, execute: submitCreateInvite, error: inviteError, loading: inviteLoading } = useCreateInvite()
+const { mutateAsync: submitUpdateRole, error: updateError, isPending: updateLoading } = useUpdateMemberRole()
+const { mutateAsync: submitRemoveMember, error: removeError, isPending: removeLoading } = useRemoveMember()
+const { data: inviteData, mutateAsync: submitCreateInvite, error: inviteError, isPending: inviteLoading } = useCreateInvite()
+const { mutateAsync: submitApproveMember, error: approveError, isPending: approveLoading } = useApproveMember()
+const { mutateAsync: submitRejectMember, error: rejectError, isPending: rejectLoading } = useRejectMember()
 
-const loading = computed(() => updateLoading.value || removeLoading.value || inviteLoading.value)
+const activeMembers = computed(() => {
+  return props.space?.members.filter(m => m.status === 'ACTIVE') || []
+})
+
+const pendingMembers = computed(() => {
+  return props.space?.members.filter(m => m.status === 'PENDING') || []
+})
+
+const loading = computed(() => updateLoading.value || removeLoading.value || inviteLoading.value || approveLoading.value || rejectLoading.value)
 
 const activeRole = computed<SpaceRole | null>(() => {
   if (!props.space || !authStore.user) return null
@@ -274,6 +354,27 @@ const handleKick = async (memberUserId: number) => {
     toast.success('Member removed')
     await refreshNuxtData(`space-detail-${props.space.slug}`)
     emit('close')
+  }
+}
+
+const handleApprove = async (memberUserId: number) => {
+  await submitApproveMember({ uuid: props.space.uuid, memberUserId })
+  if (approveError.value) {
+    toast.error(approveError.value.message)
+  } else {
+    toast.success('Member request approved!')
+    await refreshNuxtData(`space-detail-${props.space.slug}`)
+  }
+}
+
+const handleReject = async (memberUserId: number) => {
+  if (!confirm('Are you sure you want to reject this request?')) return
+  await submitRejectMember({ uuid: props.space.uuid, memberUserId })
+  if (rejectError.value) {
+    toast.error(rejectError.value.message)
+  } else {
+    toast.success('Member request rejected.')
+    await refreshNuxtData(`space-detail-${props.space.slug}`)
   }
 }
 

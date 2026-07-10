@@ -1,34 +1,39 @@
-import { ref } from 'vue'
-import { useSpaces as useSpacesQueries } from '~/features/spaces/spaces.queries'
-
-// Shared state for persistent viewMode across the application
-const viewMode = ref<'grid' | 'table'>('grid')
-
-if (process.client) {
-  const savedMode = localStorage.getItem('spaces_view_mode') as 'grid' | 'table'
-  if (savedMode === 'grid' || savedMode === 'table') {
-    viewMode.value = savedMode
-  }
-}
+import { VIEW_MODE, ACTIVE_TAB, VIEW_MODE_LIMIT } from '../spaces.constant'
+import type { ActiveTab, ViewMode, GetSpacesQuery } from '../spaces.type'
 
 export const useSpaces = () => {
-  const queries = useSpacesQueries()
-
-  const setViewMode = (mode: 'grid' | 'table') => {
+  const viewMode = ref<ViewMode>(VIEW_MODE.GRID)
+  const activeTab = ref<ActiveTab>(ACTIVE_TAB.OWNER)
+  const setViewMode = (mode: ViewMode) => {
     viewMode.value = mode
-    if (process.client) {
-      localStorage.setItem('spaces_view_mode', mode)
-    }
   }
 
-  const toggleViewMode = () => {
-    setViewMode(viewMode.value === 'grid' ? 'table' : 'grid')
+  const setActiveTab = (tab: ActiveTab) => {
+    activeTab.value = tab
+  }
+
+  const spacesQuery = ref<GetSpacesQuery>({
+    role: activeTab.value === ACTIVE_TAB.OWNER ? ACTIVE_TAB.OWNER : ACTIVE_TAB.MEMBER,
+    page: 1,
+    limit: viewMode.value === VIEW_MODE.GRID ? VIEW_MODE_LIMIT.GRID : VIEW_MODE_LIMIT.TABLE,
+  })
+
+  const setPage = (page: number) => {
+    spacesQuery.value.page = page
+  }
+
+  const setLimit = (limit: number) => {
+    spacesQuery.value.limit = limit
+    spacesQuery.value.page = 1
   }
 
   return {
-    ...queries,
     viewMode,
     setViewMode,
-    toggleViewMode,
+    activeTab,
+    setActiveTab,
+    spacesQuery,
+    setPage,
+    setLimit,
   }
 }

@@ -156,7 +156,9 @@
                   v-for="img in mockImageArtifacts"
                   :key="img.url"
                   class="aspect-square border-2 rounded-md overflow-hidden cursor-pointer transition-all relative group"
-                  :class="newMemory.image === img.url ? 'border-primary ring-2 ring-primary/10' : 'border-border hover:border-border-strong'"
+                  :class="
+                    newMemory.image === img.url ? 'border-primary ring-2 ring-primary/10' : 'border-border hover:border-border-strong'
+                  "
                   @click="newMemory.image = img.url"
                 >
                   <img
@@ -249,8 +251,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useHead, useRoute, useLocalePath, navigateTo, useState } from '#imports'
-import { useSpaces } from '~/queries/spaces'
-import SidebarSpace from '~/components/spaces/SidebarSpace.vue'
+import { useSpaces } from '~/features/spaces/spaces.queries'
+import SidebarSpace from '~/features/spaces/components/SidebarSpace.vue'
 
 definePageMeta({
   layout: false, // Turn off automatic layout mapping to use NuxtLayout manually with named slots
@@ -274,7 +276,7 @@ watch(
 const { useDetails } = useSpaces()
 
 // Load space details via query (sharing details fetch with layout)
-const { data: spaceDetails, loading: detailsLoading, error: detailsError } = useDetails(slug)
+const { data: spaceDetails, isPending: detailsLoading, error: detailsError } = useDetails(slug)
 const activeSpace = computed(() => spaceDetails.value)
 const loading = computed(() => detailsLoading.value)
 
