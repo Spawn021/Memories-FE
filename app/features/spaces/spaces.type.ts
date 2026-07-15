@@ -60,20 +60,21 @@ export interface UpdateSpaceDto {
 }
 
 export interface GetSpacesQuery extends PaginationQuery {
-  role?: 'OWNER' | 'MEMBER'
-  search?: string
-  type?: SpaceType
+  role: 'OWNER' | 'MEMBER'
+  search: string
+  type: SpaceType[]
+  visibility: SpaceVisibility[]
 }
 
 export interface UpdateMemberRoleDto {
   uuid: string
-  memberUserId: number
+  memberUserId: string
   role: SpaceRole
 }
 
 export interface RemoveMemberDto {
   uuid: string
-  memberUserId: number
+  memberUserId: string
 }
 
 export interface CreateInviteDto {

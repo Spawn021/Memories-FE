@@ -411,12 +411,6 @@ const saveMemory = () => {
 
 // Lightbox modal active item
 const activeLightbox = ref<Memory | null>(null)
-
-// Rotation helper for polaroid layout
-const predefinedRotations = [-2.5, 1.8, -1.2, 2.3, -2.0, 1.5, -0.8, 2.7]
-const getRotation = (index: number) => {
-  return predefinedRotations[index % predefinedRotations.length]
-}
 </script>
 
 <style scoped>

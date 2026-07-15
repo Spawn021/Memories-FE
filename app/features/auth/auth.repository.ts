@@ -1,20 +1,22 @@
 import type { ApiSuccessMessage } from '~/types'
 import type { User } from './auth.type'
+import type { LoginForm } from './schemas/login.schema'
+import type { EmailForm } from './schemas/forgot-password.schema'
 
 export const authRepository = () => {
   const api = useApi()
   return {
-    async login(email: string, password: string, rememberMe?: boolean): Promise<User> {
+    async login(body: LoginForm): Promise<User> {
       return api<User>('/auth/login', {
         method: 'POST',
-        body: { email, password, rememberMe },
+        body,
       })
     },
 
-    async register(displayName: string, email: string, username: string, password: string): Promise<ApiSuccessMessage> {
+    async register(email: string, password: string): Promise<ApiSuccessMessage> {
       return api('/auth/register', {
         method: 'POST',
-        body: { displayName, email, username, password },
+        body: { email, password },
       })
     },
 
@@ -25,7 +27,7 @@ export const authRepository = () => {
       })
     },
 
-    async resendVerification(email: string): Promise<ApiSuccessMessage> {
+    async resendVerification(email: EmailForm): Promise<ApiSuccessMessage> {
       return api('/auth/resend-verification', {
         method: 'POST',
         body: { email },
@@ -38,7 +40,7 @@ export const authRepository = () => {
       })
     },
 
-    async forgotPassword(email: string): Promise<ApiSuccessMessage> {
+    async forgotPassword(email: EmailForm): Promise<ApiSuccessMessage> {
       return api('/auth/forgot-password', {
         method: 'POST',
         body: { email },

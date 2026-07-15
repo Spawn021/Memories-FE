@@ -244,9 +244,9 @@ const routes = useRoutes()
 
 const { handleError } = useErrorHandler()
 const { useForgotPassword, useVerifyResetOtp, useResetPassword } = useAuth()
-const { mutateAsync: forgotPassword, isPending: forgotLoading, error: forgotError, data: forgotResult } = useForgotPassword()
-const { mutateAsync: verifyResetOtp, isPending: verifyLoading, error: verifyError } = useVerifyResetOtp()
-const { mutateAsync: resetPassword, isPending: resetLoading, error: resetError, data: resetResult } = useResetPassword()
+const { mutateAsync: forgotPassword, isPending: forgotLoading, data: forgotResult } = useForgotPassword()
+const { mutateAsync: verifyResetOtp, isPending: verifyLoading } = useVerifyResetOtp()
+const { mutateAsync: resetPassword, isPending: resetLoading, data: resetResult } = useResetPassword()
 
 const loading = computed(() => forgotLoading.value || verifyLoading.value || resetLoading.value)
 const toast = useToast()
@@ -306,62 +306,60 @@ const handleEmailSubmit = async () => {
   emailError.value = ''
   if (!validateEmail()) return
 
-  await forgotPassword({ email: emailForm.email })
-  if (forgotError.value) {
-    handleApiErrorEmail(forgotError.value)
-    return
+  try {
+    await forgotPassword({ email: emailForm.email })
+    if (forgotResult.value) {
+      toast.success(t(forgotResult.value.message))
+    }
+    step.value = 2
+    resendCooldown.value = TIME_RESEND_OTP
+    startCooldownTimer()
+  } catch (err) {
+    handleApiErrorEmail(err)
   }
-
-  if (forgotResult.value) {
-    toast.success(t(forgotResult.value.message))
-  }
-  step.value = 2
-  resendCooldown.value = TIME_RESEND_OTP
-  startCooldownTimer()
 }
 
 const handleResendOtp = async () => {
   if (resendCooldown.value > 0 || resending.value) return
   resending.value = true
-  await forgotPassword({ email: emailForm.email })
-  resending.value = false
-  if (forgotError.value) {
-    handleError(forgotError.value)
-    return
+  try {
+    await forgotPassword({ email: emailForm.email })
+    if (forgotResult.value) {
+      toast.success(t(forgotResult.value.message))
+    }
+    resendCooldown.value = TIME_RESEND_OTP
+    startCooldownTimer()
+  } catch (err) {
+    handleError(err)
+  } finally {
+    resending.value = false
   }
-
-  if (forgotResult.value) {
-    toast.success(t(forgotResult.value.message))
-  }
-  resendCooldown.value = TIME_RESEND_OTP
-  startCooldownTimer()
 }
 
 const handleOtpSubmit = async () => {
   if (otp.value.length !== 6) return
 
-  await verifyResetOtp({ email: emailForm.email, otp: otp.value })
-  if (verifyError.value) {
-    handleError(verifyError.value)
-    return
+  try {
+    await verifyResetOtp({ email: emailForm.email, otp: otp.value })
+    step.value = 3
+  } catch (err) {
+    handleError(err)
   }
-  step.value = 3
 }
 
 const handlePasswordSubmit = async () => {
   passwordError.value = ''
   if (!validatePassword()) return
 
-  await resetPassword({ newPassword: passwordForm.password })
-  if (resetError.value) {
-    handleApiErrorPassword(resetError.value)
-    return
+  try {
+    await resetPassword({ newPassword: passwordForm.password })
+    if (resetResult.value) {
+      toast.success(t(resetResult.value.message))
+    }
+    await navigateTo(routes.login())
+  } catch (err) {
+    handleApiErrorPassword(err)
   }
-
-  if (resetResult.value) {
-    toast.success(t(resetResult.value.message))
-  }
-  await navigateTo(routes.login())
 }
 </script>
 

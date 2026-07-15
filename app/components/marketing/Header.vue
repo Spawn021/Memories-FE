@@ -173,8 +173,11 @@ const { t } = useI18n()
 const route = useRoute()
 const routes = useRoutes()
 
+const { useLogout } = useAuth()
+const { mutateAsync: logout } = useLogout()
+
 const { useList } = useSpaces()
-const spacesQuery = ref<GetSpacesQuery>({ limit: 3, role: 'OWNER' })
+const spacesQuery = ref<Partial<GetSpacesQuery>>({ limit: 3, role: 'OWNER' })
 const { data: spacesData } = useList(spacesQuery)
 const ownedSpaces = computed(() => spacesData.value?.items || [])
 const totalJoinedSpaces = computed(() => spacesData.value?.meta?.total || 0)
@@ -204,10 +207,13 @@ const openProfileModal = () => {
 
 const handleLogout = async () => {
   isOpenUserDropdown.value = false
-  const { useLogout } = useAuth()
-  const { mutateAsync: logout } = useLogout()
-  await logout()
-  navigateTo(routes.login())
+  try {
+    await logout()
+  } catch {
+    // Ignore api logout errors and proceed to redirect
+  } finally {
+    navigateTo(routes.login())
+  }
 }
 
 const menus = computed(() => [

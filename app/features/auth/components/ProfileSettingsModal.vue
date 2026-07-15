@@ -100,7 +100,7 @@ const emit = defineEmits(['close', 'updated'])
 
 const authStore = useAuthStore()
 const { useUpdateProfile } = useAuth()
-const { mutateAsync: updateProfile, isPending: loading, error: apiError } = useUpdateProfile()
+const { mutateAsync: updateProfile, isPending: loading } = useUpdateProfile()
 
 const errorMessage = ref('')
 const successMessage = ref('')
@@ -119,17 +119,16 @@ const handleSave = async () => {
     return
   }
 
-  await updateProfile({ displayName: form.value.displayName, username: form.value.username })
-  if (apiError.value) {
-    errorMessage.value = apiError.value.message || 'Failed to update profile.'
-    return
+  try {
+    await updateProfile({ displayName: form.value.displayName, username: form.value.username })
+    successMessage.value = 'Profile updated successfully.'
+    emit('updated')
+    setTimeout(() => {
+      emit('close')
+    }, 1000)
+  } catch (err) {
+    errorMessage.value = err.message || 'Failed to update profile.'
   }
-
-  successMessage.value = 'Profile updated successfully.'
-  emit('updated')
-  setTimeout(() => {
-    emit('close')
-  }, 1000)
 }
 </script>
 

@@ -187,7 +187,7 @@ const emit = defineEmits<{
 }>()
 
 const { useRegister, loginWithGoogle } = useAuth()
-const { mutateAsync: register, isPending: loading, error: apiError, data: registerResult } = useRegister()
+const { mutateAsync: register, isPending: loading, data: registerResult } = useRegister()
 const toast = useToast()
 
 const form = reactive({
@@ -206,16 +206,15 @@ const handleRegister = async () => {
   const isValid = validate()
   if (!isValid) return
 
-  await register({ email: form.email, password: form.password })
-  if (apiError.value) {
-    handleApiError(apiError.value)
-    return
+  try {
+    await register({ email: form.email, password: form.password })
+    if (registerResult.value) {
+      toast.success(t(registerResult.value.message))
+    }
+    emit('success', { email: form.email, password: form.password })
+  } catch (err) {
+    handleApiError(err)
   }
-
-  if (registerResult.value) {
-    toast.success(t(registerResult.value.message))
-  }
-  emit('success', { email: form.email, password: form.password })
 }
 
 const handleGoogleLogin = () => {

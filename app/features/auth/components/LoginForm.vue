@@ -130,7 +130,7 @@ const routes = useRoutes()
 const { t } = useI18n()
 
 const { useLogin, loginWithGoogle } = useAuth()
-const { mutateAsync: login, isPending: loading, error: apiError } = useLogin()
+const { mutateAsync: login, isPending: loading } = useLogin()
 const { validationErrors, error, validate, handleApiError, clearFieldError, validateFieldOnBlur } = useForm(loginSchema)
 
 const email = ref('')
@@ -147,17 +147,16 @@ const handleLogin = async () => {
 
   if (!isValid) return
 
-  await login({ email: email.value, password: password.value, rememberMe: rememberMe.value })
-  if (apiError.value) {
-    handleApiError(apiError.value)
-    return
-  }
-
-  const redirectPath = route.query.redirect as string | undefined
-  if (redirectPath && redirectPath.startsWith('/')) {
-    await navigateTo(redirectPath)
-  } else {
-    await navigateTo(routes.home())
+  try {
+    await login({ email: email.value, password: password.value, rememberMe: rememberMe.value })
+    const redirectPath = route.query.redirect as string | undefined
+    if (redirectPath && redirectPath.startsWith('/')) {
+      await navigateTo(redirectPath)
+    } else {
+      await navigateTo(routes.home())
+    }
+  } catch (err) {
+    handleApiError(err)
   }
 }
 

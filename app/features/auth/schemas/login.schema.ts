@@ -5,3 +5,5 @@ export const loginSchema = z.object({
   password: z.string().min(8, 'V1').regex(PASSWORD_REGEXP, 'V2'),
   rememberMe: z.boolean().optional(),
 })
+
+export type LoginForm = z.infer<typeof loginSchema>

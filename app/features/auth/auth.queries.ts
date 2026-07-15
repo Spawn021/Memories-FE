@@ -1,5 +1,6 @@
 import { authRepository } from './auth.repository'
 import { useAuthStore } from '~/stores/auth'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 
 export const useAuth = () => {
   const authRepo = authRepository()
@@ -8,59 +9,51 @@ export const useAuth = () => {
 
   const useLogin = () => {
     return useMutation({
-      mutationFn: ({ email, password, rememberMe }: { email: string; password: string; rememberMe?: boolean }) =>
-        authRepo.login(email, password, rememberMe),
-      onSuccess: (user) => authStore.setUser(user),
+      mutationFn: authRepo.login,
+      onSuccess: user => authStore.setUser(user),
     })
   }
 
   const useRegister = () => {
     return useMutation({
-      mutationFn: ({ email, password }: { email: string; password: string }) =>
-        authRepo.register('', email, '', password),
+      mutationFn: ({ email, password }: { email: string; password: string }) => authRepo.register(email, password),
     })
   }
 
   const useVerifyEmail = () => {
     return useMutation({
-      mutationFn: ({ email, otp }: { email: string; otp: string }) =>
-        authRepo.verifyEmail(email, otp),
+      mutationFn: ({ email, otp }: { email: string; otp: string }) => authRepo.verifyEmail(email, otp),
     })
   }
 
   const useResendVerification = () => {
     return useMutation({
-      mutationFn: ({ email }: { email: string }) =>
-        authRepo.resendVerification(email),
+      mutationFn: authRepo.resendVerification,
     })
   }
 
   const useForgotPassword = () => {
     return useMutation({
-      mutationFn: ({ email }: { email: string }) =>
-        authRepo.forgotPassword(email),
+      mutationFn: authRepo.forgotPassword,
     })
   }
 
   const useVerifyResetOtp = () => {
     return useMutation({
-      mutationFn: ({ email, otp }: { email: string; otp: string }) =>
-        authRepo.verifyResetOtp(email, otp),
+      mutationFn: ({ email, otp }: { email: string; otp: string }) => authRepo.verifyResetOtp(email, otp),
     })
   }
 
   const useResetPassword = () => {
     return useMutation({
-      mutationFn: ({ newPassword }: { newPassword: string }) =>
-        authRepo.resetPassword(newPassword),
+      mutationFn: ({ newPassword }: { newPassword: string }) => authRepo.resetPassword(newPassword),
     })
   }
 
   const useUpdateProfile = () => {
     return useMutation({
-      mutationFn: ({ displayName, username }: { displayName: string; username: string }) =>
-        authRepo.updateMe(displayName, username),
-      onSuccess: (user) => authStore.setUser(user),
+      mutationFn: ({ displayName, username }: { displayName: string; username: string }) => authRepo.updateMe(displayName, username),
+      onSuccess: user => authStore.setUser(user),
     })
   }
 

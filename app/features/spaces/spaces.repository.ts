@@ -16,7 +16,7 @@ export const spacesRepository = () => {
     async findAll(query?: GetSpacesQuery): Promise<PaginatedResult<Space>> {
       return api<PaginatedResult<Space>>('/spaces', {
         method: 'GET',
-        query,
+        query: cleanQuery(query),
       })
     },
 
@@ -52,10 +52,17 @@ export const spacesRepository = () => {
       })
     },
 
-    async acceptInvite(token: string): Promise<ApiSuccessMessage & { space: Space }> {
+    async acceptInvite(params: { token: string; message?: string }): Promise<ApiSuccessMessage & { space: Space }> {
       return api<ApiSuccessMessage & { space: Space }>('/spaces/invites/accept', {
         method: 'POST',
-        body: { token },
+        body: params,
+      })
+    },
+
+    async validateInvite(token: string): Promise<any> {
+      return api<any>('/spaces/invites/validate', {
+        method: 'GET',
+        query: { token },
       })
     },
 
@@ -106,4 +113,3 @@ export const spacesRepository = () => {
     },
   }
 }
-

@@ -1,206 +1,277 @@
 <template>
-  <div>
-    <!-- Polaroid Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 pb-8">
-      <!-- Create Space Card at the start of grid -->
+  <v-infinite-scroll
+    :disabled="!hasMore || loading"
+    @load="onLoad"
+  >
+    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 pb-4 mt-4">
       <div
-        class="reveal-item"
-        style="animation-delay: 200ms"
+        v-if="showCreateCard"
+        class="reveal-item group cursor-pointer"
+        @click="$emit('create')"
       >
         <div
-          class="polaroid !bg-surface text-on-surface cursor-pointer flex flex-col justify-between h-[320px] group"
-          style="--rotation: -1.2deg"
-          @click="$emit('create')"
+          class="relative h-85 rounded-xl border border-dashed border-border-strong/40 bg-surface flex flex-col items-center justify-center gap-4 overflow-hidden transition-all duration-500 hover:border-primary/50 hover:bg-primary/3 hover:shadow-lg"
         >
-          <!-- Blueprint / Draft cover area -->
           <div
-            class="aspect-[4/3] w-full bg-background relative border border-dashed border-border-strong/50 flex items-center justify-center overflow-hidden transition-colors duration-300 group-hover:bg-primary/5"
-          >
-            <!-- Grid pattern -->
-            <div
-              class="absolute inset-0 opacity-[0.07] bg-[radial-gradient(var(--on-surface)_1px,transparent_1px)] [background-size:12px_12px]"
-            ></div>
+            class="absolute inset-0 opacity-[0.035] bg-[radial-gradient(var(--on-surface)_1px,transparent_1px)] bg-size-[18px_18px] pointer-events-none"
+          />
 
-            <div
-              class="w-12 h-12 rounded-full border border-dashed border-secondary/30 flex items-center justify-center text-secondary/40 group-hover:border-primary/50 group-hover:text-primary transition-all duration-300 relative z-10 bg-surface/50"
-            >
-              <span class="material-symbols-outlined !text-[24px]">add</span>
-            </div>
+          <div
+            class="relative z-10 w-14 h-14 rounded-full border border-dashed border-secondary/25 flex items-center justify-center text-secondary/40 group-hover:border-primary/60 group-hover:text-primary group-hover:scale-110 transition-all duration-400 bg-background"
+          >
+            <span class="material-symbols-outlined text-[26px]! text-primary/50">add</span>
           </div>
 
-          <!-- Label matching space cards -->
-          <div class="pt-4 px-1 text-center space-y-1 pb-1">
-            <p class="font-title text-xl font-bold tracking-tight text-secondary group-hover:text-primary transition-colors">
+          <div class="relative z-10 text-center space-y-1 px-6">
+            <p class="font-title text-lg font-bold tracking-tight text-secondary group-hover:text-primary transition-colors duration-300">
               New Sanctuary
             </p>
-            <div class="flex justify-center items-center text-[11px] font-body text-secondary/45">
-              <span class="font-poetic italic text-sm">Initiate a new vault</span>
-            </div>
+            <p class="font-poetic italic text-sm text-secondary/50">Initiate a new vault</p>
           </div>
 
-          <!-- Dotted line to match members list area -->
-          <div
-            class="flex items-center justify-center pt-2 border-t border-dashed border-border/40 px-1 text-[10px] text-secondary/35 uppercase tracking-widest font-bold pb-1"
-          >
-            Create Empty Draft
+          <div class="absolute bottom-0 inset-x-0 py-3 border-t border-dashed border-border/30 flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-[13px]! text-secondary/30 group-hover:text-primary/50 transition-colors">
+              draft
+            </span>
+            <span class="text-[10px] uppercase tracking-widest font-bold text-secondary/30 group-hover:text-primary/50 transition-colors">
+              Create Empty Draft
+            </span>
           </div>
         </div>
       </div>
 
-      <!-- Active Space Items -->
       <div
         v-for="(space, index) in spaces"
         :key="space.uuid"
-        class="reveal-item"
-        :style="{ animationDelay: `${(index + 1) * 100 + 200}ms` }"
+        class="reveal-item group cursor-pointer"
+        :style="{ animationDelay: `${(index + (showCreateCard ? 1 : 0)) * 80 + 100}ms` }"
+        @click="$emit('enter', space)"
       >
         <div
-          class="polaroid !bg-surface text-on-surface cursor-pointer flex flex-col justify-between h-[320px]"
-          :style="{ '--rotation': `${getRotation(index)}deg` }"
-          @click="$emit('enter', space)"
+          class="relative h-85 rounded-xl overflow-hidden bg-surface border border-border/30 shadow-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-xl hover:border-border-strong/40"
+          :class="{
+            '-translate-y-1.5 shadow-xl border-border-strong/40': menuOpenStates[space.uuid],
+          }"
         >
-          <!-- Cover image wrapper -->
-          <div class="aspect-[4/3] w-full overflow-hidden bg-surface-variant relative border border-border/10">
+          <div class="absolute inset-0">
             <img
               v-if="space.coverUrl || space.avatarUrl"
               :src="space.coverUrl || space.avatarUrl || ''"
-              class="w-full h-full object-cover grayscale-[15%] sepia-[10%] hover:grayscale-0 hover:sepia-0 transition-all duration-500"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              :class="{ 'scale-105': menuOpenStates[space.uuid] }"
               alt="Space Cover"
             />
-            <!-- Default warm background for spaces without cover -->
+            <!-- Fallback gradient -->
             <div
               v-else
-              class="w-full h-full bg-gradient-to-tr from-secondary/10 via-primary/5 to-primary/10 flex items-center justify-center"
+              class="w-full h-full"
+              :style="{ background: getCoverGradient(index) }"
             >
-              <span class="material-symbols-outlined !text-[40px] text-secondary/30">photo_album</span>
+              <div class="w-full h-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-[56px]! opacity-20 text-on-surface">photo_album</span>
+              </div>
             </div>
 
-            <!-- Type Badge -->
+            <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
+          </div>
+
+          <div class="absolute top-3 left-3 right-3 flex items-start justify-between z-10">
             <span
-              class="absolute top-3 right-3 bg-surface/90 text-on-surface px-2.5 py-0.5 rounded text-[10px] uppercase font-body text-sm font-semibold tracking-wider border border-border shadow-sm"
+              class="px-2 py-0.5 rounded-md text-[9px] uppercase font-bold tracking-widest bg-surface/80 text-on-surface border border-border/40 backdrop-blur-sm shadow-sm"
             >
               {{ space.type }}
             </span>
-          </div>
+            <div class="flex items-center gap-1.5">
+              <span
+                class="w-6 h-6 rounded-full bg-surface/70 backdrop-blur-sm border border-border/30 flex items-center justify-center shadow-sm"
+              >
+                <span class="material-symbols-outlined text-[13px]! text-secondary">
+                  {{ space.visibility === 'PUBLIC' ? 'public' : 'lock' }}
+                </span>
+              </span>
 
-          <!-- Title & Date Info -->
-          <div class="pt-4 px-1 text-left space-y-1">
-            <p class="font-title text-xl font-bold tracking-tight text-on-surface truncate">
-              {{ space.name }}
-            </p>
-            <div class="flex justify-between items-center text-[11px] font-body text-secondary/60">
-              <span class="font-poetic italic text-sm">Created {{ formatDate(space.createdAt) }}</span>
+              <!-- Actions Dropdown -->
+              <v-menu
+                v-model="menuOpenStates[space.uuid]"
+                :close-on-content-click="false"
+                transition="slide-y-transition"
+                location="bottom end"
+              >
+                <template #activator="{ props: menuProps }">
+                  <v-tooltip
+                    location="top left"
+                    offset="1 -5"
+                  >
+                    <template #activator="{ props: tooltip }">
+                      <button
+                        v-bind="{ ...menuProps, ...tooltip }"
+                        class="w-6 h-6 rounded-full bg-surface/70 hover:bg-surface border border-border/30 flex items-center justify-center shadow-sm cursor-pointer transition-colors"
+                        @click.stop
+                      >
+                        <span class="material-symbols-outlined text-[14px]! text-secondary">more_vert</span>
+                      </button>
+                    </template>
+                    <span>Actions</span>
+                  </v-tooltip>
+                </template>
+                <v-list
+                  density="compact"
+                  class="text-[12px]! mt-1 py-0"
+                >
+                  <v-list-item
+                    v-if="isSpaceOwner(space)"
+                    value="edit"
+                    class="border-b"
+                    @click.stop="handleEdit(space)"
+                  >
+                    <template #prepend>
+                      <span class="material-symbols-outlined text-base! mr-2 text-secondary">edit</span>
+                    </template>
+                    <span class="text-secondary font-semibold">Edit Sanctuary</span>
+                  </v-list-item>
+                  <v-list-item
+                    v-if="isSpaceOwner(space)"
+                    value="delete"
+                    @click.stop="handleDelete(space)"
+                  >
+                    <template #prepend>
+                      <span class="material-symbols-outlined text-base! mr-2 text-error">delete</span>
+                    </template>
+                    <span class="text-error font-semibold">Delete Sanctuary</span>
+                  </v-list-item>
+                  <v-list-item
+                    v-else
+                    value="leave"
+                    @click.stop="handleLeave(space)"
+                  >
+                    <template #prepend>
+                      <span class="material-symbols-outlined text-sm! mr-2 text-warning">logout</span>
+                    </template>
+                    <span class="text-warning font-semibold">Leave Sanctuary</span>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </div>
           </div>
 
-          <!-- Space Members Avatars (stacked) -->
-          <div class="flex items-center justify-between pt-2 border-t border-border/30 px-1">
-            <div class="flex -space-x-1.5 overflow-hidden">
-              <div
-                v-for="member in space.members?.slice(0, 4)"
-                :key="member.id"
-                class="inline-block h-5 w-5 rounded-full ring-2 ring-surface bg-secondary text-on-secondary flex items-center justify-center font-bold text-[8px] uppercase"
-              >
-                {{ member.user.displayName?.charAt(0).toUpperCase() || 'M' }}
+          <div class="absolute bottom-0 inset-x-0 p-4 z-10">
+            <p class="font-title text-base font-bold tracking-tight text-white truncate drop-shadow">{{ space.name }}</p>
+
+            <div class="flex items-center justify-between mt-2.5">
+              <!-- Member avatars -->
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-1.5">
+                  <div
+                    v-for="member in space.members?.slice(0, 4)"
+                    :key="member.id"
+                    class="w-5 h-5 rounded-full ring-1 ring-white/30 bg-secondary/80 text-white flex items-center justify-center font-bold text-[8px] uppercase"
+                  >
+                    {{ member.user.displayName?.charAt(0).toUpperCase() || 'M' }}
+                  </div>
+                  <div
+                    v-if="(space.members?.length ?? 0) > 4"
+                    class="w-5 h-5 rounded-full ring-1 ring-white/30 bg-surface-variant/80 text-white flex items-center justify-center font-bold text-[8px]"
+                  >
+                    +{{ space.members.length - 4 }}
+                  </div>
+                </div>
+                <span class="text-[10px] text-white/60 font-medium">{{ space.members?.length || 0 }} members</span>
               </div>
-              <div
-                v-if="space.members?.length > 4"
-                class="inline-block h-5 w-5 rounded-full ring-2 ring-surface bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-[8px]"
-              >
-                +{{ space.members.length - 4 }}
-              </div>
+
+              <!-- Date -->
+              <span class="font-poetic italic text-[11px] text-white/50">{{ formatDate(space.createdAt) }}</span>
             </div>
-            <span class="text-[10px] text-secondary/60"> {{ space.members?.length || 0 }} Members </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Infinite Scroll Trigger Element -->
-    <div
-      ref="infiniteScrollTrigger"
-      class="h-10 w-full flex items-center justify-center py-6"
-    >
-      <v-progress-circular
-        v-if="loading && spaces.length > 0"
-        indeterminate
-        color="primary"
-        size="28"
-      />
-    </div>
-  </div>
+    <template #loading>
+      <div class="flex justify-center py-6">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          size="28"
+        />
+      </div>
+    </template>
+
+    <template #empty>
+      <span />
+    </template>
+  </v-infinite-scroll>
 </template>
 
 <script setup lang="ts">
 import type { Space } from '~/features/spaces/spaces.type'
+import { useAuthStore } from '~/stores/auth'
 
-const props = defineProps<{
-  spaces: Space[]
-  loading: boolean
-  hasMore: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    spaces: Space[]
+    loading: boolean
+    hasMore: boolean
+    showCreateCard?: boolean
+  }>(),
+  {
+    showCreateCard: true,
+  },
+)
+
+const { showCreateCard } = toRefs(props)
+const authStore = useAuthStore()
+
+const menuOpenStates = ref<Record<string, boolean>>({})
 
 const emit = defineEmits<{
   (e: 'create'): void
   (e: 'enter', space: Space): void
   (e: 'load-more'): void
+  (e: 'delete', space: Space): void
+  (e: 'leave', space: Space): void
+  (e: 'edit', space: Space): void
 }>()
 
-// Infinite Scroll intersection observer logic
-const infiniteScrollTrigger = ref<HTMLElement | null>(null)
-let observer: IntersectionObserver | null = null
-
-const setupObserver = () => {
-  if (process.client && !observer) {
-    observer = new IntersectionObserver(
-      entries => {
-        const entry = entries[0]
-        if (entry?.isIntersecting && props.hasMore && !props.loading) {
-          emit('load-more')
-        }
-      },
-      { threshold: 0.1 },
-    )
-  }
-
-  if (observer && infiniteScrollTrigger.value) {
-    observer.observe(infiniteScrollTrigger.value)
-  }
+const isSpaceOwner = (space: Space) => {
+  return String(space.ownerId) === String(authStore.user?.id)
 }
 
-const destroyObserver = () => {
-  if (observer) {
-    observer.disconnect()
-  }
+const handleEdit = (space: Space) => {
+  menuOpenStates.value[space.uuid] = false
+  emit('edit', space)
 }
 
-onMounted(() => {
-  setupObserver()
-})
-
-onUnmounted(() => {
-  destroyObserver()
-})
-
-watch(infiniteScrollTrigger, newEl => {
-  if (observer) {
-    observer.disconnect()
-    if (newEl) {
-      observer.observe(newEl)
-    }
-  }
-})
-
-// Safe rotation angles to prevent random jumps during Vue re-renders
-const predefinedRotations = [-2.5, 1.8, -1.2, 2.3, -2.0, 1.5, -0.8, 2.7]
-const getRotation = (index: number) => {
-  return predefinedRotations[index % predefinedRotations.length]
+const handleDelete = (space: Space) => {
+  menuOpenStates.value[space.uuid] = false
+  emit('delete', space)
 }
+
+const handleLeave = (space: Space) => {
+  menuOpenStates.value[space.uuid] = false
+  emit('leave', space)
+}
+
+const onLoad = async ({ done }: { done: (status: 'ok' | 'empty' | 'error') => void }) => {
+  if (!props.hasMore || props.loading) {
+    done('empty')
+    return
+  }
+  emit('load-more')
+  done('ok')
+}
+
+const COVER_GRADIENTS = [
+  'linear-gradient(135deg, #e8d5c4 0%, #c9b5a4 100%)',
+  'linear-gradient(135deg, #c4d5c8 0%, #a4b5a8 100%)',
+  'linear-gradient(135deg, #d4c8e0 0%, #b4a8c0 100%)',
+  'linear-gradient(135deg, #e0d4c4 0%, #c0b4a4 100%)',
+  'linear-gradient(135deg, #c8d8e4 0%, #a8b8c4 100%)',
+  'linear-gradient(135deg, #e4d0c8 0%, #c4b0a8 100%)',
+]
+const getCoverGradient = (index: number) => COVER_GRADIENTS[index % COVER_GRADIENTS.length]
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return ''
-  const d = new Date(dateStr)
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  return `${months[d.getMonth()]} ${d.getFullYear()}`
+  return new Intl.DateTimeFormat(undefined, { month: 'short', year: 'numeric' }).format(new Date(dateStr))
 }
 </script>

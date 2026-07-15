@@ -64,15 +64,14 @@ const props = defineProps<{
 }>()
 
 const { useVerifyEmail, useResendVerification } = useAuth()
-const { mutateAsync: verifyEmail, isPending: loading, error: verifyError, data: verifyResult } = useVerifyEmail()
-const { mutateAsync: resendVerification, error: resendError, data: resendResult } = useResendVerification()
+const { mutateAsync: verifyEmail, isPending: loading, data: verifyResult } = useVerifyEmail()
+const { mutateAsync: resendVerification, isPending: resending, data: resendResult } = useResendVerification()
 const toast = useToast()
 const { t } = useI18n()
 const { handleError } = useErrorHandler()
 const routes = useRoutes()
 
 const otp = ref('')
-const resending = ref(false)
 const resendCooldown = ref(0)
 let cooldownInterval: ReturnType<typeof setInterval> | null = null
 
@@ -96,30 +95,28 @@ onUnmounted(() => {
 
 const handleVerifyOtp = async () => {
   if (otp.value.length !== 6) return
-  await verifyEmail({ email: props.email, otp: otp.value })
-  if (verifyError.value) {
-    handleError(verifyError.value)
-    return
+  try {
+    await verifyEmail({ email: props.email, otp: otp.value })
+    if (verifyResult.value) {
+      toast.success(t(verifyResult.value.message))
+    }
+    navigateTo(routes.login({ verified: 'true' }))
+  } catch (err) {
+    handleError(err)
   }
-  if (verifyResult.value) {
-    toast.success(t(verifyResult.value.message))
-  }
-  navigateTo(routes.login({ verified: 'true' }))
 }
 
 const handleResend = async () => {
-  if (resendCooldown.value > 0 || resending.value) return
-  resending.value = true
-  await resendVerification({ email: props.email })
-  resending.value = false
-  if (resendError.value) {
-    handleError(resendError.value)
-    return
+  if (resendCooldown.value > 0 || resending) return
+  try {
+    await resendVerification({ email: props.email })
+    if (resendResult.value) {
+      toast.success(t(resendResult.value.message))
+    }
+    resendCooldown.value = TIME_RESEND_OTP
+    startCooldownTimer()
+  } catch (err) {
+    handleError(err)
   }
-  if (resendResult.value) {
-    toast.success(t(resendResult.value.message))
-  }
-  resendCooldown.value = TIME_RESEND_OTP
-  startCooldownTimer()
 }
 </script>

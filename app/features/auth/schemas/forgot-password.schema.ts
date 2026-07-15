@@ -4,6 +4,7 @@ import { PASSWORD_REGEXP } from '~/constants'
 export const emailSchema = z.object({
   email: z.string().min(1, 'V6').email('V0'),
 })
+export type EmailForm = z.infer<typeof emailSchema>
 
 export const newPasswordSchema = z
   .object({

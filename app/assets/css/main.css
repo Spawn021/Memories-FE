@@ -100,7 +100,6 @@
   --radius-default: 0.125rem; /* 2px */
   --radius-lg: 0.25rem; /* 4px */
   --radius-xl: 0.5rem; /* 8px */
-  --radius-full: 0.75rem; /* 12px */
 
   --spacing-gutter: 24px;
   --spacing-form-max-width: 440px;
@@ -298,7 +297,6 @@
 
 .v-text-field .v-field {
   background-color: var(--surface) !important;
-  border-radius: var(--radius-lg) !important;
 }
 .v-text-field .v-field__outline {
   --v-field-border-opacity: 0.15 !important;

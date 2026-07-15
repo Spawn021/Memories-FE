@@ -141,6 +141,9 @@ const authStore = useAuthStore()
 
 const isSidebarCollapsed = ref(false)
 
+const { useLogout } = useAuth()
+const { mutateAsync: logout } = useLogout()
+
 const toggleSidebar = () => {
   isSidebarCollapsed.value = !isSidebarCollapsed.value
   if (process.client) {
@@ -165,9 +168,12 @@ const userInitial = computed(() => {
 
 const handleLogout = async (e: MouseEvent) => {
   e.stopPropagation()
-  const { useLogout } = useAuth()
-  const { mutateAsync: logout } = useLogout()
-  await logout()
-  await navigateTo(routes.login())
+  try {
+    await logout()
+  } catch {
+    // Ignore api errors on logout and proceed to login page
+  } finally {
+    await navigateTo(routes.login())
+  }
 }
 </script>
