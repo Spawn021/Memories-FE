@@ -7,6 +7,8 @@ import type {
   UpdateMemberRoleDto,
   RemoveMemberDto,
   CreateInviteDto,
+  Invite,
+  GetSentRequestQuery,
 } from '~/features/spaces/spaces.type'
 import type { PaginatedResult, ApiSuccessMessage } from '~/types'
 
@@ -59,8 +61,8 @@ export const spacesRepository = () => {
       })
     },
 
-    async validateInvite(token: string): Promise<any> {
-      return api<any>('/spaces/invites/validate', {
+    async validateInvite(token: string): Promise<Invite> {
+      return api<Invite>('/spaces/invites/validate', {
         method: 'GET',
         query: { token },
       })
@@ -109,6 +111,13 @@ export const spacesRepository = () => {
     async rejectMember(uuid: string, memberUserId: number): Promise<ApiSuccessMessage> {
       return api<ApiSuccessMessage>(`/spaces/${uuid}/members/${memberUserId}/reject`, {
         method: 'POST',
+      })
+    },
+
+    async getSentRequests(query?: GetSentRequestQuery): Promise<PaginatedResult<SpaceMember>> {
+      return api<PaginatedResult<SpaceMember>>('/spaces/requests/sent', {
+        method: 'GET',
+        query: cleanQuery(query),
       })
     },
   }

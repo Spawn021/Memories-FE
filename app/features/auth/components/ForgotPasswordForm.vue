@@ -307,7 +307,7 @@ const handleEmailSubmit = async () => {
   if (!validateEmail()) return
 
   try {
-    await forgotPassword({ email: emailForm.email })
+    await forgotPassword(emailForm.email)
     if (forgotResult.value) {
       toast.success(t(forgotResult.value.message))
     }
@@ -323,7 +323,7 @@ const handleResendOtp = async () => {
   if (resendCooldown.value > 0 || resending.value) return
   resending.value = true
   try {
-    await forgotPassword({ email: emailForm.email })
+    await forgotPassword(emailForm.email)
     if (forgotResult.value) {
       toast.success(t(forgotResult.value.message))
     }

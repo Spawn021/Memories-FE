@@ -6,8 +6,8 @@
     persistent
     @update:model-value="$emit('close')"
   >
-    <v-card class="bg-surface rounded-2xl shadow-2xl w-full max-h-[90vh] overflow-hidden">
-      <v-card-item class="shrink-0">
+    <v-card class="bg-surface max-h-[90vh] overflow-hidden">
+      <v-card-item>
         <v-card-title class="font-title text-2xl font-bold text-on-surface tracking-tight flex items-center gap-2">
           <span class="material-symbols-outlined text-primary text-[28px]">domain_add</span>
           Join Sanctuary
@@ -64,7 +64,7 @@
             <div class="space-y-2">
               <label class="block font-body text-[12px] uppercase tracking-widest text-secondary/80">Invitation Token or Link</label>
               <v-text-field
-                v-model="inviteToken"
+                v-model="invitedLink"
                 hide-details="auto"
                 variant="outlined"
                 placeholder="Enter code or paste invite URL"
@@ -80,13 +80,12 @@
                     variant="text"
                     size="x-small"
                     :ripple="false"
-                    :loading="joining || validatingInvite || processingJoin"
-                    :disabled="!inviteToken?.trim()"
-                    class="font-body! text-sm! font-semibold! tracking-wide rounded-xl!"
+                    :loading="joining || validateInviteLoading"
+                    :disabled="!invitedLink?.trim()"
+                    class="font-body! text-sm! font-semibold!"
                     @click="handleJoinByInvite"
                   >
-                    <span>Join</span>
-                    <span class="material-symbols-outlined ml-1.5">arrow_forward</span>
+                    <span class="material-symbols-outlined">arrow_forward</span>
                   </v-btn>
                 </template>
               </v-text-field>
@@ -190,166 +189,113 @@
             :value="JOIN_MODAL_TABS.REQUEST"
             class="space-y-5 flex flex-col flex-grow min-h-0 py-1"
           >
-            <div class="overflow-y-auto custom-scroll max-h-[42vh] pr-1 space-y-5">
-              <!-- Empty State for Requests -->
-              <div
-                v-if="receivedRequests.length === 0 && sentRequests.length === 0"
-                class="py-16 text-center border border-dashed border-border/60 rounded-2xl bg-background/20"
-              >
-                <span class="material-symbols-outlined !text-[36px] text-secondary/30">notifications_off</span>
-                <p class="font-title text-sm font-bold text-secondary/70 mt-2">No pending requests</p>
-                <p class="font-body text-[11px] text-secondary/40 mt-1">You don't have any sent or received requests.</p>
-              </div>
+            <AppDataTable
+              :headers="headers"
+              :items="sentRequests"
+              :loading="sentRequestsLoading"
+              :meta="sentRequestsMeta"
+              table-class="border-0 bg-transparent shadow-none hover:shadow-none"
+              @update:options="
+                options => {
+                  tableOptions.page = options.page
+                  tableOptions.itemsPerPage = options.itemsPerPage
+                }
+              "
+            >
+              <template #item.spaceName="{ item: req }">
+                <span class="font-bold">🌿 {{ req.space?.name }}</span>
+              </template>
 
-              <!-- Section: Incoming Requests (To spaces I own/admin) -->
-              <div
-                v-if="receivedRequests.length > 0"
-                class="space-y-3"
-              >
-                <h3 class="font-title text-xs font-bold uppercase tracking-widest text-secondary/80 flex items-center gap-1.5 px-1">
-                  <span class="material-symbols-outlined text-[16px] text-primary">move_to_inbox</span>
-                  Incoming Requests ({{ receivedRequests.length }})
-                </h3>
+              <template #item.spaceSlug="{ item: req }">
+                <span class="font-mono text-secondary/60">@{{ req.space?.slug }}</span>
+              </template>
 
-                <div class="space-y-3">
-                  <div
-                    v-for="req in receivedRequests"
-                    :key="req.space.uuid + '-' + req.member.userId"
-                    class="p-4 bg-background/40 border border-border/50 rounded-xl space-y-3 hover:border-border-strong transition-all duration-300"
-                  >
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center gap-3 overflow-hidden">
-                        <div
-                          class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs uppercase shrink-0 shadow-xs border border-primary/5"
-                        >
-                          {{ req.member.user?.displayName?.charAt(0).toUpperCase() || 'M' }}
-                        </div>
-                        <div class="overflow-hidden">
-                          <p class="font-bold text-[13px] leading-tight text-on-surface truncate">
-                            {{ req.member.user?.displayName || 'Someone' }}
-                          </p>
-                          <p class="text-[11px] text-secondary/60 truncate mt-0.5">
-                            wants to join <span class="font-semibold text-primary">🌿 {{ req.space.name }}</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+              <template #item.status="{ item: req }">
+                <span
+                  v-if="req.status === 'PENDING'"
+                  class="px-2 py-0.5 rounded-md text-[9px] uppercase font-bold tracking-widest bg-amber-500/10 text-amber-600 border border-amber-500/10 inline-flex items-center gap-1"
+                >
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                  Pending Review
+                </span>
+                <span
+                  v-else-if="req.status === 'REJECTED'"
+                  class="px-2 py-0.5 rounded-md text-[9px] uppercase font-bold tracking-widest bg-error/10 text-error border border-error/10 inline-flex items-center gap-1"
+                >
+                  <span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  Rejected
+                </span>
+              </template>
 
-                    <!-- Request Message -->
-                    <div
-                      v-if="req.member.joinRequestMessage"
-                      class="p-2.5 bg-background border border-border/40 rounded-lg text-[11px] text-secondary leading-relaxed italic"
-                    >
-                      "{{ req.member.joinRequestMessage }}"
-                    </div>
+              <template #item.actions="{ item: req }">
+                <button
+                  class="spring-btn px-3 py-1.5 border border-border text-secondary/50 hover:text-error hover:bg-error/5 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all shrink-0"
+                  @click="handleWithdrawRequest(req.space?.uuid)"
+                >
+                  {{ req.status === 'PENDING' ? 'Withdraw' : 'Dismiss' }}
+                </button>
+              </template>
 
-                    <!-- Approve/Reject buttons -->
-                    <div class="flex justify-end gap-2 pt-1 border-t border-border/30">
-                      <button
-                        class="spring-btn px-3 py-1.5 border border-border text-secondary/60 hover:text-error hover:bg-error/5 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-1"
-                        :disabled="approvingUuid === req.space.uuid + '-' + req.member.userId"
-                        @click="handleRejectRequest(req.space.uuid, req.member.userId)"
-                      >
-                        <span class="material-symbols-outlined !text-[14px]">block</span>
-                        Reject
-                      </button>
-                      <button
-                        class="spring-btn px-3.5 py-1.5 bg-primary text-white text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-1 shadow-sm hover:opacity-95"
-                        :disabled="approvingUuid === req.space.uuid + '-' + req.member.userId"
-                        @click="handleApproveRequest(req.space.uuid, req.member.userId)"
-                      >
-                        <span class="material-symbols-outlined !text-[14px]">done</span>
-                        Approve
-                      </button>
-                    </div>
-                  </div>
+              <template #empty>
+                <div class="py-12 text-center border border-dashed border-border/60 rounded-2xl bg-background/20">
+                  <span class="material-symbols-outlined !text-[36px] text-secondary/30">notifications_off</span>
+                  <p class="font-title text-sm font-bold text-secondary/70 mt-2">No pending requests</p>
+                  <p class="font-body text-[11px] text-secondary/40 mt-1">You don't have any sent requests.</p>
                 </div>
-              </div>
-
-              <!-- Section: Outgoing Requests (Sent to other spaces) -->
-              <div
-                v-if="sentRequests.length > 0"
-                class="space-y-3"
-              >
-                <h3 class="font-title text-xs font-bold uppercase tracking-widest text-secondary/80 flex items-center gap-1.5 px-1">
-                  <span class="material-symbols-outlined text-[16px] text-amber-500">outbox</span>
-                  Sent Requests ({{ sentRequests.length }})
-                </h3>
-
-                <div class="space-y-3">
-                  <div
-                    v-for="space in sentRequests"
-                    :key="space.uuid"
-                    class="p-4 bg-background/40 border border-border/50 rounded-xl flex justify-between items-center hover:border-border-strong transition-all duration-300"
-                  >
-                    <div class="space-y-1 overflow-hidden pr-3">
-                      <p class="font-bold text-[13px] leading-tight text-on-surface truncate">🌿 {{ space.name }}</p>
-                      <p class="text-[11px] text-secondary/60 truncate font-mono">@{{ space.slug }}</p>
-                      <div class="pt-1.5">
-                        <span
-                          class="px-2 py-0.5 rounded-md text-[9px] uppercase font-bold tracking-widest bg-amber-500/10 text-amber-600 border border-amber-500/10 inline-flex items-center gap-1"
-                        >
-                          <span class="w-1 h-1 rounded-full bg-amber-500 animate-pulse"></span>
-                          Pending Review
-                        </span>
-                      </div>
-                    </div>
-
-                    <button
-                      class="spring-btn px-3 py-1.5 border border-border text-secondary/50 hover:text-error hover:bg-error/5 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all shrink-0"
-                      @click="handleWithdrawRequest(space.uuid)"
-                    >
-                      Withdraw
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </template>
+            </AppDataTable>
           </v-tabs-window-item>
         </v-tabs-window>
       </v-card-text>
     </v-card>
   </v-dialog>
 
-  <!-- Confirm Join / Request Message Dialog -->
   <v-dialog
     v-model="showConfirmDialog"
     max-width="460px"
-    @click:outside="showConfirmDialog = false"
+    persistent
   >
     <v-card class="rounded-2xl border border-border shadow-2xl p-5 select-none bg-surface">
-      <v-card-title class="px-1 pt-1 pb-3 flex items-center gap-2.5 font-title font-bold text-[18px] text-on-surface">
-        <span class="material-symbols-outlined text-primary">
-          {{ requiresApproval ? 'mark_chat_unread' : 'meeting_room' }}
-        </span>
-        <span>
-          {{ requiresApproval ? 'Request Sanctuary Entry' : 'Join Sanctuary' }}
-        </span>
-      </v-card-title>
-
-      <v-card-text class="px-1 py-0 space-y-4">
-        <!-- Sanctuary Preview Info -->
-        <div v-if="selectedSpace" class="flex items-center gap-3 p-3 rounded-xl bg-background/50 border border-border/50">
-          <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm uppercase shrink-0 border border-primary/5">
+      <v-card-item>
+        <v-card-title class="font-title text-2xl font-bold text-on-surface tracking-tight flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary"> meeting_room </span>
+          <span> Request Sanctuary Entry </span>
+        </v-card-title>
+        <template #append>
+          <v-btn
+            icon
+            variant="plain"
+            class="w-8! h-8! min-w-0! cursor-pointer"
+            @click="$emit('close')"
+          >
+            <span class="material-symbols-outlined text-[20px] hover:text-primary">close</span>
+          </v-btn>
+        </template>
+      </v-card-item>
+      <v-card-text class="space-y-5 mt-5">
+        <div
+          v-if="selectedSpace"
+          class="flex items-center gap-3 p-3 rounded-xl bg-background/50 border border-border/50"
+        >
+          <div
+            class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm uppercase shrink-0 border border-primary/5"
+          >
             {{ selectedSpace.name.charAt(0).toUpperCase() }}
           </div>
           <div class="overflow-hidden">
-            <p class="font-title font-bold text-sm text-on-surface truncate">🌿 {{ selectedSpace.name }}</p>
-            <p class="text-[11px] text-secondary/60 truncate font-mono">@{{ selectedSpace.slug || 'sanctuary' }}</p>
+            <p class="font-title font-bold text-sm text-on-surface truncate">{{ selectedSpace.name }}</p>
+            <p class="text-[11px] text-secondary/60 truncate font-mono">@{{ selectedSpace.slug }}</p>
           </div>
         </div>
 
-        <!-- Approval Warning -->
-        <p class="font-body text-xs text-secondary/70 leading-relaxed">
-          {{ requiresApproval 
-            ? 'This sanctuary requires administrator approval. You can write an optional message to introduce yourself or explain why you are requesting entry.' 
-            : 'You are about to join this sanctuary. Confirm below to complete the action.' 
-          }}
+        <p class="font-body text-sm text-secondary font-medium leading-relaxed text-center">
+          This sanctuary requires administrator approval. You can write an optional message to introduce yourself or explain why you are
+          requesting entry.
         </p>
 
         <!-- Message Field -->
-        <div v-if="requiresApproval" class="space-y-1.5">
-          <label class="block font-body text-[11px] uppercase tracking-widest text-secondary/70">Message to Admin</label>
+        <div class="space-y-1.5">
+          <label class="block font-body text-[12px] uppercase tracking-widest text-secondary/80">Message to Admin</label>
           <v-textarea
             v-model="joinMessage"
             variant="outlined"
@@ -364,12 +310,11 @@
         </div>
       </v-card-text>
 
-      <v-card-actions class="px-1 pt-5 pb-0 flex gap-3">
+      <v-card-actions class="flex gap-3">
         <v-btn
-          variant="text"
-          class="font-body text-sm font-semibold tracking-wide flex-1 h-11! rounded-xl!"
-          style="text-transform: none;"
-          :disabled="processingJoin"
+          variant="outlined"
+          class="font-body! text-sm! font-semibold! border-border-strong! spring-btn flex-1 h-11! rounded-xl!"
+          :disabled="joining"
           @click="showConfirmDialog = false"
         >
           Cancel
@@ -377,12 +322,11 @@
         <v-btn
           color="primary"
           variant="flat"
-          class="spring-btn font-body text-sm font-semibold tracking-wide flex-1 h-11! rounded-xl!"
-          style="text-transform: none;"
-          :loading="processingJoin"
+          class="font-body! text-sm! font-semibold! spring-btn flex-1 h-11! rounded-xl!"
+          :loading="joining"
           @click="submitJoinAction"
         >
-          {{ requiresApproval ? 'Send Request' : 'Join' }}
+          Send
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -393,76 +337,67 @@
 import { useSpaces } from '~/features/spaces/spaces.queries'
 import { useAuthStore } from '~/stores/auth'
 import { useQueryClient } from '@tanstack/vue-query'
-import type { Space, SpaceMember } from '~/features/spaces/spaces.type'
+import type { Space } from '~/features/spaces/spaces.type'
 import { JOIN_MODAL_TABS } from '~/features/spaces/spaces.constant'
+import type { TableHeader } from '~/components/common/AppDataTable.vue'
+import AppDataTable from '~/components/common/AppDataTable.vue'
 
 const emit = defineEmits(['close', 'success'])
 
-const activeTab = ref(JOIN_MODAL_TABS.INVITE_CODE)
-const inviteToken = ref('')
-
-const searchQuery = ref('')
-const approvingUuid = ref('')
-
-const showConfirmDialog = ref(false)
-const joinMessage = ref('')
-const isInviteFlow = ref(false)
-const requiresApproval = ref(false)
-const selectedSpace = ref<any>(null)
-const validatedToken = ref('')
-const processingJoin = ref(false)
-
 const authStore = useAuthStore()
-const { useAcceptInvite, useValidateInvite, useSearch, useRequestToJoin, useApproveMember, useRejectMember, useList, useRemoveMember } = useSpaces()
+const { useAcceptInvite, useValidateInvite, useSearch, useRequestToJoin, useRemoveMember, useSentRequests } = useSpaces()
 const toast = useToast()
 const queryClient = useQueryClient()
+const { handleError } = useErrorHandler()
+
+const showConfirmDialog = ref(false)
+const activeTab = ref(JOIN_MODAL_TABS.INVITE_CODE)
+
+const invitedLink = ref('')
+const invitedToken = ref('')
+const selectedSpace = ref<Space>()
+const isInviteFlow = ref(false)
+
+const searchQuery = ref('')
+
+const joinMessage = ref('')
 
 // Mutations
-const { data: inviteData, mutateAsync: acceptInvite, isPending: inviteLoading } = useAcceptInvite()
-const { mutateAsync: validateInvite, isPending: validatingInvite } = useValidateInvite()
+const { mutateAsync: acceptInvite, isPending: inviteLoading } = useAcceptInvite()
+const { mutateAsync: validateInvite, isPending: validateInviteLoading } = useValidateInvite()
 const { mutateAsync: requestJoin, isPending: requestLoading } = useRequestToJoin()
-const { mutateAsync: approveMember } = useApproveMember()
-const { mutateAsync: rejectMember } = useRejectMember()
+
 const { mutateAsync: removeMember } = useRemoveMember()
 
 const joiningUuid = ref('')
 const joining = computed(() => inviteLoading.value || requestLoading.value)
 
-// Query all user spaces to extract join requests (sent and received)
-const userSpacesQuery = ref({
-  limit: 100, // Fetch a large batch to catch all user spaces
-})
-const { data: userSpacesData, refetch: refetchUserSpaces } = useList(userSpacesQuery)
-const allUserSpaces = computed(() => userSpacesData.value?.items || [])
+// AppDataTable configuration for sent requests
+const headers: TableHeader[] = [
+  { key: 'spaceName', label: 'Sanctuary', sortable: false },
+  { key: 'spaceSlug', label: 'Slug', sortable: false },
+  { key: 'status', label: 'Status', sortable: false },
+  { key: 'actions', label: '', align: 'right', sortable: false, width: 120 },
+]
 
-// Sent requests: Spaces where the current user's membership is PENDING
-const sentRequests = computed(() => {
-  if (!authStore.user) return []
-  return allUserSpaces.value.filter(space => {
-    const myMember = space.members?.find(m => String(m.userId) === String(authStore.user?.id))
-    return myMember && myMember.status === 'PENDING'
-  })
-})
-
-// Received requests: Spaces owned/admined by the user that have PENDING members
-const receivedRequests = computed(() => {
-  if (!authStore.user) return []
-  const list: Array<{ space: Space; member: SpaceMember }> = []
-  allUserSpaces.value.forEach(space => {
-    const myMember = space.members?.find(m => String(m.userId) === String(authStore.user?.id))
-    const canManage = myMember && (myMember.role === 'OWNER' || myMember.role === 'ADMIN')
-    if (canManage) {
-      space.members?.forEach(member => {
-        if (member.status === 'PENDING' && String(member.userId) !== String(authStore.user?.id)) {
-          list.push({ space, member })
-        }
-      })
-    }
-  })
-  return list
+const tableOptions = ref({
+  page: 1,
+  itemsPerPage: 5,
+  sortBy: undefined,
+  sortOrder: undefined,
 })
 
-const totalRequestsCount = computed(() => sentRequests.value.length + receivedRequests.value.length)
+const sentRequestsQuery = computed(() => ({
+  page: tableOptions.value.page,
+  limit: tableOptions.value.itemsPerPage,
+}))
+
+// Query sent requests
+const { data: sentRequestsData, refetch: refetchSentRequests, isPending: sentRequestsLoading } = useSentRequests(sentRequestsQuery)
+const sentRequests = computed(() => sentRequestsData.value?.items || [])
+const sentRequestsMeta = computed(() => sentRequestsData.value?.meta)
+
+const totalRequestsCount = computed(() => sentRequestsData.value?.meta?.total || 0)
 
 // Explore Search Query
 const debouncedSearchQuery = ref('')
@@ -490,21 +425,15 @@ const isPending = (space: Space) => {
   return space.members?.some(m => String(m.userId) === String(authStore.user?.id) && m.status === 'PENDING')
 }
 
-// Actions
 const handleJoinByInvite = async () => {
-  let token = inviteToken.value?.trim() || ''
+  let token = invitedLink.value?.trim() || ''
   if (!token) {
     return
   }
 
-  // If they paste a full URL, extract the token query parameter
   if (token.includes('token=')) {
-    try {
-      const url = new URL(token)
-      token = url.searchParams.get('token') || token
-    } catch {
-      // Keep original token string
-    }
+    const url = new URL(token)
+    token = url.searchParams.get('token') || token
   }
 
   try {
@@ -513,28 +442,21 @@ const handleJoinByInvite = async () => {
       if (inviteInfo.requiresApproval) {
         selectedSpace.value = inviteInfo.space
         isInviteFlow.value = true
-        requiresApproval.value = true
-        validatedToken.value = token
+        invitedToken.value = token
         joinMessage.value = ''
         showConfirmDialog.value = true
       } else {
-        processingJoin.value = true
         try {
           await acceptInvite({ token })
           toast.success('Joined sanctuary successfully!')
           emit('success', inviteInfo.space)
-          refetchUserSpaces()
-          queryClient.invalidateQueries({ queryKey: ['spaces-list'] })
-          queryClient.invalidateQueries({ queryKey: ['spaces-list-infinite'] })
-        } catch (err: any) {
-          toast.error(err.message || 'Failed to accept invitation.')
-        } finally {
-          processingJoin.value = false
+        } catch (err) {
+          handleError(err)
         }
       }
     }
-  } catch (err: any) {
-    toast.error(err.message || 'Invite link is invalid or has expired.')
+  } catch (err) {
+    handleError(err)
   }
 }
 
@@ -544,19 +466,19 @@ const handleJoinPublic = async (space: Space) => {
     try {
       await requestJoin({ uuid: space.uuid })
       toast.success('Joined sanctuary successfully!')
-      refetchUserSpaces()
+      refetchSentRequests()
+      queryClient.invalidateQueries({ queryKey: ['spaces-sent-requests'] })
       queryClient.invalidateQueries({ queryKey: ['spaces-search'] })
       queryClient.invalidateQueries({ queryKey: ['spaces-list'] })
       queryClient.invalidateQueries({ queryKey: ['spaces-list-infinite'] })
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to join sanctuary.')
+    } catch (err) {
+      handleError(err)
     } finally {
       joiningUuid.value = ''
     }
   } else {
     selectedSpace.value = space
     isInviteFlow.value = false
-    requiresApproval.value = true
     joinMessage.value = ''
     showConfirmDialog.value = true
   }
@@ -565,11 +487,10 @@ const handleJoinPublic = async (space: Space) => {
 const submitJoinAction = async () => {
   if (!selectedSpace.value) return
 
-  processingJoin.value = true
   try {
     if (isInviteFlow.value) {
-      await acceptInvite({ token: validatedToken.value, message: joinMessage.value })
-      toast.success(requiresApproval.value ? 'Entry request sent successfully!' : 'Joined sanctuary successfully!')
+      await acceptInvite({ token: invitedToken.value, message: joinMessage.value })
+      toast.success('Entry request sent successfully!')
       showConfirmDialog.value = false
       emit('close')
       emit('success', selectedSpace.value)
@@ -578,79 +499,35 @@ const submitJoinAction = async () => {
       toast.success('Entry request sent successfully!')
       showConfirmDialog.value = false
     }
-    refetchUserSpaces()
+    refetchSentRequests()
+    queryClient.invalidateQueries({ queryKey: ['spaces-sent-requests'] })
     queryClient.invalidateQueries({ queryKey: ['spaces-search'] })
     queryClient.invalidateQueries({ queryKey: ['spaces-list'] })
     queryClient.invalidateQueries({ queryKey: ['spaces-list-infinite'] })
-  } catch (err: any) {
-    toast.error(err.message || 'Failed to complete action.')
-  } finally {
-    processingJoin.value = false
-  }
-}
-
-const handleApproveRequest = async (spaceUuid: string, userId: number) => {
-  const key = `${spaceUuid}-${userId}`
-  approvingUuid.value = key
-  try {
-    await approveMember({ uuid: spaceUuid, memberUserId: userId })
-    toast.success('Approved join request successfully!')
-    refetchUserSpaces()
-    queryClient.invalidateQueries({ queryKey: ['spaces-list'] })
-    queryClient.invalidateQueries({ queryKey: ['spaces-list-infinite'] })
-  } catch (err: any) {
-    toast.error(err.message || 'Failed to approve request.')
-  } finally {
-    approvingUuid.value = ''
-  }
-}
-
-const handleRejectRequest = async (spaceUuid: string, userId: number) => {
-  const key = `${spaceUuid}-${userId}`
-  approvingUuid.value = key
-  try {
-    await rejectMember({ uuid: spaceUuid, memberUserId: userId })
-    toast.success('Rejected join request.')
-    refetchUserSpaces()
-    queryClient.invalidateQueries({ queryKey: ['spaces-list'] })
-    queryClient.invalidateQueries({ queryKey: ['spaces-list-infinite'] })
-  } catch (err: any) {
-    toast.error(err.message || 'Failed to reject request.')
-  } finally {
-    approvingUuid.value = ''
+  } catch (err) {
+    handleError(err)
   }
 }
 
 const handleWithdrawRequest = async (spaceUuid: string) => {
-  if (!authStore.user) return
+  if (!authStore.user || !spaceUuid) return
   try {
     await removeMember({ uuid: spaceUuid, memberUserId: authStore.user.id })
-    toast.success('Withdrew join request successfully.')
-    refetchUserSpaces()
+    toast.success('Request removed successfully.')
+    refetchSentRequests()
+    queryClient.invalidateQueries({ queryKey: ['spaces-sent-requests'] })
     queryClient.invalidateQueries({ queryKey: ['spaces-search'] })
-  } catch (err: any) {
-    toast.error(err.message || 'Failed to withdraw request.')
+  } catch (err) {
+    handleError(err)
   }
 }
 
 onMounted(() => {
-  refetchUserSpaces()
+  refetchSentRequests()
 })
 </script>
 
 <style scoped>
-.custom-scroll::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-.custom-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scroll::-webkit-scrollbar-thumb {
-  background-color: var(--border-strong);
-  border-radius: 9px;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

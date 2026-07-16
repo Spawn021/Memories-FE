@@ -125,7 +125,6 @@
                 variant="outlined"
                 density="compact"
                 hide-details="auto"
-                class="custom-v-input"
               />
             </div>
 
@@ -180,7 +179,6 @@
                 variant="outlined"
                 density="compact"
                 hide-details="auto"
-                class="custom-v-input"
               />
             </div>
 

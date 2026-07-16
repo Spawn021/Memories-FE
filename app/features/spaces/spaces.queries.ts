@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Ref } from 'vue'
-import type { GetSpacesQuery, Space, UpdateSpaceDto } from './spaces.type'
+import type { GetSpacesQuery, Space, UpdateSpaceDto, SpaceMember, GetSentRequestQuery } from './spaces.type'
 import { spacesRepository } from './spaces.repository'
 import { useQuery, useMutation, useInfiniteQuery } from '@tanstack/vue-query'
 import type { PaginatedResult } from '~/types'
@@ -7,7 +8,6 @@ import type { PaginatedResult } from '~/types'
 export const useSpaces = () => {
   const spacesRepo = spacesRepository()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const useList = (query: Ref<Partial<GetSpacesQuery>>, options?: any) => {
     return useQuery<PaginatedResult<Space>>({
       queryKey: ['spaces-list', query],
@@ -17,7 +17,6 @@ export const useSpaces = () => {
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const useInfiniteList = (query: Ref<Partial<GetSpacesQuery>>, options?: any) => {
     return useInfiniteQuery({
       queryKey: ['spaces-list-infinite', query],
@@ -87,6 +86,12 @@ export const useSpaces = () => {
       mutationFn: ({ uuid, body }: { uuid: string; body: UpdateSpaceDto }) => spacesRepo.update(uuid, body),
     })
   }
+  const useSentRequests = (query: Ref<GetSentRequestQuery>, options?: any) =>
+    useQuery<PaginatedResult<SpaceMember>>({
+      queryKey: ['spaces-sent-requests', query],
+      queryFn: () => spacesRepo.getSentRequests(query.value),
+      ...options,
+    })
 
   return {
     useList,
@@ -116,5 +121,6 @@ export const useSpaces = () => {
       useMutation({
         mutationFn: ({ uuid, memberUserId }: { uuid: string; memberUserId: number }) => spacesRepo.rejectMember(uuid, memberUserId),
       }),
+    useSentRequests,
   }
 }

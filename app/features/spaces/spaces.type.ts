@@ -18,6 +18,8 @@ export interface SpaceMember {
   joinRequestMessage: string | null
   joinedAt: string
   user: User
+  space?: Space
+  inviter?: User
 }
 
 export interface Space {
@@ -66,6 +68,10 @@ export interface GetSpacesQuery extends PaginationQuery {
   visibility: SpaceVisibility[]
 }
 
+export interface GetSentRequestQuery extends PaginationQuery {
+  search: string
+}
+
 export interface UpdateMemberRoleDto {
   uuid: string
   memberUserId: string
@@ -81,4 +87,18 @@ export interface CreateInviteDto {
   uuid: string
   role: SpaceRole
   expiresInHours: number
+}
+
+export interface Invite {
+  id: number
+  token: string
+  role: SpaceRole
+  email?: string
+  message?: string
+  requiresApproval: boolean
+  isRevoked: boolean
+  expiresAt: string
+  space: Space
+  createdAt: string
+  creator: User
 }

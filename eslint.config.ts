@@ -42,6 +42,7 @@ export default defineConfig([
       'vue/max-attributes-per-line': 'off',
       'vue/multi-word-component-names': 'off',
       'vue/singleline-html-element-content-newline': 'off',
+      'vue/valid-v-slot': 'off',
       '@typescript-eslint/no-explicit-any': 'error',
     },
   },

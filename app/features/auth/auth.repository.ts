@@ -1,7 +1,6 @@
 import type { ApiSuccessMessage } from '~/types'
 import type { User } from './auth.type'
 import type { LoginForm } from './schemas/login.schema'
-import type { EmailForm } from './schemas/forgot-password.schema'
 
 export const authRepository = () => {
   const api = useApi()
@@ -27,7 +26,7 @@ export const authRepository = () => {
       })
     },
 
-    async resendVerification(email: EmailForm): Promise<ApiSuccessMessage> {
+    async resendVerification(email: string): Promise<ApiSuccessMessage> {
       return api('/auth/resend-verification', {
         method: 'POST',
         body: { email },
@@ -40,7 +39,7 @@ export const authRepository = () => {
       })
     },
 
-    async forgotPassword(email: EmailForm): Promise<ApiSuccessMessage> {
+    async forgotPassword(email: string): Promise<ApiSuccessMessage> {
       return api('/auth/forgot-password', {
         method: 'POST',
         body: { email },

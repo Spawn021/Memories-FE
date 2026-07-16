@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/valid-v-slot -->
 <template>
   <div class="space-y-6 mt-4">
     <AppDataTable

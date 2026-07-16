@@ -315,8 +315,6 @@
 .v-text-field .v-field__input {
   font-family: var(--font-body) !important;
   font-size: 15px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
   color: var(--on-surface) !important;
 }
 .v-text-field .v-input__details {
