@@ -1,6 +1,6 @@
 import type { PaginationQuery } from '~/types'
 import type { User } from '../auth/auth.type'
-import { ACTIVE_TAB, VIEW_MODE } from './spaces.constant'
+import { ACTIVE_TAB, JOIN_MODAL_TABS, VIEW_MODE } from './spaces.constant'
 
 export type SpaceType = 'PERSONAL' | 'COUPLE' | 'FAMILY' | 'FRIENDS'
 export type SpaceVisibility = 'PRIVATE' | 'PUBLIC'
@@ -8,6 +8,7 @@ export type SpaceRole = 'OWNER' | 'ADMIN' | 'CONTRIBUTOR' | 'VIEWER'
 export type SpaceMemberStatus = 'PENDING' | 'ACTIVE' | 'REJECTED'
 export type ViewMode = (typeof VIEW_MODE)[keyof typeof VIEW_MODE]
 export type ActiveTab = (typeof ACTIVE_TAB)[keyof typeof ACTIVE_TAB]
+export type JOIN_MODAL_TABS_KEY = (typeof JOIN_MODAL_TABS)[keyof typeof JOIN_MODAL_TABS]
 
 export interface SpaceMember {
   id: number
@@ -16,7 +17,7 @@ export interface SpaceMember {
   role: SpaceRole
   status: SpaceMemberStatus
   joinRequestMessage: string | null
-  joinedAt: string
+  joinedAt: string | null
   user: User
   space?: Space
   inviter?: User
@@ -74,13 +75,13 @@ export interface GetSentRequestQuery extends PaginationQuery {
 
 export interface UpdateMemberRoleDto {
   uuid: string
-  memberUserId: string
+  memberUserId: number
   role: SpaceRole
 }
 
 export interface RemoveMemberDto {
   uuid: string
-  memberUserId: string
+  memberUserId: number
 }
 
 export interface CreateInviteDto {

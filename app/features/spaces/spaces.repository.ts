@@ -102,6 +102,12 @@ export const spacesRepository = () => {
       })
     },
 
+    async withdrawJoinRequest(uuid: string): Promise<ApiSuccessMessage> {
+      return api<ApiSuccessMessage>(`/spaces/${uuid}/join-request`, {
+        method: 'DELETE',
+      })
+    },
+
     async approveMember(uuid: string, memberUserId: number): Promise<ApiSuccessMessage> {
       return api<ApiSuccessMessage>(`/spaces/${uuid}/members/${memberUserId}/approve`, {
         method: 'POST',

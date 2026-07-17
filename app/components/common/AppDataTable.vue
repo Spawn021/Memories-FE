@@ -128,7 +128,10 @@
                 </div>
               </v-btn>
             </template>
-            <v-list density="compact">
+            <v-list
+              density="compact"
+              class="py-0"
+            >
               <v-list-item
                 v-for="limit in itemsPerPageOptions"
                 :key="limit"

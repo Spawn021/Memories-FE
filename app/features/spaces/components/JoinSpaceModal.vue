@@ -96,20 +96,20 @@
             :value="JOIN_MODAL_TABS.EXPLORE_SPACE"
             class="space-y-4 flex flex-col grow min-h-0 py-1"
           >
-            <!-- Search bar -->
-            <div class="relative">
-              <span class="material-symbols-outlined absolute left-4 top-3.5 text-secondary/40 !text-[20px]">search</span>
-              <input
-                v-model="searchQuery"
-                class="w-full pl-11 pr-4 py-3 bg-background/50 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all duration-300 font-body text-sm text-on-surface placeholder:text-secondary/40"
-                placeholder="Search public sanctuaries..."
-                type="text"
-              />
-            </div>
+            <v-text-field
+              v-model="searchQuery"
+              hide-details="auto"
+              density="comfortable"
+              variant="outlined"
+              placeholder="Search public sanctuaries..."
+              rounded="xl"
+            >
+              <template #prepend-inner>
+                <span class="material-symbols-outlined text-primary">search</span>
+              </template>
+            </v-text-field>
 
-            <!-- Search Results List -->
-            <div class="flex-grow overflow-y-auto custom-scroll max-h-[38vh] pr-1 space-y-3">
-              <!-- Loading state -->
+            <div class="grow overflow-y-auto custom-scroll max-h-[38vh] pr-1 space-y-3">
               <div
                 v-if="searching"
                 class="py-12 flex justify-center"
@@ -121,22 +121,28 @@
                 />
               </div>
 
-              <!-- Empty search results -->
               <div
                 v-else-if="searchResults.length === 0"
                 class="py-16 text-center border border-dashed border-border/60 rounded-2xl bg-background/20"
               >
-                <span class="material-symbols-outlined !text-[36px] text-secondary/30">explore</span>
+                <span class="material-symbols-outlined text-[36px]! text-secondary/30">explore</span>
                 <p class="font-title text-sm font-bold text-secondary/70 mt-2">No public sanctuaries found</p>
                 <p class="font-body text-[11px] text-secondary/40 mt-1">Try entering a different keyword</p>
               </div>
 
-              <!-- Result cards -->
+              <p
+                v-if="!searching && searchResults.length > 0"
+                class="text-[10px] font-bold tracking-widest text-secondary/50 uppercase font-title pl-1"
+              >
+                {{ searchQuery.trim() ? 'Search Results' : 'Suggested Sanctuaries' }}
+              </p>
+
               <div
-                v-else
                 v-for="space in searchResults"
                 :key="space.uuid"
                 class="p-4 bg-background/40 border border-border/50 rounded-xl flex justify-between items-center transition-all duration-300 hover:border-primary/30 hover:bg-surface hover:shadow-xs group"
+                :class="{ 'cursor-pointer': isMember(space) || isOwner(space) }"
+                @click="(isMember(space) || isOwner(space)) && handleGoToDetail(space)"
               >
                 <div class="space-y-1.5 overflow-hidden pr-3">
                   <div class="flex items-center gap-2 flex-wrap">
@@ -145,38 +151,51 @@
                     >
                       {{ space.type }}
                     </span>
-                    <span class="font-title font-bold text-[14px] text-on-surface truncate max-w-[180px]">{{ space.name }}</span>
+                    <span class="font-title font-bold text-[14px] text-on-surface truncate max-w-45">{{ space.name }}</span>
                   </div>
                   <p class="text-[11px] text-secondary/70 font-mono">@{{ space.slug }}</p>
                   <p class="text-[11px] text-secondary/50 flex items-center gap-1">
                     <span class="material-symbols-outlined text-[14px]">groups</span>
-                    {{ space.members?.filter(m => m.status === 'ACTIVE').length || 0 }} members active
+                    {{ getActiveMember(space) }} members active
                   </p>
                 </div>
 
-                <!-- Join CTA -->
-                <button
+                <v-btn
                   v-if="isMember(space)"
                   disabled
-                  class="px-4 py-2 border border-border/80 bg-surface/50 text-secondary/40 text-[11px] font-bold uppercase tracking-wider rounded-xl cursor-not-allowed shrink-0"
+                  color="primary"
+                  size="small"
+                  class="spring-btn font-body text-[11px] font-bold tracking-wider rounded-xl! h-8.5!"
                 >
                   Joined
-                </button>
-                <button
+                </v-btn>
+                <v-btn
                   v-else-if="isPending(space)"
                   disabled
-                  class="px-4 py-2 border border-amber-500/20 bg-amber-500/5 text-amber-600/80 text-[11px] font-bold uppercase tracking-wider rounded-xl cursor-not-allowed shrink-0 flex items-center gap-1"
+                  color="primay"
+                  size="small"
+                  class="spring-btn font-body text-[11px] font-bold tracking-wider rounded-xl! h-8.5!"
                 >
                   <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
                   Pending
-                </button>
+                </v-btn>
+
+                <v-btn
+                  v-else-if="isOwner(space)"
+                  disabled
+                  color="primary"
+                  size="small"
+                  class="spring-btn font-body text-[11px] font-bold tracking-wider rounded-xl! h-8.5!"
+                >
+                  Owner
+                </v-btn>
+
                 <v-btn
                   v-else
                   color="primary"
                   size="small"
                   :loading="joiningUuid === space.uuid"
-                  class="spring-btn font-body text-[11px] font-bold tracking-wider uppercase rounded-xl! shrink-0 h-8.5!"
-                  style="text-transform: none; border-radius: 10px"
+                  class="spring-btn font-body text-[11px] font-bold tracking-wider rounded-xl! h-8.5!"
                   @click="handleJoinPublic(space)"
                 >
                   Join
@@ -187,23 +206,59 @@
 
           <v-tabs-window-item
             :value="JOIN_MODAL_TABS.REQUEST"
-            class="space-y-5 flex flex-col flex-grow min-h-0 py-1"
+            class="space-y-5 flex flex-col grow min-h-0 py-1"
           >
             <AppDataTable
               :headers="headers"
               :items="sentRequests"
               :loading="sentRequestsLoading"
               :meta="sentRequestsMeta"
+              :sort-by="tableOptions.sortBy"
+              :sort-order="tableOptions.sortOrder"
               table-class="border-0 bg-transparent shadow-none hover:shadow-none"
-              @update:options="
-                options => {
-                  tableOptions.page = options.page
-                  tableOptions.itemsPerPage = options.itemsPerPage
-                }
-              "
+              @update:options="updateOptions"
             >
+              <template #toolbar>
+                <div class="flex items-center gap-3 w-full">
+                  <v-text-field
+                    v-model="searchQueryRequests"
+                    hide-details="auto"
+                    density="compact"
+                    variant="outlined"
+                    placeholder="Search sent requests..."
+                    rounded="lg"
+                    class="w-full sm:max-w-72"
+                    clearable
+                  >
+                    <template #prepend-inner>
+                      <span class="material-symbols-outlined text-primary text-sm!">search</span>
+                    </template>
+                  </v-text-field>
+                </div>
+              </template>
               <template #item.spaceName="{ item: req }">
-                <span class="font-bold">🌿 {{ req.space?.name }}</span>
+                <div class="flex items-center gap-3.5">
+                  <!-- Cover image thumbnail -->
+                  <div class="w-10 h-7 rounded overflow-hidden bg-surface-variant border border-border/20 shrink-0">
+                    <img
+                      v-if="req.space?.coverUrl || req.space?.avatarUrl"
+                      :src="req.space?.coverUrl || req.space?.avatarUrl || ''"
+                      class="w-full h-full object-cover grayscale-15 sepia-10 group-hover/row:grayscale-0 group-hover/row:sepia-0 transition-all duration-300"
+                      alt="Cover"
+                    />
+                    <div
+                      v-else
+                      class="w-full h-full bg-linear-to-tr from-secondary/10 via-primary/5 to-primary/10 flex items-center justify-center"
+                    >
+                      <span class="material-symbols-outlined text-xs! text-secondary/30">photo_album</span>
+                    </div>
+                  </div>
+                  <div class="overflow-hidden">
+                    <p class="font-title text-sm font-bold text-on-surface truncate group-hover/row:text-primary transition-colors">
+                      {{ req.space.name }}
+                    </p>
+                  </div>
+                </div>
               </template>
 
               <template #item.spaceSlug="{ item: req }">
@@ -238,7 +293,7 @@
 
               <template #empty>
                 <div class="py-12 text-center border border-dashed border-border/60 rounded-2xl bg-background/20">
-                  <span class="material-symbols-outlined !text-[36px] text-secondary/30">notifications_off</span>
+                  <span class="material-symbols-outlined text-[36px]! text-secondary/30">notifications_off</span>
                   <p class="font-title text-sm font-bold text-secondary/70 mt-2">No pending requests</p>
                   <p class="font-body text-[11px] text-secondary/40 mt-1">You don't have any sent requests.</p>
                 </div>
@@ -337,7 +392,7 @@
 import { useSpaces } from '~/features/spaces/spaces.queries'
 import { useAuthStore } from '~/stores/auth'
 import { useQueryClient } from '@tanstack/vue-query'
-import type { Space } from '~/features/spaces/spaces.type'
+import type { JOIN_MODAL_TABS_KEY, Space } from '~/features/spaces/spaces.type'
 import { JOIN_MODAL_TABS } from '~/features/spaces/spaces.constant'
 import type { TableHeader } from '~/components/common/AppDataTable.vue'
 import AppDataTable from '~/components/common/AppDataTable.vue'
@@ -345,13 +400,14 @@ import AppDataTable from '~/components/common/AppDataTable.vue'
 const emit = defineEmits(['close', 'success'])
 
 const authStore = useAuthStore()
-const { useAcceptInvite, useValidateInvite, useSearch, useRequestToJoin, useRemoveMember, useSentRequests } = useSpaces()
+const { useAcceptInvite, useValidateInvite, useSearch, useRequestToJoin, useWithdrawJoinRequest, useSentRequests } = useSpaces()
 const toast = useToast()
 const queryClient = useQueryClient()
 const { handleError } = useErrorHandler()
+const routes = useRoutes()
 
 const showConfirmDialog = ref(false)
-const activeTab = ref(JOIN_MODAL_TABS.INVITE_CODE)
+const activeTab = ref<JOIN_MODAL_TABS_KEY>(JOIN_MODAL_TABS.INVITE_CODE)
 
 const invitedLink = ref('')
 const invitedToken = ref('')
@@ -367,64 +423,85 @@ const { mutateAsync: acceptInvite, isPending: inviteLoading } = useAcceptInvite(
 const { mutateAsync: validateInvite, isPending: validateInviteLoading } = useValidateInvite()
 const { mutateAsync: requestJoin, isPending: requestLoading } = useRequestToJoin()
 
-const { mutateAsync: removeMember } = useRemoveMember()
+const { mutateAsync: withdrawRequest } = useWithdrawJoinRequest()
 
 const joiningUuid = ref('')
 const joining = computed(() => inviteLoading.value || requestLoading.value)
 
-// AppDataTable configuration for sent requests
 const headers: TableHeader[] = [
-  { key: 'spaceName', label: 'Sanctuary', sortable: false },
+  { key: 'spaceName', label: 'Sanctuary', sortable: true },
   { key: 'spaceSlug', label: 'Slug', sortable: false },
+  { key: 'joinRequestMessage', label: 'Message', sortable: false },
+  { key: 'invitedBy.fullName', label: 'Invited By', sortable: true },
   { key: 'status', label: 'Status', sortable: false },
-  { key: 'actions', label: '', align: 'right', sortable: false, width: 120 },
+  { key: 'actions', label: 'Actions', sortable: false, width: 120 },
 ]
 
 const tableOptions = ref({
   page: 1,
   itemsPerPage: 5,
-  sortBy: undefined,
-  sortOrder: undefined,
+  sortBy: undefined as string | undefined,
+  sortOrder: undefined as 'asc' | 'desc' | undefined,
+})
+
+const updateOptions = (options: {
+  page: number
+  itemsPerPage: number
+  sortBy: string | undefined
+  sortOrder: 'asc' | 'desc' | undefined
+}) => {
+  if (tableOptions.value.itemsPerPage !== options.itemsPerPage) {
+    tableOptions.value.page = 1
+  } else {
+    tableOptions.value.page = options.page
+  }
+  tableOptions.value.itemsPerPage = options.itemsPerPage
+  tableOptions.value.sortBy = options.sortBy
+  tableOptions.value.sortOrder = options.sortOrder
+}
+
+const searchQueryRequests = ref('')
+const debouncedSearchQueryRequests = useDebounce(searchQueryRequests, 350)
+
+watch(searchQueryRequests, () => {
+  tableOptions.value.page = 1
 })
 
 const sentRequestsQuery = computed(() => ({
   page: tableOptions.value.page,
   limit: tableOptions.value.itemsPerPage,
+  search: debouncedSearchQueryRequests.value,
+  sortBy: tableOptions.value.sortBy,
+  sortOrder: tableOptions.value.sortOrder,
 }))
 
-// Query sent requests
 const { data: sentRequestsData, refetch: refetchSentRequests, isPending: sentRequestsLoading } = useSentRequests(sentRequestsQuery)
 const sentRequests = computed(() => sentRequestsData.value?.items || [])
 const sentRequestsMeta = computed(() => sentRequestsData.value?.meta)
 
 const totalRequestsCount = computed(() => sentRequestsData.value?.meta?.total || 0)
 
-// Explore Search Query
-const debouncedSearchQuery = ref('')
-let debounceTimeout: NodeJS.Timeout | null = null
+const debouncedSearchQuery = useDebounce(searchQuery, 350)
 
-watch(searchQuery, newVal => {
-  if (debounceTimeout) clearTimeout(debounceTimeout)
-  debounceTimeout = setTimeout(() => {
-    debouncedSearchQuery.value = newVal
-  }, 350)
+const { data: searchData, isPending: searching } = useSearch(debouncedSearchQuery, {
+  immediate: true,
 })
-
-// Query for search
-const { data: searchData, isPending: searching } = useSearch(debouncedSearchQuery)
 const searchResults = computed<Space[]>(() => searchData.value || [])
 
-// Check member status
 const isMember = (space: Space) => {
-  if (!authStore.user) return false
-  return space.members?.some(m => String(m.userId) === String(authStore.user?.id) && m.status === 'ACTIVE')
+  return space.members?.some(m => m.userId === authStore.user?.id && m.status === 'ACTIVE' && m.role !== 'OWNER')
+}
+const isOwner = (space: Space) => {
+  return space.members?.some(m => m.userId === authStore.user?.id && m.role === 'OWNER')
 }
 
 const isPending = (space: Space) => {
-  if (!authStore.user) return false
-  return space.members?.some(m => String(m.userId) === String(authStore.user?.id) && m.status === 'PENDING')
+  return space.members?.some(m => m.userId === authStore.user?.id && m.status === 'PENDING')
 }
 
+const getActiveMember = (space: Space) => {
+  return space.members?.filter(m => m.status === 'ACTIVE').length
+}
 const handleJoinByInvite = async () => {
   let token = invitedLink.value?.trim() || ''
   if (!token) {
@@ -490,13 +567,13 @@ const submitJoinAction = async () => {
   try {
     if (isInviteFlow.value) {
       await acceptInvite({ token: invitedToken.value, message: joinMessage.value })
-      toast.success('Entry request sent successfully!')
+      toast.success('Entry request sent successfully!. Please wait for approval.')
       showConfirmDialog.value = false
       emit('close')
       emit('success', selectedSpace.value)
     } else {
       await requestJoin({ uuid: selectedSpace.value.uuid, message: joinMessage.value })
-      toast.success('Entry request sent successfully!')
+      toast.success('Entry request sent successfully!. Please wait for approval')
       showConfirmDialog.value = false
     }
     refetchSentRequests()
@@ -512,14 +589,19 @@ const submitJoinAction = async () => {
 const handleWithdrawRequest = async (spaceUuid: string) => {
   if (!authStore.user || !spaceUuid) return
   try {
-    await removeMember({ uuid: spaceUuid, memberUserId: authStore.user.id })
-    toast.success('Request removed successfully.')
+    const result = await withdrawRequest(spaceUuid)
+    toast.success(result.message)
     refetchSentRequests()
     queryClient.invalidateQueries({ queryKey: ['spaces-sent-requests'] })
     queryClient.invalidateQueries({ queryKey: ['spaces-search'] })
   } catch (err) {
     handleError(err)
   }
+}
+
+const handleGoToDetail = (space: Space) => {
+  emit('close')
+  navigateTo(routes.spaceDetail(space.slug))
 }
 
 onMounted(() => {

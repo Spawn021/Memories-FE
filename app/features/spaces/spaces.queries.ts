@@ -39,10 +39,11 @@ export const useSpaces = () => {
     })
   }
 
-  const useSearch = (q: Ref<string>) => {
-    return useQuery({
+  const useSearch = (q: Ref<string>, options?: any) => {
+    return useQuery<Space[]>({
       queryKey: ['spaces-search', q],
       queryFn: () => spacesRepo.search(q.value),
+      ...options,
     })
   }
   const useCreate = () => {
@@ -112,6 +113,10 @@ export const useSpaces = () => {
     useRequestToJoin: () =>
       useMutation({
         mutationFn: ({ uuid, message }: { uuid: string; message?: string }) => spacesRepo.requestToJoin(uuid, message),
+      }),
+    useWithdrawJoinRequest: () =>
+      useMutation({
+        mutationFn: (uuid: string) => spacesRepo.withdrawJoinRequest(uuid),
       }),
     useApproveMember: () =>
       useMutation({
